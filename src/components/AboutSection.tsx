@@ -6,54 +6,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const features = [
-  {
-    icon: '🎵',
-    title: '전문 커리큘럼',
-    description: '체계적인 교육 과정으로 기초부터 전문가 수준까지 단계별 맞춤 교육을 제공합니다.',
-    gradient: 'gradient-purple',
-  },
-  {
-    icon: '🎤',
-    title: '현직 전문 강사진',
-    description: '현업에서 활발히 활동하는 전문 뮤지션들이 1:1 맞춤 레슨을 진행합니다.',
-    gradient: 'gradient-blue',
-  },
-  {
-    icon: '🎹',
-    title: '최신 시설',
-    description: '최신 녹음 장비와 쾌적한 연습실, 전문 레슨실을 완비하고 있습니다.',
-    gradient: 'gradient-orange',
-  },
-  {
-    icon: '🏆',
-    title: '입시/오디션 전문',
-    description: '음대 입시, 오디션, 대회 준비를 위한 전문 트레이닝 프로그램을 운영합니다.',
-    gradient: 'gradient-gold',
-  },
-];
-
 export default function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Title animation
-      gsap.from('.about-title', {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
-        },
-        y: 60,
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-      });
-
-      // Subtitle animation
-      gsap.from('.about-subtitle', {
+      gsap.from('.featured-item', {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top 80%',
@@ -62,21 +20,7 @@ export default function AboutSection() {
         y: 40,
         opacity: 0,
         duration: 0.8,
-        delay: 0.2,
-        ease: 'power3.out',
-      });
-
-      // Cards stagger animation
-      gsap.from('.feature-card', {
-        scrollTrigger: {
-          trigger: cardsRef.current,
-          start: 'top 85%',
-          toggleActions: 'play none none reverse',
-        },
-        y: 80,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
+        stagger: 0.1,
         ease: 'power3.out',
       });
     }, sectionRef);
@@ -85,69 +29,88 @@ export default function AboutSection() {
   }, []);
 
   return (
-    <section
-      id="about"
-      ref={sectionRef}
-      className="section py-32 relative overflow-hidden"
-    >
-      {/* Background */}
-      <div className="absolute inset-0 bg-grid opacity-50" />
-      <div className="bg-gradient-blur gradient-purple absolute top-[20%] right-[-20%] opacity-20" />
+    <section id="about" ref={sectionRef}>
+      {/* Featured Work - Dark Section like 301lab */}
+      <div className="featured-section">
+        <div className="container">
+          <p className="featured-label">Featured work</p>
 
-      <div className="container relative z-10">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <h2 className="about-title section-title">
-            왜 <span className="gradient-text">부천경희</span>인가요?
-          </h2>
-          <p className="about-subtitle section-subtitle mx-auto mt-6">
-            15년 이상의 노하우로 수많은 뮤지션을 배출한 부천 최고의 실용음악 교육기관입니다.
-            전문성과 열정으로 여러분의 음악적 성장을 함께합니다.
-          </p>
+          {/* Main Featured Image */}
+          <div className="featured-item featured-image mb-6 flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
+            <div className="text-center p-12">
+              <p className="text-white/60 text-lg mb-4">모든 가능성을 여는 이야기</p>
+              <p className="text-white text-2xl font-medium">경희음악학원의 레슨 현장</p>
+            </div>
+          </div>
+
+          <div className="flex justify-between items-center">
+            <div>
+              <p className="featured-title">Signature Lessons</p>
+              <p className="featured-meta">UI/UX · Technology</p>
+            </div>
+          </div>
         </div>
+      </div>
 
-        {/* Feature Cards */}
-        <div
-          ref={cardsRef}
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
-        >
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="feature-card card group cursor-pointer"
-            >
-              {/* Icon */}
-              <div className={`feature-icon ${feature.gradient}`}>
-                <span>{feature.icon}</span>
+      {/* Portfolio Grid */}
+      <div className="portfolio-section">
+        <div className="container">
+          <div className="portfolio-grid">
+            <div className="featured-item portfolio-card">
+              <div className="portfolio-image flex items-center justify-center text-5xl bg-gradient-to-br from-purple-100 to-blue-100">
+                🎤
               </div>
-
-              {/* Content */}
-              <h3 className="text-xl font-bold mb-3 group-hover:text-g-purple transition-colors">
-                {feature.title}
-              </h3>
-              <p className="text-text-secondary leading-relaxed">
-                {feature.description}
-              </p>
-
-              {/* Arrow */}
-              <div className="mt-6 flex items-center gap-2 text-text-muted group-hover:text-g-purple transition-colors">
-                <span className="text-sm font-medium">자세히 보기</span>
-                <svg
-                  className="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
+              <div className="portfolio-content">
+                <p className="portfolio-title">보컬 트레이닝</p>
+                <p className="portfolio-meta">Vocal · Training</p>
               </div>
             </div>
-          ))}
+            <div className="featured-item portfolio-card">
+              <div className="portfolio-image flex items-center justify-center text-5xl bg-gradient-to-br from-orange-100 to-pink-100">
+                🎹
+              </div>
+              <div className="portfolio-content">
+                <p className="portfolio-title">피아노 레슨</p>
+                <p className="portfolio-meta">Piano · Keyboard</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Work List - 301lab Style */}
+      <div className="work-list">
+        <div className="container">
+          <div className="work-item featured-item">
+            <span className="work-name">VOCAL</span>
+            <span className="work-category">UI/UX · Training</span>
+            <span className="work-client">보컬 트레이닝</span>
+          </div>
+          <div className="work-item featured-item">
+            <span className="work-name">PIANO</span>
+            <span className="work-category">UI/UX · Technology</span>
+            <span className="work-client">피아노/건반</span>
+          </div>
+          <div className="work-item featured-item">
+            <span className="work-name">GUITAR</span>
+            <span className="work-category">Technology</span>
+            <span className="work-client">기타/베이스</span>
+          </div>
+          <div className="work-item featured-item">
+            <span className="work-name">DRUM</span>
+            <span className="work-category">UI/UX · Technology</span>
+            <span className="work-client">드럼/퍼커션</span>
+          </div>
+          <div className="work-item featured-item">
+            <span className="work-name">COMPOSITION</span>
+            <span className="work-category">UI/UX · Technology</span>
+            <span className="work-client">작곡/편곡</span>
+          </div>
+          <div className="work-item featured-item">
+            <span className="work-name">MIDI</span>
+            <span className="work-category">UI/UX · Technology</span>
+            <span className="work-client">MIDI/프로듀싱</span>
+          </div>
         </div>
       </div>
     </section>
