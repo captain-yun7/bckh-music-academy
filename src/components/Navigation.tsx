@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react';
 
 const navLinks = [
-  { name: 'About', href: '#about' },
-  { name: 'Courses', href: '#courses' },
-  { name: 'Instructors', href: '#instructors' },
-  { name: 'Facilities', href: '#facilities' },
+  { name: '학원소개', href: '#about' },
+  { name: '교육과정', href: '#courses' },
+  { name: '강사진', href: '#instructors' },
+  { name: '오시는길', href: '#contact' },
 ];
 
 export default function Navigation() {
@@ -29,7 +29,7 @@ export default function Navigation() {
           <div className="flex items-center justify-between">
             {/* Logo - 301lab style */}
             <a href="#" className="nav-logo">
-              경희음악
+              부천경희음악
             </a>
 
             {/* Desktop Navigation */}
@@ -43,7 +43,7 @@ export default function Navigation() {
 
             {/* CTA Button */}
             <a href="#contact" className="hidden md:block nav-cta">
-              Contact 경희음악
+              상담신청
             </a>
 
             {/* Mobile Menu Button */}

@@ -8,16 +8,19 @@ gsap.registerPlugin(ScrollTrigger);
 
 const services = [
   {
-    title: 'Vocal Training',
-    items: ['발성/호흡 기초', '음정/리듬 교정', '장르별 테크닉', '무대 퍼포먼스'],
+    title: '보컬',
+    desc: '전문 보컬 트레이닝',
+    items: ['발성/호흡 기초', '음정/리듬 교정', '장르별 테크닉 (팝, R&B, 발라드)', '무대 퍼포먼스 & 오디션 준비'],
   },
   {
-    title: 'Instrument',
-    items: ['피아노/건반', '기타/베이스', '드럼/퍼커션', '현악기/관악기'],
+    title: '작곡',
+    desc: '나만의 음악 만들기',
+    items: ['작곡/편곡 기초', 'MIDI & DAW 프로듀싱', '화성학/음악이론', '포트폴리오 제작'],
   },
   {
-    title: 'Production',
-    items: ['작곡/편곡', 'MIDI 프로듀싱', '믹싱/마스터링', '사운드 디자인'],
+    title: '악기',
+    desc: '피아노, 기타, 드럼',
+    items: ['피아노/건반 (재즈, 반주법)', '기타/베이스 (일렉, 어쿠스틱)', '드럼/퍼커션', '합주 & 밴드 활동'],
   },
 ];
 
@@ -46,7 +49,7 @@ export default function CoursesSection() {
   return (
     <section id="courses" ref={sectionRef} className="services-section">
       <div className="container">
-        <p className="text-white/50 text-sm mb-8">Our Courses</p>
+        <p className="text-white/50 text-sm mb-8">교육과정</p>
 
         {/* Service Blocks - 301lab Style */}
         {services.map((service, index) => (

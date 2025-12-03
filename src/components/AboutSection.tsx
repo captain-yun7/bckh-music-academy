@@ -33,20 +33,20 @@ export default function AboutSection() {
       {/* Featured Work - Dark Section like 301lab */}
       <div className="featured-section">
         <div className="container">
-          <p className="featured-label">Featured work</p>
+          <p className="featured-label">학원 소개</p>
 
           {/* Main Featured Image */}
           <div className="featured-item featured-image mb-6 flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
             <div className="text-center p-12">
-              <p className="text-white/60 text-lg mb-4">모든 가능성을 여는 이야기</p>
-              <p className="text-white text-2xl font-medium">경희음악학원의 레슨 현장</p>
+              <p className="text-white/60 text-lg mb-4">1999년부터 25년의 전통</p>
+              <p className="text-white text-2xl font-medium">부천경희실용음악학원</p>
             </div>
           </div>
 
           <div className="flex justify-between items-center">
             <div>
-              <p className="featured-title">Signature Lessons</p>
-              <p className="featured-meta">UI/UX · Technology</p>
+              <p className="featured-title">음악으로 꿈을 실현하는 곳</p>
+              <p className="featured-meta">보컬 · 작곡 · 악기 · 입시</p>
             </div>
           </div>
         </div>
@@ -83,32 +83,32 @@ export default function AboutSection() {
         <div className="container">
           <div className="work-item featured-item">
             <span className="work-name">VOCAL</span>
-            <span className="work-category">UI/UX · Training</span>
+            <span className="work-category">발성 · 호흡 · 테크닉</span>
             <span className="work-client">보컬 트레이닝</span>
           </div>
           <div className="work-item featured-item">
             <span className="work-name">PIANO</span>
-            <span className="work-category">UI/UX · Technology</span>
+            <span className="work-category">클래식 · 재즈 · 반주</span>
             <span className="work-client">피아노/건반</span>
           </div>
           <div className="work-item featured-item">
             <span className="work-name">GUITAR</span>
-            <span className="work-category">Technology</span>
+            <span className="work-category">일렉 · 어쿠스틱 · 베이스</span>
             <span className="work-client">기타/베이스</span>
           </div>
           <div className="work-item featured-item">
             <span className="work-name">DRUM</span>
-            <span className="work-category">UI/UX · Technology</span>
+            <span className="work-category">드럼 · 퍼커션 · 카혼</span>
             <span className="work-client">드럼/퍼커션</span>
           </div>
           <div className="work-item featured-item">
             <span className="work-name">COMPOSITION</span>
-            <span className="work-category">UI/UX · Technology</span>
+            <span className="work-category">화성학 · 편곡 · 이론</span>
             <span className="work-client">작곡/편곡</span>
           </div>
           <div className="work-item featured-item">
             <span className="work-name">MIDI</span>
-            <span className="work-category">UI/UX · Technology</span>
+            <span className="work-category">DAW · 프로듀싱 · 믹싱</span>
             <span className="work-client">MIDI/프로듀싱</span>
           </div>
         </div>
