@@ -6,6 +6,7 @@ const navLinks = [
   { name: '학원소개', href: '#about' },
   { name: '교육과정', href: '#courses' },
   { name: '강사진', href: '#instructors' },
+  { name: '합격실적', href: '#reviews' },
   { name: '오시는길', href: '#contact' },
 ];
 
@@ -29,7 +30,7 @@ export default function Navigation() {
           <div className="flex items-center justify-between">
             {/* Logo - 301lab style */}
             <a href="#" className="nav-logo">
-              부천경희음악
+              경희음악
             </a>
 
             {/* Desktop Navigation */}
