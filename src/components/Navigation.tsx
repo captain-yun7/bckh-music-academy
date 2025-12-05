@@ -3,10 +3,10 @@
 import { useState, useEffect } from 'react';
 
 const navLinks = [
-  { name: '학원소개', href: '#about' },
-  { name: '교육과정', href: '#courses' },
-  { name: '강사진', href: '#instructors' },
-  { name: '합격실적', href: '#reviews' },
+  { name: '시설사진', href: '#facilities' },
+  { name: '공연사진', href: '#performances' },
+  { name: '합격영상', href: '#videos' },
+  { name: '배출뮤지션', href: '#musicians' },
   { name: '오시는길', href: '#contact' },
 ];
 

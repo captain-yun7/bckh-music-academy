@@ -1,9 +1,12 @@
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/HeroSection';
-import AboutSection from '@/components/AboutSection';
-import CoursesSection from '@/components/CoursesSection';
-import InstructorsSection from '@/components/InstructorsSection';
 import FacilitiesSection from '@/components/FacilitiesSection';
+import PerformancesSection from '@/components/PerformancesSection';
+import VideosSection from '@/components/VideosSection';
+import MusiciansSection from '@/components/MusiciansSection';
+import AboutSection from '@/components/AboutSection';
+import InstructorsSection from '@/components/InstructorsSection';
+import CoursesSection from '@/components/CoursesSection';
 import ReviewsSection from '@/components/ReviewsSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
@@ -22,22 +25,31 @@ export default function HomePage() {
         {/* Hero - 다이나믹 텍스트 애니메이션 */}
         <HeroSection />
 
-        {/* About - 학원 특징/강점 */}
-        <AboutSection />
-
-        {/* Courses - 과정 소개 */}
-        <CoursesSection />
-
-        {/* Instructors - 강사진 소개 */}
-        <InstructorsSection />
-
-        {/* Facilities - 시설 안내 */}
+        {/* 시설사진 */}
         <FacilitiesSection />
 
-        {/* Reviews - 수강생 후기 */}
+        {/* 공연사진 */}
+        <PerformancesSection />
+
+        {/* 합격영상 */}
+        <VideosSection />
+
+        {/* 배출뮤지션 */}
+        <MusiciansSection />
+
+        {/* 강사진 */}
+        <InstructorsSection />
+
+        {/* 합격 실적 */}
         <ReviewsSection />
 
-        {/* Contact - 상담 신청 */}
+        {/* 학원 소개 */}
+        <AboutSection />
+
+        {/* 교육과정 */}
+        <CoursesSection />
+
+        {/* Contact - 오시는길 */}
         <ContactSection />
       </main>
 
