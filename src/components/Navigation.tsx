@@ -30,7 +30,7 @@ export default function Navigation() {
           <div className="flex items-center justify-between">
             {/* Logo - 301lab style */}
             <a href="#" className="nav-logo">
-              경희음악
+              경희실용음악학원
             </a>
 
             {/* Desktop Navigation */}

@@ -66,10 +66,10 @@ export default function ContactSection() {
 
         {/* Background Text - 301lab Style */}
         <div className="contact-bg-text">
-          경희음악<br />
-          경희음악<br />
-          경희음악<br />
-          경희음악
+          경희실용음악학원<br />
+          경희실용음악학원<br />
+          경희실용음악학원<br />
+          경희실용음악학원
         </div>
       </div>
     </section>
