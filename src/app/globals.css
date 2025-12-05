@@ -81,23 +81,27 @@ body {
   color: var(--text-white);
 }
 
-/* Container */
+/* Container - 패딩 넉넉하게 */
 .container {
   width: 100%;
   max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 24px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
 @media (min-width: 768px) {
   .container {
-    padding: 0 48px;
+    padding-left: 48px;
+    padding-right: 48px;
   }
 }
 
 @media (min-width: 1024px) {
   .container {
-    padding: 0 64px;
+    padding-left: 80px;
+    padding-right: 80px;
   }
 }
 
@@ -126,8 +130,8 @@ body {
 }
 
 .nav-link {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
   color: var(--text-gray);
   transition: color 0.2s ease;
   text-decoration: none;
@@ -138,8 +142,8 @@ body {
 }
 
 .nav-cta {
-  font-size: 18px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 600;
   color: var(--text-black);
   text-decoration: none;
   padding: 14px 28px;
@@ -164,11 +168,11 @@ body {
 }
 
 .hero-label {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 400;
   color: var(--text-gray);
   margin-bottom: 40px;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 .hero-title {
@@ -184,10 +188,10 @@ body {
 }
 
 .hero-subtitle {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--text-gray);
   margin-top: 40px;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 /* Featured Work Section */
@@ -198,10 +202,11 @@ body {
 }
 
 .featured-label {
-  font-size: 12px;
-  font-weight: 400;
+  font-size: 16px;
+  font-weight: 500;
   color: rgba(255,255,255,0.6);
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  letter-spacing: 0.02em;
 }
 
 .featured-image {
@@ -214,15 +219,15 @@ body {
 }
 
 .featured-title {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 600;
   margin-top: 16px;
 }
 
 .featured-meta {
-  font-size: 12px;
-  color: rgba(255,255,255,0.5);
-  margin-top: 4px;
+  font-size: 17px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 8px;
 }
 
 /* Portfolio Grid */
@@ -266,15 +271,15 @@ body {
 }
 
 .portfolio-title {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: 700;
   color: var(--text-black);
 }
 
 .portfolio-meta {
-  font-size: 12px;
+  font-size: 16px;
   color: var(--text-light);
-  margin-top: 4px;
+  margin-top: 8px;
 }
 
 /* Work List - 301lab Style */
@@ -299,19 +304,19 @@ body {
 }
 
 .work-name {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 700;
   color: var(--text-black);
 }
 
 .work-category {
-  font-size: 13px;
+  font-size: 17px;
   color: var(--text-light);
   text-align: center;
 }
 
 .work-client {
-  font-size: 13px;
+  font-size: 17px;
   color: var(--text-gray);
   text-align: right;
 }
@@ -351,11 +356,12 @@ body {
 }
 
 .service-list li {
-  font-size: 14px;
-  color: rgba(255,255,255,0.6);
-  padding: 8px 0;
-  padding-left: 16px;
+  font-size: 17px;
+  color: rgba(255,255,255,0.8);
+  padding: 12px 0;
+  padding-left: 18px;
   position: relative;
+  line-height: 1.7;
 }
 
 .service-list li::before {
@@ -384,23 +390,25 @@ body {
 }
 
 .about-label {
-  font-size: 12px;
-  color: rgba(255,255,255,0.5);
-  margin-bottom: 24px;
+  font-size: 16px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 28px;
+  letter-spacing: 0.03em;
+  font-weight: 500;
 }
 
 .about-gallery {
   display: flex;
-  gap: 16px;
+  gap: 20px;
   overflow-x: auto;
   padding-bottom: 20px;
 }
 
 .about-image {
-  flex: 0 0 280px;
-  aspect-ratio: 4/3;
+  flex: 0 0 240px;
+  aspect-ratio: 3/4;
   background: #1a1a1a;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
 }
 
@@ -414,13 +422,15 @@ body {
 }
 
 .contact-label {
-  font-size: 12px;
-  color: rgba(255,255,255,0.5);
+  font-size: 16px;
+  color: rgba(255,255,255,0.6);
   margin-bottom: 40px;
+  letter-spacing: 0.05em;
+  font-weight: 500;
 }
 
 .contact-title {
-  font-size: clamp(40px, 6vw, 64px);
+  font-size: clamp(48px, 7vw, 72px);
   font-weight: 700;
   line-height: 1.2;
   max-width: 900px;
@@ -457,14 +467,17 @@ body {
 }
 
 .contact-info-label {
-  font-size: 11px;
-  color: rgba(255,255,255,0.4);
-  margin-bottom: 8px;
+  font-size: 15px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 12px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
 }
 
 .contact-info-value {
-  font-size: 13px;
-  color: rgba(255,255,255,0.8);
+  font-size: 18px;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.7;
 }
 
 .contact-info-value a {
@@ -480,7 +493,7 @@ body {
 .footer {
   background: var(--bg-black);
   color: var(--text-white);
-  padding: 40px 0;
+  padding: 60px 0 40px;
   border-top: 1px solid rgba(255,255,255,0.1);
 }
 
@@ -491,8 +504,9 @@ body {
 }
 
 .footer-text {
-  font-size: 12px;
-  color: rgba(255,255,255,0.4);
+  font-size: 15px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.7;
 }
 
 .footer-links {
@@ -501,8 +515,8 @@ body {
 }
 
 .footer-link {
-  font-size: 12px;
-  color: rgba(255,255,255,0.4);
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -673,16 +687,16 @@ body {
 }
 
 .section-label {
-  font-size: 12px;
-  font-weight: 400;
+  font-size: 15px;
+  font-weight: 600;
   color: var(--text-light);
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 }
 
 .section-title {
-  font-size: clamp(48px, 9vw, 96px);
+  font-size: clamp(56px, 10vw, 104px);
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.03em;
@@ -694,11 +708,11 @@ body {
 }
 
 .section-desc {
-  font-size: 15px;
+  font-size: 17px;
   color: var(--text-gray);
-  line-height: 1.7;
+  line-height: 1.8;
   max-width: 500px;
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 /* Feature Card */
@@ -724,16 +738,16 @@ body {
 }
 
 .feature-title {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
   color: var(--text-black);
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .feature-desc {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--text-gray);
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 /* Review Card */
@@ -754,22 +768,22 @@ body {
 }
 
 .review-text {
-  font-size: 15px;
+  font-size: 17px;
   color: var(--text-dark);
-  line-height: 1.7;
-  margin-bottom: 20px;
+  line-height: 1.8;
+  margin-bottom: 24px;
 }
 
 .review-author {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 600;
   color: var(--text-black);
 }
 
 .review-meta {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--text-light);
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 /* Stats */
@@ -781,11 +795,12 @@ body {
 }
 
 .stat-label {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--text-gray);
-  margin-top: 8px;
+  margin-top: 10px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  font-weight: 500;
 }
 
 /* Form */
@@ -919,9 +934,9 @@ body {
 .mobile-menu-link {
   display: block;
   font-size: 32px;
-  font-weight: 400;
+  font-weight: 500;
   color: var(--text-black);
-  padding: 16px 0;
+  padding: 20px 0;
   border-bottom: 1px solid var(--border-light);
   text-decoration: none;
 }
@@ -930,9 +945,9 @@ body {
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 6px 12px;
-  font-size: 12px;
-  font-weight: 500;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
   background: var(--bg-light);
   border-radius: 100px;
   color: var(--text-gray);
@@ -951,12 +966,38 @@ body {
     font-size: clamp(48px, 14vw, 80px);
   }
 
+  .hero-label {
+    font-size: 14px;
+  }
+
   .section {
     padding: 60px 0;
   }
 
   .service-block {
     padding: 40px 0;
+  }
+
+  .nav-logo {
+    font-size: 26px;
+  }
+
+  .nav-link {
+    font-size: 15px;
+  }
+
+  .work-item {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .work-category,
+  .work-client {
+    text-align: left;
+  }
+
+  .about-image {
+    flex: 0 0 200px;
   }
 }
 

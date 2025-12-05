@@ -50,67 +50,159 @@ export default function ReviewsSection() {
   }, []);
 
   return (
-    <section id="reviews" ref={sectionRef} className="portfolio-section">
+    <section
+      id="reviews"
+      ref={sectionRef}
+      style={{ padding: '120px 0 140px', backgroundColor: '#ffffff' }}
+    >
       <div className="container">
-        <p className="section-label">PRIDE OF K.H</p>
-        <h2 className="section-title" style={{ fontSize: 'clamp(36px, 6vw, 64px)' }}>합격 실적</h2>
+        {/* Section Header */}
+        <p style={{ color: '#999', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '24px' }}>
+          PRIDE OF K.H
+        </p>
+        <h2 style={{ fontSize: 'clamp(48px, 8vw, 72px)', fontWeight: 700, color: '#000', marginBottom: '80px' }}>
+          합격 실적
+        </h2>
 
         {/* Recent Admissions */}
-        <div className="mt-12 mb-16">
-          <p className="text-[var(--text-light)] text-sm mb-6">최근 합격 소식</p>
-          <div className="portfolio-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+        <div style={{ marginBottom: '100px' }}>
+          <p style={{ color: '#666', fontSize: '18px', fontWeight: 600, marginBottom: '40px' }}>
+            최근 합격 소식
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
             {recentAdmissions.map((item, index) => (
-              <div key={index} className="admission-item portfolio-card">
-                <div className="portfolio-content">
-                  <span className="badge mb-3">{item.year} {item.type}</span>
-                  <p className="portfolio-title" style={{ fontSize: '16px' }}>{item.school}</p>
-                  <p className="portfolio-meta">{item.major}</p>
-                </div>
+              <div
+                key={index}
+                className="admission-item"
+                style={{
+                  backgroundColor: '#f8f8f8',
+                  borderRadius: '20px',
+                  padding: '40px',
+                }}
+              >
+                <span style={{
+                  display: 'inline-block',
+                  backgroundColor: '#fff',
+                  color: '#666',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  padding: '10px 20px',
+                  borderRadius: '100px',
+                  marginBottom: '32px',
+                }}>
+                  {item.year} {item.type}
+                </span>
+                <p style={{ fontSize: '24px', fontWeight: 700, color: '#000', marginBottom: '16px' }}>
+                  {item.school}
+                </p>
+                <p style={{ fontSize: '18px', color: '#888' }}>
+                  {item.major}
+                </p>
               </div>
             ))}
           </div>
         </div>
 
-        {/* University List - Work List Style */}
-        <div className="work-list" style={{ background: 'transparent', padding: '0' }}>
-          <p className="text-[var(--text-light)] text-sm mb-6">합격 대학 목록</p>
+        {/* University List */}
+        <div style={{ marginBottom: '100px' }}>
+          <p style={{ color: '#666', fontSize: '18px', fontWeight: 600, marginBottom: '48px' }}>
+            합격 대학 목록
+          </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '64px' }}>
+            {/* 4년제 대학 */}
             <div className="admission-item">
-              <p className="text-[var(--text-gray)] text-xs uppercase tracking-wider mb-4">4년제 대학</p>
-              {universities.fourYear.map((uni, index) => (
-                <div key={index} className="py-2 border-b border-[var(--border-light)]">
-                  <span className="text-[var(--text-dark)] text-sm">{uni}</span>
-                </div>
-              ))}
+              <p style={{
+                color: '#000',
+                fontSize: '16px',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                marginBottom: '24px',
+                paddingBottom: '20px',
+                borderBottom: '2px solid #000',
+              }}>
+                4년제 대학
+              </p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {universities.fourYear.map((uni, index) => (
+                  <li key={index} style={{ color: '#555', fontSize: '16px', lineHeight: '2.2' }}>
+                    {uni}
+                  </li>
+                ))}
+              </ul>
             </div>
+
+            {/* 2년제 대학 */}
             <div className="admission-item">
-              <p className="text-[var(--text-gray)] text-xs uppercase tracking-wider mb-4">2년제 대학</p>
-              {universities.twoYear.map((uni, index) => (
-                <div key={index} className="py-2 border-b border-[var(--border-light)]">
-                  <span className="text-[var(--text-dark)] text-sm">{uni}</span>
-                </div>
-              ))}
+              <p style={{
+                color: '#000',
+                fontSize: '16px',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                marginBottom: '24px',
+                paddingBottom: '20px',
+                borderBottom: '2px solid #000',
+              }}>
+                2년제 대학
+              </p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {universities.twoYear.map((uni, index) => (
+                  <li key={index} style={{ color: '#555', fontSize: '16px', lineHeight: '2.2' }}>
+                    {uni}
+                  </li>
+                ))}
+              </ul>
             </div>
+
+            {/* 예술 고등학교 */}
             <div className="admission-item">
-              <p className="text-[var(--text-gray)] text-xs uppercase tracking-wider mb-4">예술 고등학교</p>
-              {universities.highSchool.map((school, index) => (
-                <div key={index} className="py-2 border-b border-[var(--border-light)]">
-                  <span className="text-[var(--text-dark)] text-sm">{school}</span>
-                </div>
-              ))}
+              <p style={{
+                color: '#000',
+                fontSize: '16px',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                marginBottom: '24px',
+                paddingBottom: '20px',
+                borderBottom: '2px solid #000',
+              }}>
+                예술 고등학교
+              </p>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {universities.highSchool.map((school, index) => (
+                  <li key={index} style={{ color: '#555', fontSize: '16px', lineHeight: '2.2' }}>
+                    {school}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
 
         {/* CTA */}
-        <div className="mt-16 text-center">
-          <p className="text-[var(--text-light)] text-sm mb-6">25년간 1,000명 이상의 합격생 배출</p>
+        <div style={{ textAlign: 'center', paddingTop: '48px' }}>
+          <p style={{ color: '#888', fontSize: '18px', marginBottom: '40px' }}>
+            25년간 1,000명 이상의 합격생 배출
+          </p>
           <a
             href="http://www.khmusic.co.kr/pride/sc_list.php"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-dark"
+            style={{
+              display: 'inline-block',
+              backgroundColor: '#000',
+              color: '#fff',
+              fontSize: '16px',
+              fontWeight: 700,
+              padding: '20px 48px',
+              borderRadius: '100px',
+              textDecoration: 'none',
+              transition: 'background-color 0.2s',
+            }}
+            onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#333')}
+            onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#000')}
           >
             전체 합격생 명단 보기
           </a>

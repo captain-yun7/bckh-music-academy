@@ -3,18 +3,51 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const specialSystems = [
-  { title: '최강 3인 멘토링', desc: '담당 강사 · 부강사 · 스텝강사가 함께 지도' },
-  { title: '16개 스텝수업', desc: '전공별 그룹 수업으로 체계적 학습' },
-  { title: '레코딩 시스템', desc: '전문 녹음실에서 포트폴리오 제작' },
-  { title: '케이크 콘서트', desc: '정기 공연을 통한 무대 경험 축적' },
-  { title: '정기 오디션', desc: '실전과 같은 오디션 경험 제공' },
-  { title: '장학생 제도', desc: '우수 학생 장학금 지원' },
-  { title: '뮤지션 특강', desc: '현직 뮤지션 초청 특별 강의' },
-  { title: 'HT 프로그램', desc: '입시생 집중 트레이닝 프로그램' },
+  {
+    title: '최강 3인 멘토링',
+    desc: '담당 강사 · 부강사 · 스텝강사가 함께 지도',
+    image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=300&fit=crop',
+  },
+  {
+    title: '16개 스텝수업',
+    desc: '전공별 그룹 수업으로 체계적 학습',
+    image: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&h=300&fit=crop',
+  },
+  {
+    title: '레코딩 시스템',
+    desc: '전문 녹음실에서 포트폴리오 제작',
+    image: 'https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=400&h=300&fit=crop',
+  },
+  {
+    title: '케이크 콘서트',
+    desc: '정기 공연을 통한 무대 경험 축적',
+    image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=400&h=300&fit=crop',
+  },
+  {
+    title: '정기 오디션',
+    desc: '실전과 같은 오디션 경험 제공',
+    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop',
+  },
+  {
+    title: '장학생 제도',
+    desc: '우수 학생 장학금 지원',
+    image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&h=300&fit=crop',
+  },
+  {
+    title: '뮤지션 특강',
+    desc: '현직 뮤지션 초청 특별 강의',
+    image: 'https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?w=400&h=300&fit=crop',
+  },
+  {
+    title: 'HT 프로그램',
+    desc: '입시생 집중 트레이닝 프로그램',
+    image: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&h=300&fit=crop',
+  },
 ];
 
 export default function AboutSection() {
@@ -47,25 +80,35 @@ export default function AboutSection() {
           <p className="featured-label">학원 소개</p>
 
           {/* Main Featured Image */}
-          <div className="featured-item featured-image mb-6 flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
-            <div className="text-center p-12">
-              <p className="text-white/60 text-lg mb-4">1999년부터 25년의 전통</p>
-              <p className="text-white text-2xl font-medium mb-6">경희실용음악학원</p>
-              <p className="text-white/80 text-sm max-w-md mx-auto leading-relaxed">
-                체계적인 커리큘럼과 최강 3인 멘토링 시스템으로<br />
-                수많은 음대 합격생과 프로 뮤지션을 배출해왔습니다.
-              </p>
+          <div className="featured-item featured-image mb-8 relative overflow-hidden">
+            <Image
+              src="https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=1400&h=600&fit=crop"
+              alt="경희실용음악학원 스튜디오"
+              fill
+              className="object-cover"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/30" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-center p-12">
+                <p className="text-white/80 text-xl mb-6 font-medium">1999년부터 25년의 전통</p>
+                <p className="text-white text-4xl md:text-5xl font-bold mb-8">경희실용음악학원</p>
+                <p className="text-white/90 text-lg max-w-lg mx-auto leading-relaxed">
+                  체계적인 커리큘럼과 최강 3인 멘토링 시스템으로<br />
+                  수많은 음대 합격생과 프로 뮤지션을 배출해왔습니다.
+                </p>
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
             <div>
-              <p className="featured-title">음악으로 꿈을 실현하는 곳</p>
-              <p className="featured-meta">입시 · 오디션 · 전문 · 취미 · 랩/HIPHOP</p>
+              <p className="featured-title text-2xl">음악으로 꿈을 실현하는 곳</p>
+              <p className="featured-meta text-lg">입시 · 오디션 · 전문 · 취미 · 랩/HIPHOP</p>
             </div>
             <div className="text-left md:text-right">
-              <p className="text-white/60 text-sm">2025년 최신 합격 소식</p>
-              <p className="text-white text-sm">서서울생활과학고 실용음악과 합격!</p>
+              <p className="text-white/70 text-base">2025년 최신 합격 소식</p>
+              <p className="text-white text-lg font-semibold">서서울생활과학고 실용음악과 합격!</p>
             </div>
           </div>
         </div>
@@ -74,13 +117,23 @@ export default function AboutSection() {
       {/* Special System Grid */}
       <div className="portfolio-section">
         <div className="container">
-          <p className="text-gray-500 text-sm mb-8">SPECIAL SYSTEM</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <p className="text-gray-500 text-base font-medium mb-10">SPECIAL SYSTEM</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
             {specialSystems.map((system, index) => (
-              <div key={index} className="featured-item portfolio-card">
+              <div key={index} className="featured-item portfolio-card group cursor-pointer">
+                <div className="portfolio-image relative overflow-hidden">
+                  <Image
+                    src={system.image}
+                    alt={system.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    sizes="(max-width: 768px) 50vw, 25vw"
+                  />
+                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+                </div>
                 <div className="portfolio-content p-6">
-                  <p className="portfolio-title text-lg">{system.title}</p>
-                  <p className="portfolio-meta text-xs">{system.desc}</p>
+                  <p className="portfolio-title text-lg font-bold">{system.title}</p>
+                  <p className="portfolio-meta text-base">{system.desc}</p>
                 </div>
               </div>
             ))}
@@ -91,7 +144,7 @@ export default function AboutSection() {
       {/* Work List - 301lab Style (전공 분야) */}
       <div className="work-list">
         <div className="container">
-          <p className="text-white/50 text-sm mb-8">전공 분야</p>
+          <p className="text-gray-500 text-base font-medium mb-10">전공 분야</p>
           <div className="work-item featured-item">
             <span className="work-name">VOCAL</span>
             <span className="work-category">보컬 스텝수업 I, II</span>

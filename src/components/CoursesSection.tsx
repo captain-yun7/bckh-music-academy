@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,6 +20,7 @@ const courses = [
       '미디: 전공레슨 + 피아노레슨 + 스텝수업',
     ],
     highlight: '4년제/2년제 대학, 고등학교, 대학원 입시',
+    image: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=600&h=400&fit=crop',
   },
   {
     title: '오디션반',
@@ -32,6 +34,7 @@ const courses = [
       '레코딩 & 영상 포트폴리오',
     ],
     highlight: '엔터테인먼트 기획사 오디션 대비',
+    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&h=400&fit=crop',
   },
   {
     title: '랩/HIPHOP',
@@ -45,6 +48,7 @@ const courses = [
       '공연 퍼포먼스 트레이닝',
     ],
     highlight: '래퍼/힙합 프로듀서 양성',
+    image: 'https://images.unsplash.com/photo-1571974599782-87624638275e?w=600&h=400&fit=crop',
   },
   {
     title: '전문반',
@@ -58,6 +62,7 @@ const courses = [
       '아티스트 브랜딩',
     ],
     highlight: '프로 활동 중인 뮤지션 대상',
+    image: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=600&h=400&fit=crop',
   },
   {
     title: '취미반',
@@ -71,6 +76,7 @@ const courses = [
       '연습실 자유 이용',
     ],
     highlight: '나이/실력 무관, 누구나 환영',
+    image: 'https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=600&h=400&fit=crop',
   },
 ];
 
@@ -99,43 +105,54 @@ export default function CoursesSection() {
   return (
     <section id="courses" ref={sectionRef} className="services-section">
       <div className="container">
-        <p className="text-white/50 text-sm mb-4">CURRICULUM</p>
-        <p className="text-white text-2xl md:text-3xl font-medium mb-12">수강과정 안내</p>
+        <p className="text-white/60 text-base mb-8 tracking-wider font-medium">CURRICULUM</p>
+        <p className="text-white text-4xl md:text-5xl font-bold mb-20">수강과정 안내</p>
 
         {/* Course Blocks */}
         {courses.map((course, index) => (
           <div key={index} className="service-block">
             <div className="flex-1">
-              <div className="flex items-baseline gap-4 mb-2">
+              <div className="flex items-baseline gap-4 mb-4">
                 <h3 className="service-title">{course.title}</h3>
-                <span className="text-white/40 text-sm">{course.subtitle}</span>
+                <span className="text-white/50 text-base">{course.subtitle}</span>
               </div>
-              <p className="text-white/60 text-sm mb-4">{course.desc}</p>
+              <p className="text-white/80 text-lg mb-8">{course.desc}</p>
               <ul className="service-list">
                 {course.items.map((item, idx) => (
                   <li key={idx}>{item}</li>
                 ))}
               </ul>
-              <p className="text-blue-400 text-sm mt-4">{course.highlight}</p>
+              <p className="text-blue-400 text-lg mt-8 font-semibold">{course.highlight}</p>
+            </div>
+            <div className="service-images">
+              <div className="service-image col-span-2 relative overflow-hidden rounded-xl" style={{ aspectRatio: '16/10' }}>
+                <Image
+                  src={course.image}
+                  alt={course.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
             </div>
           </div>
         ))}
 
         {/* Benefits Section */}
-        <div className="mt-16 p-8 border border-white/10 rounded-lg">
-          <p className="text-white/50 text-sm mb-4">수강생 혜택</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="mt-24 p-12 border border-white/10 rounded-2xl">
+          <p className="text-white/60 text-base mb-10 tracking-wider font-medium">수강생 혜택</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             <div>
-              <p className="text-white font-medium mb-2">연습실 무제한 사용</p>
-              <p className="text-white/60 text-sm">운영시간 내 자유롭게 연습</p>
+              <p className="text-white font-bold mb-4 text-xl">연습실 무제한 사용</p>
+              <p className="text-white/80 text-base leading-relaxed">운영시간 내 자유롭게 연습</p>
             </div>
             <div>
-              <p className="text-white font-medium mb-2">레코딩 지원</p>
-              <p className="text-white/60 text-sm">전문 녹음실 포트폴리오 제작</p>
+              <p className="text-white font-bold mb-4 text-xl">레코딩 지원</p>
+              <p className="text-white/80 text-base leading-relaxed">전문 녹음실 포트폴리오 제작</p>
             </div>
             <div>
-              <p className="text-white font-medium mb-2">정기 공연 참여</p>
-              <p className="text-white/60 text-sm">케이크콘서트 무대 경험</p>
+              <p className="text-white font-bold mb-4 text-xl">정기 공연 참여</p>
+              <p className="text-white/80 text-base leading-relaxed">케이크콘서트 무대 경험</p>
             </div>
           </div>
         </div>

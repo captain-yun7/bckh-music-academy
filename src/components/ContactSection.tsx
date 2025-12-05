@@ -46,7 +46,9 @@ export default function ContactSection() {
               <p className="contact-info-value">
                 <a href="mailto:khmusic80@hanmail.net">khmusic80@hanmail.net</a>
               </p>
-              <p className="contact-info-value">032-667-7088</p>
+              <p className="contact-info-value">
+                <a href="tel:032-667-7088">032-667-7088</a>
+              </p>
             </div>
             <div>
               <p className="contact-info-label">운영 시간</p>
@@ -60,60 +62,6 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* Social Links */}
-          <div className="mt-12 flex flex-wrap justify-center gap-4">
-            <a
-              href="https://www.youtube.com/channel/UC064T0e2BoevLYHkXkp8Yog"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-outline-light flex items-center gap-2 px-5 py-2.5 rounded-full text-sm"
-            >
-              YouTube
-            </a>
-            <a
-              href="http://blog.naver.com/kyunghee_music"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-outline-light flex items-center gap-2 px-5 py-2.5 rounded-full text-sm"
-            >
-              Blog
-            </a>
-            <a
-              href="https://www.instagram.com/kyunghee_music/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-outline-light flex items-center gap-2 px-5 py-2.5 rounded-full text-sm"
-            >
-              Instagram
-            </a>
-            <a
-              href="https://pf.kakao.com/_xixgxgxmj"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-outline-light flex items-center gap-2 px-5 py-2.5 rounded-full text-sm"
-            >
-              KakaoTalk
-            </a>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <a
-              href="tel:032-667-7088"
-              className="bg-white text-black px-6 py-3 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors"
-            >
-              전화 상담
-            </a>
-            <button
-              onClick={() => {
-                navigator.clipboard.writeText('khmusic80@hanmail.net');
-                alert('이메일이 복사되었습니다!');
-              }}
-              className="btn-outline-light flex items-center gap-2 px-6 py-3 rounded-full text-sm"
-            >
-              이메일 복사
-            </button>
-          </div>
         </div>
 
         {/* Background Text - 301lab Style */}
