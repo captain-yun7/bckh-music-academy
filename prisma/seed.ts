@@ -19,16 +19,17 @@ async function main() {
   });
   console.log('✅ Admin created:', admin.email);
 
-  // 2. 전공 분야 생성
+  // 2. 전공 분야 생성 (9개: 보컬, 작곡/화성학, 미디/전자음악, 싱어송라이터, 기타, 베이스, 드럼, 재즈피아노, 댄스)
   const subjects = [
     { name: 'Vocal', nameKo: '보컬', order: 1 },
-    { name: 'Piano', nameKo: '피아노', order: 2 },
-    { name: 'Guitar', nameKo: '기타', order: 3 },
-    { name: 'Bass', nameKo: '베이스', order: 4 },
-    { name: 'Drums', nameKo: '드럼', order: 5 },
-    { name: 'Composing', nameKo: '작곡', order: 6 },
-    { name: 'MIDI/EMP', nameKo: 'MIDI/EMP', order: 7 },
-    { name: 'Dance', nameKo: '댄스', order: 8 },
+    { name: 'Composing', nameKo: '작곡/화성학', order: 2 },
+    { name: 'MIDI', nameKo: '미디/전자음악', order: 3 },
+    { name: 'SingerSongwriter', nameKo: '싱어송라이터', order: 4 },
+    { name: 'Guitar', nameKo: '기타', order: 5 },
+    { name: 'Bass', nameKo: '베이스', order: 6 },
+    { name: 'Drums', nameKo: '드럼', order: 7 },
+    { name: 'JazzPiano', nameKo: '재즈피아노', order: 8 },
+    { name: 'Dance', nameKo: '댄스', order: 9 },
   ];
 
   for (const subject of subjects) {
@@ -45,7 +46,7 @@ async function main() {
   const getSubjectId = (name: string) => subjectMap.find(s => s.name === name)?.id || '';
 
   const instructorsData = [
-    // Vocal
+    // Vocal (보컬)
     { name: '하수지', subjectName: 'Vocal', image: '/images/lecturers/vocal_하수지.jpeg' },
     { name: '김수현', subjectName: 'Vocal', image: '/images/lecturers/vocal_김수현.jpeg' },
     { name: '김한울', subjectName: 'Vocal', image: '/images/lecturers/vocal_김한울.jpg' },
@@ -53,33 +54,36 @@ async function main() {
     { name: '전용일', subjectName: 'Vocal', image: '/images/lecturers/vocal_전용일.jpg' },
     { name: '홍연하', subjectName: 'Vocal', image: '/images/lecturers/vocal_홍연하.png' },
     { name: '홍효진', subjectName: 'Vocal', image: '/images/lecturers/vocal_홍효진.png' },
-    // Piano
-    { name: '이민경', subjectName: 'Piano', image: '/images/lecturers/piano_이민경.jpg' },
-    { name: '이소정', subjectName: 'Piano', image: '/images/lecturers/piano_이소정.jpg' },
-    { name: '김하영', subjectName: 'Piano', image: '/images/lecturers/piano_김하영.png' },
-    { name: '황진하', subjectName: 'Piano', image: '/images/lecturers/piano_황진하.jpg' },
-    { name: '구자경', subjectName: 'Piano', image: '/images/lecturers/piano_구자경.png' },
-    { name: '박한빈', subjectName: 'Piano', image: '/images/lecturers/piano_박한빈.jpeg' },
-    // Guitar
+    // Composing (작곡/화성학)
+    { name: '강혜민', subjectName: 'Composing', image: '/images/lecturers/composing_강혜민.jpg' },
+    { name: '이재혁', subjectName: 'Composing', image: '/images/lecturers/composing_이재혁.jpg' },
+    { name: '이은비', subjectName: 'Composing', image: '/images/lecturers/composing_이은비.jpg' },
+    { name: '황진하', subjectName: 'Composing', image: '/images/lecturers/composing_황진하.jpg' },
+    // MIDI (미디/전자음악)
+    { name: '이재혁', subjectName: 'MIDI', image: '/images/lecturers/midi_이재혁.jpg' },
+    { name: '조윤상', subjectName: 'MIDI', image: '/images/lecturers/midi_조윤상.jpg' },
+    // SingerSongwriter (싱어송라이터) - 보컬+작곡 강사 중 겸임
+    { name: '하수지', subjectName: 'SingerSongwriter', image: '/images/lecturers/vocal_하수지.jpeg' },
+    { name: '강혜민', subjectName: 'SingerSongwriter', image: '/images/lecturers/composing_강혜민.jpg' },
+    // Guitar (기타)
     { name: '노아(Noah)', subjectName: 'Guitar', image: '/images/lecturers/guitar_노아.jpg' },
     { name: '김영롱', subjectName: 'Guitar', image: '/images/lecturers/guitar_김영롱.jpg' },
     { name: '남윤찬', subjectName: 'Guitar', image: '/images/lecturers/guitar_남윤찬.jpg' },
     { name: '공석배', subjectName: 'Guitar', image: '/images/lecturers/guitar_공석배.jpg' },
     { name: '구자훈', subjectName: 'Guitar', image: '/images/lecturers/guitar_구자훈.png' },
-    // Bass
+    // Bass (베이스)
     { name: '현재천', subjectName: 'Bass', image: '/images/lecturers/bass_현재천.jpg' },
     { name: '신희주', subjectName: 'Bass', image: '/images/lecturers/bass_신희주.png' },
-    // Drums
+    // Drums (드럼)
     { name: '유종광', subjectName: 'Drums', image: '/images/lecturers/drums_유종광.jpeg' },
-    // Composing
-    { name: '강혜민', subjectName: 'Composing', image: '/images/lecturers/composing_강혜민.jpg' },
-    { name: '이재혁', subjectName: 'Composing', image: '/images/lecturers/composing_이재혁.jpg' },
-    { name: '이은비', subjectName: 'Composing', image: '/images/lecturers/composing_이은비.jpg' },
-    { name: '황진하', subjectName: 'Composing', image: '/images/lecturers/composing_황진하.jpg' },
-    // MIDI/EMP
-    { name: '이재혁', subjectName: 'MIDI/EMP', image: '/images/lecturers/midi_이재혁.jpg' },
-    { name: '조윤상', subjectName: 'MIDI/EMP', image: '/images/lecturers/midi_조윤상.jpg' },
-    // Dance
+    // JazzPiano (재즈피아노) - 기존 Piano 강사들
+    { name: '이민경', subjectName: 'JazzPiano', image: '/images/lecturers/piano_이민경.jpg' },
+    { name: '이소정', subjectName: 'JazzPiano', image: '/images/lecturers/piano_이소정.jpg' },
+    { name: '김하영', subjectName: 'JazzPiano', image: '/images/lecturers/piano_김하영.png' },
+    { name: '황진하', subjectName: 'JazzPiano', image: '/images/lecturers/piano_황진하.jpg' },
+    { name: '구자경', subjectName: 'JazzPiano', image: '/images/lecturers/piano_구자경.png' },
+    { name: '박한빈', subjectName: 'JazzPiano', image: '/images/lecturers/piano_박한빈.jpeg' },
+    // Dance (댄스)
     { name: '양지은', subjectName: 'Dance', image: '/images/lecturers/dance_양지은.jpeg' },
   ];
 
