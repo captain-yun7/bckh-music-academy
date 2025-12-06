@@ -11,42 +11,42 @@ const specialSystems = [
   {
     title: '최강 3인 멘토링',
     desc: '담당 강사 · 부강사 · 스텝강사가 함께 지도',
-    image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=300&fit=crop',
+    image: '/images/about/intro_c.jpg',
   },
   {
     title: '16개 스텝수업',
     desc: '전공별 그룹 수업으로 체계적 학습',
-    image: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&h=300&fit=crop',
+    image: '/images/about/intro_d.jpg',
   },
   {
     title: '레코딩 시스템',
     desc: '전문 녹음실에서 포트폴리오 제작',
-    image: 'https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=400&h=300&fit=crop',
+    image: '/images/about/intro_e.jpg',
   },
   {
     title: '케이크 콘서트',
     desc: '정기 공연을 통한 무대 경험 축적',
-    image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=400&h=300&fit=crop',
+    image: '/images/about/intro_f.jpg',
   },
   {
     title: '정기 오디션',
     desc: '실전과 같은 오디션 경험 제공',
-    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop',
+    image: '/images/about/intro_g.jpg',
   },
   {
     title: '장학생 제도',
     desc: '우수 학생 장학금 지원',
-    image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&h=300&fit=crop',
+    image: '/images/curriculum/info1.jpg',
   },
   {
     title: '뮤지션 특강',
     desc: '현직 뮤지션 초청 특별 강의',
-    image: 'https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?w=400&h=300&fit=crop',
+    image: '/images/curriculum/info2.jpg',
   },
   {
     title: 'HT 프로그램',
     desc: '입시생 집중 트레이닝 프로그램',
-    image: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&h=300&fit=crop',
+    image: '/images/curriculum/info3.jpg',
   },
 ];
 
@@ -82,7 +82,7 @@ export default function AboutSection() {
           {/* Main Featured Image */}
           <div className="featured-item featured-image mb-8 relative overflow-hidden">
             <Image
-              src="https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=1400&h=600&fit=crop"
+              src="/images/about/intro_a.jpg"
               alt="경희실용음악학원 스튜디오"
               fill
               className="object-cover"

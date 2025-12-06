@@ -9,40 +9,40 @@ gsap.registerPlugin(ScrollTrigger);
 
 const musicians = [
   {
-    name: '김OO',
+    name: '문수진',
     role: '싱어송라이터',
-    achievement: '2023 데뷔, 음원 발매',
-    image: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=400&h=400&fit=crop',
+    achievement: '음원 발매 및 활발한 활동',
+    image: '/images/pride/debut_moon.jpg',
   },
   {
-    name: '이OO',
-    role: '보컬리스트',
-    achievement: '오디션 프로그램 본선 진출',
-    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=400&fit=crop',
+    name: '포테이토',
+    role: '아티스트',
+    achievement: '음원 발매',
+    image: '/images/pride/debut_potato.jpg',
   },
   {
-    name: '박OO',
-    role: '작곡가/프로듀서',
-    achievement: '다수 아이돌 곡 작업',
-    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&h=400&fit=crop',
+    name: '리사',
+    role: '아티스트',
+    achievement: '활발한 음악 활동',
+    image: '/images/pride/risa.jpg',
   },
   {
-    name: '최OO',
-    role: '세션 기타리스트',
-    achievement: '유명 아티스트 투어 세션',
-    image: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=400&h=400&fit=crop',
+    name: '수강생 A',
+    role: '프로 뮤지션',
+    achievement: '데뷔 및 활동',
+    image: '/images/pride/debut_a.jpg',
   },
   {
-    name: '정OO',
-    role: '래퍼',
-    achievement: '힙합 레이블 소속',
-    image: 'https://images.unsplash.com/photo-1571974599782-87624638275e?w=400&h=400&fit=crop',
+    name: '수강생 B',
+    role: '프로 뮤지션',
+    achievement: '데뷔 및 활동',
+    image: '/images/pride/debut_b.jpg',
   },
   {
-    name: '한OO',
-    role: '뮤지컬 배우',
-    achievement: '대학로 뮤지컬 주연',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
+    name: '수강생 C',
+    role: '프로 뮤지션',
+    achievement: '데뷔 및 활동',
+    image: '/images/pride/debut_c.jpg',
   },
 ];
 
@@ -77,7 +77,7 @@ export default function MusiciansSection() {
       <div className="container">
         {/* Section Header */}
         <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '24px' }}>
-          ALUMNI
+          TRAINEE DEBUT
         </p>
         <h2 style={{ fontSize: 'clamp(40px, 6vw, 64px)', fontWeight: 700, color: '#fff', marginBottom: '24px' }}>
           배출 뮤지션
@@ -87,40 +87,37 @@ export default function MusiciansSection() {
         </p>
 
         {/* Musicians Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '32px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
           {musicians.map((musician, index) => (
             <div
               key={index}
               className="musician-item"
               style={{
-                textAlign: 'center',
+                borderRadius: '16px',
+                overflow: 'hidden',
+                backgroundColor: '#111',
               }}
             >
-              <div style={{
-                position: 'relative',
-                width: '200px',
-                height: '200px',
-                margin: '0 auto 24px',
-                borderRadius: '50%',
-                overflow: 'hidden',
-              }}>
+              <div style={{ position: 'relative', aspectRatio: '4/3' }}>
                 <Image
                   src={musician.image}
                   alt={musician.name}
                   fill
                   className="object-cover"
-                  sizes="200px"
+                  sizes="(max-width: 768px) 100vw, 33vw"
                 />
               </div>
-              <p style={{ fontSize: '22px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>
-                {musician.name}
-              </p>
-              <p style={{ fontSize: '16px', color: '#3b82f6', fontWeight: 600, marginBottom: '8px' }}>
-                {musician.role}
-              </p>
-              <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)' }}>
-                {musician.achievement}
-              </p>
+              <div style={{ padding: '24px' }}>
+                <p style={{ fontSize: '20px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>
+                  {musician.name}
+                </p>
+                <p style={{ fontSize: '14px', color: '#3b82f6', fontWeight: 600, marginBottom: '8px' }}>
+                  {musician.role}
+                </p>
+                <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)' }}>
+                  {musician.achievement}
+                </p>
+              </div>
             </div>
           ))}
         </div>

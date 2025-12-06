@@ -3,13 +3,16 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const recentAdmissions = [
-  { year: '2025', school: '서서울생활과학고등학교', major: '실용음악과', type: '고등학교' },
-  { year: '2025', school: '국제예술대학교', major: '실용음악과', type: '2년제' },
-  { year: '2025', school: '호원대학교', major: '실용음악학부', type: '4년제' },
+const yearlyAdmissions = [
+  { year: '2025', image: '/images/pride/2025ha.jpg' },
+  { year: '2024', image: '/images/pride/2024ha.jpg' },
+  { year: '2023', image: '/images/pride/2023ha.jpg' },
+  { year: '2022', image: '/images/pride/2022ha.jpg' },
+  { year: '2021', image: '/images/pride/2021ha.jpg' },
 ];
 
 const universities = {
@@ -64,40 +67,37 @@ export default function ReviewsSection() {
           합격 실적
         </h2>
 
-        {/* Recent Admissions */}
+        {/* Yearly Admission Posters */}
         <div style={{ marginBottom: '100px' }}>
           <p style={{ color: '#666', fontSize: '18px', fontWeight: 600, marginBottom: '40px' }}>
-            최근 합격 소식
+            연도별 합격생 명단
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
-            {recentAdmissions.map((item, index) => (
+          <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingBottom: '20px' }}>
+            {yearlyAdmissions.map((item, index) => (
               <div
                 key={index}
                 className="admission-item"
                 style={{
-                  backgroundColor: '#f8f8f8',
-                  borderRadius: '20px',
-                  padding: '40px',
+                  minWidth: '200px',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
                 }}
               >
-                <span style={{
-                  display: 'inline-block',
-                  backgroundColor: '#fff',
-                  color: '#666',
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  padding: '10px 20px',
-                  borderRadius: '100px',
-                  marginBottom: '32px',
-                }}>
-                  {item.year} {item.type}
-                </span>
-                <p style={{ fontSize: '24px', fontWeight: 700, color: '#000', marginBottom: '16px' }}>
-                  {item.school}
-                </p>
-                <p style={{ fontSize: '18px', color: '#888' }}>
-                  {item.major}
-                </p>
+                <div style={{ position: 'relative', aspectRatio: '3/4' }}>
+                  <Image
+                    src={item.image}
+                    alt={`${item.year}년 합격생`}
+                    fill
+                    className="object-cover"
+                    sizes="200px"
+                  />
+                </div>
+                <div style={{ padding: '16px', textAlign: 'center', backgroundColor: '#000' }}>
+                  <p style={{ fontSize: '18px', fontWeight: 700, color: '#fff' }}>
+                    {item.year}년
+                  </p>
+                </div>
               </div>
             ))}
           </div>

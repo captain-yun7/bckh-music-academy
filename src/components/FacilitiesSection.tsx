@@ -8,36 +8,18 @@ import Image from 'next/image';
 gsap.registerPlugin(ScrollTrigger);
 
 const facilities = [
-  {
-    title: '레코딩 스튜디오',
-    desc: '전문 녹음 장비 완비',
-    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=600&h=400&fit=crop',
-  },
-  {
-    title: '개인 연습실',
-    desc: '방음 시설 완비',
-    image: 'https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=600&h=400&fit=crop',
-  },
-  {
-    title: '보컬 부스',
-    desc: '1:1 레슨 전용',
-    image: 'https://images.unsplash.com/photo-1619983081563-430f63602796?w=600&h=400&fit=crop',
-  },
-  {
-    title: '합주실',
-    desc: '밴드 합주 가능',
-    image: 'https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?w=600&h=400&fit=crop',
-  },
-  {
-    title: '피아노실',
-    desc: '그랜드 피아노 보유',
-    image: 'https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=600&h=400&fit=crop',
-  },
-  {
-    title: '대기 공간',
-    desc: '편안한 휴식 공간',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop',
-  },
+  { title: '레코딩 스튜디오', image: '/images/facilities/facility01.jpg' },
+  { title: '보컬 연습실', image: '/images/facilities/facility02.jpg' },
+  { title: '피아노실', image: '/images/facilities/facility03.jpg' },
+  { title: '기타 연습실', image: '/images/facilities/facility04.jpg' },
+  { title: '드럼 연습실', image: '/images/facilities/facility05.jpg' },
+  { title: '합주실', image: '/images/facilities/facility06.jpg' },
+  { title: '미디 작업실', image: '/images/facilities/facility07.jpg' },
+  { title: '댄스 연습실', image: '/images/facilities/facility08.jpg' },
+  { title: '상담실', image: '/images/facilities/facility09.jpg' },
+  { title: '휴게공간', image: '/images/facilities/facility10.jpg' },
+  { title: '로비', image: '/images/facilities/facility11.jpg' },
+  { title: '복도', image: '/images/facilities/facility12.jpg' },
 ];
 
 export default function FacilitiesSection() {
@@ -81,33 +63,30 @@ export default function FacilitiesSection() {
         </p>
 
         {/* Facilities Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
           {facilities.map((item, index) => (
             <div
               key={index}
               className="facility-item"
               style={{
-                borderRadius: '16px',
+                borderRadius: '12px',
                 overflow: 'hidden',
                 backgroundColor: '#fff',
                 boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
               }}
             >
-              <div style={{ position: 'relative', aspectRatio: '3/2' }}>
+              <div style={{ position: 'relative', aspectRatio: '4/3' }}>
                 <Image
                   src={item.image}
                   alt={item.title}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  sizes="(max-width: 768px) 100vw, 25vw"
                 />
               </div>
-              <div style={{ padding: '24px' }}>
-                <p style={{ fontSize: '20px', fontWeight: 700, color: '#000', marginBottom: '8px' }}>
+              <div style={{ padding: '16px', textAlign: 'center' }}>
+                <p style={{ fontSize: '16px', fontWeight: 600, color: '#000' }}>
                   {item.title}
-                </p>
-                <p style={{ fontSize: '15px', color: '#888' }}>
-                  {item.desc}
                 </p>
               </div>
             </div>
