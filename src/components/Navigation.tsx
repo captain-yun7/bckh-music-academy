@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -80,146 +80,204 @@ const navLinks: NavLink[] = [
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileExpandedMenu, setMobileExpandedMenu] = useState<string | null>(null);
   const pathname = usePathname();
-  const menuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setIsMobileMenuOpen(false);
     setMobileExpandedMenu(null);
   }, [pathname]);
 
-  const handleMouseEnter = (name: string) => {
-    if (menuTimeoutRef.current) {
-      clearTimeout(menuTimeoutRef.current);
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
     }
-    setActiveMenu(name);
-  };
-
-  const handleMouseLeave = () => {
-    menuTimeoutRef.current = setTimeout(() => {
-      setActiveMenu(null);
-    }, 150);
-  };
-
-  const toggleMobileSubmenu = (name: string) => {
-    setMobileExpandedMenu(mobileExpandedMenu === name ? null : name);
-  };
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <>
-      <nav className={`nav ${isScrolled ? 'scrolled' : ''}`}>
-        <div className="nav-container">
-          <div className="nav-inner">
-            {/* Logo */}
-            <Link href="/" className="nav-logo">
-              경희실용음악학원
-            </Link>
+      {/* Navigation Bar */}
+      <nav
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          backgroundColor: isScrolled ? 'rgba(255,255,255,0.98)' : 'rgba(255,255,255,0.95)',
+          backdropFilter: 'blur(10px)',
+          borderBottom: '1px solid rgba(0,0,0,0.05)',
+          boxShadow: isScrolled ? '0 2px 20px rgba(0,0,0,0.08)' : 'none',
+          transition: 'all 0.3s ease',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '1400px',
+            margin: '0 auto',
+            padding: '0 20px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            height: '64px',
+          }}
+        >
+          {/* Logo */}
+          <Link
+            href="/"
+            style={{
+              fontSize: '18px',
+              fontWeight: 700,
+              color: '#111',
+              textDecoration: 'none',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            경희실용음악학원
+          </Link>
 
-            {/* Desktop Navigation */}
-            <div className="nav-desktop">
-              {navLinks.map((link) => (
-                <div
-                  key={link.name}
-                  className="nav-item"
-                  onMouseEnter={() => link.children && handleMouseEnter(link.name)}
-                  onMouseLeave={handleMouseLeave}
+          {/* Desktop Menu - Hidden on mobile */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '2px',
+            }}
+            className="desktop-nav"
+          >
+            {navLinks.map((link) => (
+              <div
+                key={link.name}
+                style={{ position: 'relative' }}
+                onMouseEnter={() => link.children && setActiveDropdown(link.name)}
+                onMouseLeave={() => setActiveDropdown(null)}
+              >
+                <Link
+                  href={link.href}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '3px',
+                    padding: '8px 10px',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: '#333',
+                    textDecoration: 'none',
+                    borderRadius: '6px',
+                    transition: 'background 0.2s',
+                    whiteSpace: 'nowrap',
+                  }}
+                  onMouseOver={(e) => (e.currentTarget.style.backgroundColor = 'rgba(0,0,0,0.04)')}
+                  onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                 >
-                  <Link href={link.href} className="nav-link">
-                    {link.name}
-                    {link.children && (
-                      <svg
-                        className="nav-arrow"
-                        width="10"
-                        height="6"
-                        viewBox="0 0 10 6"
-                        fill="none"
-                      >
-                        <path
-                          d="M1 1L5 5L9 1"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    )}
-                  </Link>
-
-                  {/* Mega Menu Dropdown */}
-                  {link.children && activeMenu === link.name && (
-                    <div
-                      className="mega-menu"
-                      onMouseEnter={() => handleMouseEnter(link.name)}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      <div className="mega-menu-content">
-                        <div className="mega-menu-header">
-                          <h3>{link.name}</h3>
-                          <Link href={link.href} className="mega-menu-all">
-                            전체보기
-                          </Link>
-                        </div>
-                        <div className="mega-menu-grid">
-                          {link.children.map((child) => (
-                            <Link
-                              key={child.href}
-                              href={child.href}
-                              className="mega-menu-item"
-                            >
-                              {child.name}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
+                  {link.name}
+                  {link.children && (
+                    <svg width="8" height="5" viewBox="0 0 8 5" fill="none">
+                      <path d="M1 1L4 4L7 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    </svg>
                   )}
-                </div>
-              ))}
-            </div>
+                </Link>
 
-            {/* CTA Button */}
-            <Link href="/contact" className="nav-cta">
+                {/* Dropdown */}
+                {link.children && activeDropdown === link.name && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '100%',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      paddingTop: '8px',
+                      zIndex: 100,
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: '#fff',
+                        borderRadius: '12px',
+                        boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
+                        padding: '8px',
+                        minWidth: '160px',
+                      }}
+                    >
+                      {link.children.map((child) => (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          style={{
+                            display: 'block',
+                            padding: '10px 14px',
+                            fontSize: '14px',
+                            color: '#444',
+                            textDecoration: 'none',
+                            borderRadius: '8px',
+                            transition: 'background 0.2s',
+                            whiteSpace: 'nowrap',
+                          }}
+                          onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#f5f5f5')}
+                          onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+                        >
+                          {child.name}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* CTA + Hamburger */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <Link
+              href="/contact"
+              style={{
+                padding: '8px 16px',
+                fontSize: '14px',
+                fontWeight: 600,
+                color: '#fff',
+                backgroundColor: '#111',
+                borderRadius: '6px',
+                textDecoration: 'none',
+              }}
+              className="desktop-cta"
+            >
               상담신청
             </Link>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Hamburger */}
             <button
-              className="nav-mobile-btn"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              style={{
+                display: 'none',
+                padding: '8px',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                color: '#333',
+              }}
+              className="mobile-hamburger"
               aria-label="메뉴"
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 {isMobileMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
+                  <path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" />
                 ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
+                  <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" />
                 )}
               </svg>
             </button>
@@ -227,41 +285,90 @@ export default function Navigation() {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
-      <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
-        <div className="mobile-menu-scroll">
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div
+          onClick={() => setIsMobileMenuOpen(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            top: '64px',
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            zIndex: 998,
+          }}
+          className="mobile-only"
+        />
+      )}
+
+      {/* Mobile Menu Panel */}
+      <div
+        style={{
+          position: 'fixed',
+          top: '64px',
+          right: isMobileMenuOpen ? 0 : '-100%',
+          width: '280px',
+          height: 'calc(100vh - 64px)',
+          backgroundColor: '#fff',
+          zIndex: 999,
+          transition: 'right 0.3s ease',
+          overflowY: 'auto',
+          display: 'none',
+        }}
+        className="mobile-menu-panel"
+      >
+        <div style={{ padding: '16px' }}>
           {navLinks.map((link) => (
-            <div key={link.name} className="mobile-menu-section">
+            <div key={link.name} style={{ borderBottom: '1px solid #f0f0f0' }}>
               {link.children ? (
                 <>
                   <button
-                    className="mobile-menu-link mobile-menu-toggle"
-                    onClick={() => toggleMobileSubmenu(link.name)}
+                    onClick={() => setMobileExpandedMenu(mobileExpandedMenu === link.name ? null : link.name)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      width: '100%',
+                      padding: '14px 0',
+                      fontSize: '15px',
+                      fontWeight: 600,
+                      color: '#333',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      textAlign: 'left',
+                    }}
                   >
-                    <span>{link.name}</span>
+                    {link.name}
                     <svg
-                      className={`mobile-arrow ${mobileExpandedMenu === link.name ? 'expanded' : ''}`}
                       width="12"
                       height="8"
                       viewBox="0 0 12 8"
                       fill="none"
+                      style={{
+                        transform: mobileExpandedMenu === link.name ? 'rotate(180deg)' : 'rotate(0)',
+                        transition: 'transform 0.2s',
+                      }}
                     >
-                      <path
-                        d="M1 1.5L6 6.5L11 1.5"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
+                      <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                     </svg>
                   </button>
                   <div
-                    className={`mobile-submenu ${mobileExpandedMenu === link.name ? 'expanded' : ''}`}
+                    style={{
+                      maxHeight: mobileExpandedMenu === link.name ? '400px' : '0',
+                      overflow: 'hidden',
+                      transition: 'max-height 0.3s ease',
+                    }}
                   >
                     <Link
                       href={link.href}
-                      className="mobile-submenu-link mobile-submenu-all"
                       onClick={() => setIsMobileMenuOpen(false)}
+                      style={{
+                        display: 'block',
+                        padding: '10px 16px',
+                        fontSize: '14px',
+                        color: '#3b82f6',
+                        textDecoration: 'none',
+                      }}
                     >
                       전체보기
                     </Link>
@@ -269,8 +376,14 @@ export default function Navigation() {
                       <Link
                         key={child.href}
                         href={child.href}
-                        className="mobile-submenu-link"
                         onClick={() => setIsMobileMenuOpen(false)}
+                        style={{
+                          display: 'block',
+                          padding: '10px 16px',
+                          fontSize: '14px',
+                          color: '#555',
+                          textDecoration: 'none',
+                        }}
                       >
                         {child.name}
                       </Link>
@@ -280,8 +393,15 @@ export default function Navigation() {
               ) : (
                 <Link
                   href={link.href}
-                  className="mobile-menu-link"
                   onClick={() => setIsMobileMenuOpen(false)}
+                  style={{
+                    display: 'block',
+                    padding: '14px 0',
+                    fontSize: '15px',
+                    fontWeight: 500,
+                    color: '#333',
+                    textDecoration: 'none',
+                  }}
                 >
                   {link.name}
                 </Link>
@@ -290,327 +410,58 @@ export default function Navigation() {
           ))}
           <Link
             href="/contact"
-            className="mobile-menu-cta"
             onClick={() => setIsMobileMenuOpen(false)}
+            style={{
+              display: 'block',
+              marginTop: '16px',
+              padding: '14px',
+              fontSize: '15px',
+              fontWeight: 600,
+              color: '#fff',
+              backgroundColor: '#111',
+              borderRadius: '8px',
+              textDecoration: 'none',
+              textAlign: 'center',
+            }}
           >
             상담신청
           </Link>
         </div>
       </div>
 
-      {/* Overlay */}
-      {isMobileMenuOpen && (
-        <div
-          className="mobile-overlay"
-          onClick={() => setIsMobileMenuOpen(false)}
-        />
-      )}
-
-      <style jsx>{`
-        .nav {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          z-index: 1000;
-          background: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(10px);
-          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-          transition: all 0.3s ease;
+      {/* Responsive Styles */}
+      <style jsx global>{`
+        .desktop-nav {
+          display: none !important;
+        }
+        .desktop-cta {
+          display: none !important;
+        }
+        .mobile-hamburger {
+          display: block !important;
+        }
+        .mobile-menu-panel {
+          display: block !important;
+        }
+        .mobile-only {
+          display: block !important;
         }
 
-        .nav.scrolled {
-          background: rgba(255, 255, 255, 0.98);
-          box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .nav-container {
-          max-width: 1400px;
-          margin: 0 auto;
-          padding: 0 24px;
-        }
-
-        .nav-inner {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          height: 72px;
-        }
-
-        .nav-logo {
-          font-size: 20px;
-          font-weight: 700;
-          color: #111;
-          text-decoration: none;
-          white-space: nowrap;
-        }
-
-        .nav-desktop {
-          display: none;
-          align-items: center;
-          gap: 4px;
-        }
-
-        @media (min-width: 1024px) {
-          .nav-desktop {
-            display: flex;
+        @media (min-width: 1280px) {
+          .desktop-nav {
+            display: flex !important;
           }
-        }
-
-        .nav-item {
-          position: relative;
-        }
-
-        .nav-link {
-          display: flex;
-          align-items: center;
-          gap: 4px;
-          padding: 8px 14px;
-          font-size: 15px;
-          font-weight: 500;
-          color: #333;
-          text-decoration: none;
-          border-radius: 8px;
-          transition: all 0.2s ease;
-          white-space: nowrap;
-        }
-
-        .nav-link:hover {
-          color: #000;
-          background: rgba(0, 0, 0, 0.04);
-        }
-
-        .nav-arrow {
-          margin-left: 2px;
-          transition: transform 0.2s ease;
-        }
-
-        .nav-item:hover .nav-arrow {
-          transform: rotate(180deg);
-        }
-
-        .mega-menu {
-          position: absolute;
-          top: 100%;
-          left: 50%;
-          transform: translateX(-50%);
-          padding-top: 8px;
-        }
-
-        .mega-menu-content {
-          background: #fff;
-          border-radius: 16px;
-          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
-          padding: 20px;
-          min-width: 240px;
-          animation: fadeIn 0.2s ease;
-        }
-
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(-8px);
+          .desktop-cta {
+            display: block !important;
           }
-          to {
-            opacity: 1;
-            transform: translateY(0);
+          .mobile-hamburger {
+            display: none !important;
           }
-        }
-
-        .mega-menu-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding-bottom: 12px;
-          margin-bottom: 12px;
-          border-bottom: 1px solid #eee;
-        }
-
-        .mega-menu-header h3 {
-          font-size: 16px;
-          font-weight: 700;
-          color: #111;
-          margin: 0;
-        }
-
-        .mega-menu-all {
-          font-size: 13px;
-          color: #3b82f6;
-          text-decoration: none;
-        }
-
-        .mega-menu-all:hover {
-          text-decoration: underline;
-        }
-
-        .mega-menu-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-          gap: 4px;
-        }
-
-        .mega-menu-item {
-          padding: 10px 12px;
-          font-size: 14px;
-          color: #444;
-          text-decoration: none;
-          border-radius: 8px;
-          transition: all 0.2s ease;
-          white-space: nowrap;
-        }
-
-        .mega-menu-item:hover {
-          background: #f5f5f5;
-          color: #000;
-        }
-
-        .nav-cta {
-          display: none;
-          padding: 10px 20px;
-          font-size: 14px;
-          font-weight: 600;
-          color: #fff;
-          background: #111;
-          border-radius: 8px;
-          text-decoration: none;
-          transition: all 0.2s ease;
-        }
-
-        .nav-cta:hover {
-          background: #333;
-        }
-
-        @media (min-width: 1024px) {
-          .nav-cta {
-            display: block;
+          .mobile-menu-panel {
+            display: none !important;
           }
-        }
-
-        .nav-mobile-btn {
-          display: block;
-          padding: 8px;
-          background: none;
-          border: none;
-          cursor: pointer;
-          color: #333;
-        }
-
-        @media (min-width: 1024px) {
-          .nav-mobile-btn {
-            display: none;
-          }
-        }
-
-        /* Mobile Menu */
-        .mobile-menu {
-          position: fixed;
-          top: 72px;
-          right: -100%;
-          width: 100%;
-          max-width: 320px;
-          height: calc(100vh - 72px);
-          background: #fff;
-          z-index: 999;
-          transition: right 0.3s ease;
-          overflow: hidden;
-        }
-
-        .mobile-menu.open {
-          right: 0;
-        }
-
-        .mobile-menu-scroll {
-          height: 100%;
-          overflow-y: auto;
-          padding: 16px;
-        }
-
-        .mobile-menu-section {
-          border-bottom: 1px solid #f0f0f0;
-        }
-
-        .mobile-menu-section:last-child {
-          border-bottom: none;
-        }
-
-        .mobile-menu-link {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 100%;
-          padding: 16px 12px;
-          font-size: 16px;
-          font-weight: 500;
-          color: #333;
-          text-decoration: none;
-          background: none;
-          border: none;
-          cursor: pointer;
-          text-align: left;
-        }
-
-        .mobile-menu-toggle {
-          font-weight: 600;
-        }
-
-        .mobile-arrow {
-          transition: transform 0.2s ease;
-        }
-
-        .mobile-arrow.expanded {
-          transform: rotate(180deg);
-        }
-
-        .mobile-submenu {
-          max-height: 0;
-          overflow: hidden;
-          transition: max-height 0.3s ease;
-          background: #fafafa;
-          margin: 0 -12px;
-          padding: 0 12px;
-        }
-
-        .mobile-submenu.expanded {
-          max-height: 500px;
-        }
-
-        .mobile-submenu-link {
-          display: block;
-          padding: 12px 20px;
-          font-size: 14px;
-          color: #555;
-          text-decoration: none;
-        }
-
-        .mobile-submenu-all {
-          color: #3b82f6;
-          font-weight: 500;
-        }
-
-        .mobile-menu-cta {
-          display: block;
-          margin-top: 16px;
-          padding: 14px;
-          font-size: 15px;
-          font-weight: 600;
-          color: #fff;
-          background: #111;
-          border-radius: 10px;
-          text-decoration: none;
-          text-align: center;
-        }
-
-        .mobile-overlay {
-          position: fixed;
-          inset: 0;
-          top: 72px;
-          background: rgba(0, 0, 0, 0.4);
-          z-index: 998;
-        }
-
-        @media (min-width: 1024px) {
-          .mobile-overlay {
-            display: none;
+          .mobile-only {
+            display: none !important;
           }
         }
       `}</style>
