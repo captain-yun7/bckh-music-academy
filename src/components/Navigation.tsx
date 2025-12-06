@@ -1,18 +1,22 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const navLinks = [
-  { name: '시설사진', href: '#facilities' },
-  { name: '공연사진', href: '#performances' },
-  { name: '합격영상', href: '#videos' },
-  { name: '배출뮤지션', href: '#musicians' },
-  { name: '오시는길', href: '#contact' },
+  { name: '시설사진', href: '/facilities', anchor: '#facilities' },
+  { name: '공연사진', href: '/performances', anchor: '#performances' },
+  { name: '합격영상', href: '/videos', anchor: '#videos' },
+  { name: '배출뮤지션', href: '/musicians', anchor: '#musicians' },
+  { name: '오시는길', href: '/contact', anchor: '#contact' },
 ];
 
 export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,29 +27,33 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const getHref = (link: typeof navLinks[0]) => {
+    return isHome ? link.anchor : link.href;
+  };
+
   return (
     <>
       <nav className={`nav ${isScrolled ? 'scrolled' : ''}`}>
         <div className="container">
           <div className="flex items-center justify-between">
-            {/* Logo - 301lab style */}
-            <a href="#" className="nav-logo">
+            {/* Logo */}
+            <Link href="/" className="nav-logo">
               경희실용음악학원
-            </a>
+            </Link>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-10">
               {navLinks.map((link) => (
-                <a key={link.name} href={link.href} className="nav-link">
+                <Link key={link.name} href={getHref(link)} className="nav-link">
                   {link.name}
-                </a>
+                </Link>
               ))}
             </div>
 
             {/* CTA Button */}
-            <a href="#contact" className="hidden md:block nav-cta">
+            <Link href={isHome ? '#contact' : '/contact'} className="hidden md:block nav-cta">
               상담신청
-            </a>
+            </Link>
 
             {/* Mobile Menu Button */}
             <button
@@ -83,22 +91,22 @@ export default function Navigation() {
       {/* Mobile Menu */}
       <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
         {navLinks.map((link) => (
-          <a
+          <Link
             key={link.name}
-            href={link.href}
+            href={getHref(link)}
             className="mobile-menu-link"
             onClick={() => setIsMobileMenuOpen(false)}
           >
             {link.name}
-          </a>
+          </Link>
         ))}
-        <a
-          href="#contact"
+        <Link
+          href={isHome ? '#contact' : '/contact'}
           className="mobile-menu-link"
           onClick={() => setIsMobileMenuOpen(false)}
         >
-          Contact
-        </a>
+          상담신청
+        </Link>
       </div>
     </>
   );
