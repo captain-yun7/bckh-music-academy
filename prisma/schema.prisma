@@ -8,19 +8,190 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// 사용자 (관리자, 강사, 학생)
-model User {
+// ==================== 사용자 관리 ====================
+
+// 관리자 계정
+model Admin {
   id            String    @id @default(cuid())
   email         String    @unique
-  name          String?
-  phone         String?
-  role          UserRole  @default(STUDENT)
+  password      String    // hashed password
+  name          String
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
 
-enum UserRole {
-  ADMIN
-  INSTRUCTOR
-  STUDENT
+// ==================== 강사 관리 ====================
+
+// 전공 분야
+model Subject {
+  id          String       @id @default(cuid())
+  name        String       @unique  // Vocal, Piano, Guitar 등
+  nameKo      String       // 보컬, 피아노, 기타 등
+  order       Int          @default(0)
+  instructors Instructor[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+// 강사
+model Instructor {
+  id          String   @id @default(cuid())
+  name        String
+  subjectId   String
+  subject     Subject  @relation(fields: [subjectId], references: [id])
+  image       String?  // 프로필 이미지 URL
+  bio         String?  // 약력
+  career      String?  // 경력 (텍스트)
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([subjectId])
+}
+
+// ==================== 공지사항 ====================
+
+model Notice {
+  id          String       @id @default(cuid())
+  title       String
+  content     String       @db.Text
+  category    NoticeCategory @default(GENERAL)
+  isPinned    Boolean      @default(false)
+  viewCount   Int          @default(0)
+  isPublished Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+enum NoticeCategory {
+  GENERAL      // 일반 공지
+  ADMISSION    // 입시 관련
+  EVENT        // 이벤트
+  INSTRUCTOR   // 강사 소식
+}
+
+// ==================== 합격자 명단 ====================
+
+model Admission {
+  id           String   @id @default(cuid())
+  studentName  String   // 학생 이름 (익명처리 가능: 김OO)
+  university   String   // 합격 대학
+  department   String   // 학과
+  year         Int      // 합격 연도
+  major        String?  // 전공 (보컬, 피아노 등)
+  isEarlyAdmission Boolean @default(false) // 수시/정시 구분
+  photoUrl     String?  // 합격 인증 사진
+  testimonial  String?  @db.Text // 합격 후기
+  isPublished  Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([year])
+}
+
+// ==================== 배출 뮤지션 ====================
+
+model Musician {
+  id          String   @id @default(cuid())
+  name        String
+  role        String   // 싱어송라이터, 프로듀서 등
+  achievement String?  // 주요 활동/성과
+  image       String?
+  snsUrl      String?  // SNS 링크
+  isPublished Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ==================== 상담 신청 ====================
+
+model Consultation {
+  id          String            @id @default(cuid())
+  name        String
+  phone       String
+  email       String?
+  age         String?           // 나이대
+  gender      Gender?
+  subject     String?           // 관심 전공
+  purpose     ConsultationPurpose?
+  message     String?           @db.Text
+  status      ConsultationStatus @default(PENDING)
+  memo        String?           @db.Text  // 관리자 메모
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum ConsultationPurpose {
+  ADMISSION    // 입시
+  AUDITION     // 오디션
+  PROFESSIONAL // 전문반
+  HOBBY        // 취미
+  OTHER        // 기타
+}
+
+enum ConsultationStatus {
+  PENDING      // 대기중
+  CONTACTED    // 연락완료
+  SCHEDULED    // 상담예약
+  COMPLETED    // 상담완료
+  CANCELLED    // 취소
+}
+
+// ==================== 시설/공연 사진 갤러리 ====================
+
+model GalleryImage {
+  id          String        @id @default(cuid())
+  title       String?
+  description String?
+  imageUrl    String
+  category    GalleryCategory
+  order       Int           @default(0)
+  isPublished Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+enum GalleryCategory {
+  FACILITY     // 시설 사진
+  PERFORMANCE  // 공연 사진
+  EVENT        // 이벤트 사진
+}
+
+// ==================== 영상 관리 ====================
+
+model Video {
+  id          String        @id @default(cuid())
+  title       String
+  description String?
+  youtubeUrl  String        // YouTube URL
+  thumbnailUrl String?
+  category    VideoCategory
+  isPublished Boolean       @default(true)
+  order       Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+enum VideoCategory {
+  ADMISSION_SUCCESS  // 합격 영상
+  TRAINEE           // 수강생 영상
+  MUSICIAN_LECTURE  // 뮤지션 특강
+  PERFORMANCE       // 공연 영상
+}
+
+// ==================== 사이트 설정 ====================
+
+model SiteSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String   @db.Text
+  description String?
+  updatedAt   DateTime @updatedAt
 }
