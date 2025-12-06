@@ -11,24 +11,69 @@ const instructorCategories = [
   {
     title: 'Vocal',
     instructors: [
-      { name: '보컬 강사 1', image: '/images/lecturers/vocal1.jpg' },
-      { name: '보컬 강사 2', image: '/images/lecturers/vocal2.jpg' },
-      { name: '보컬 강사 3', image: '/images/lecturers/vocal3.jpg' },
+      { name: '하수지', image: '/images/lecturers/vocal_하수지.jpeg' },
+      { name: '김수현', image: '/images/lecturers/vocal_김수현.jpeg' },
+      { name: '김한울', image: '/images/lecturers/vocal_김한울.jpg' },
+      { name: '이은지', image: '/images/lecturers/vocal_이은지.jpg' },
+      { name: '전용일', image: '/images/lecturers/vocal_전용일.jpg' },
+      { name: '홍연하', image: '/images/lecturers/vocal_홍연하.png' },
+      { name: '홍효진', image: '/images/lecturers/vocal_홍효진.png' },
     ],
   },
   {
     title: 'Piano',
     instructors: [
-      { name: '피아노 강사 1', image: '/images/lecturers/piano1.jpg' },
-      { name: '피아노 강사 2', image: '/images/lecturers/piano2.jpg' },
-      { name: '피아노 강사 3', image: '/images/lecturers/piano3.jpg' },
+      { name: '이민경', image: '/images/lecturers/piano_이민경.jpg' },
+      { name: '이소정', image: '/images/lecturers/piano_이소정.jpg' },
+      { name: '김하영', image: '/images/lecturers/piano_김하영.png' },
+      { name: '황진하', image: '/images/lecturers/piano_황진하.jpg' },
+      { name: '구자경', image: '/images/lecturers/piano_구자경.png' },
+      { name: '박한빈', image: '/images/lecturers/piano_박한빈.jpeg' },
     ],
   },
   {
     title: 'Guitar',
     instructors: [
-      { name: '기타 강사 1', image: '/images/lecturers/guitar1.jpg' },
-      { name: '기타 강사 2', image: '/images/lecturers/guitar2.jpg' },
+      { name: '노아(Noah)', image: '/images/lecturers/guitar_노아.jpg' },
+      { name: '김영롱', image: '/images/lecturers/guitar_김영롱.jpg' },
+      { name: '남윤찬', image: '/images/lecturers/guitar_남윤찬.jpg' },
+      { name: '공석배', image: '/images/lecturers/guitar_공석배.jpg' },
+      { name: '구자훈', image: '/images/lecturers/guitar_구자훈.png' },
+    ],
+  },
+  {
+    title: 'Bass',
+    instructors: [
+      { name: '현재천', image: '/images/lecturers/bass_현재천.jpg' },
+      { name: '신희주', image: '/images/lecturers/bass_신희주.png' },
+    ],
+  },
+  {
+    title: 'Drums',
+    instructors: [
+      { name: '유종광', image: '/images/lecturers/drums_유종광.jpeg' },
+    ],
+  },
+  {
+    title: 'Composing',
+    instructors: [
+      { name: '강혜민', image: '/images/lecturers/composing_강혜민.jpg' },
+      { name: '이재혁', image: '/images/lecturers/composing_이재혁.jpg' },
+      { name: '이은비', image: '/images/lecturers/composing_이은비.jpg' },
+      { name: '황진하', image: '/images/lecturers/composing_황진하.jpg' },
+    ],
+  },
+  {
+    title: 'MIDI/EMP',
+    instructors: [
+      { name: '이재혁', image: '/images/lecturers/midi_이재혁.jpg' },
+      { name: '조윤상', image: '/images/lecturers/midi_조윤상.jpg' },
+    ],
+  },
+  {
+    title: 'Dance',
+    instructors: [
+      { name: '양지은', image: '/images/lecturers/dance_양지은.jpeg' },
     ],
   },
 ];
