@@ -1,170 +1,205 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
-gsap.registerPlugin(ScrollTrigger);
-
-const instructorCategories = [
-  {
-    title: 'Vocal',
-    instructors: [
-      { name: '하수지', image: '/images/lecturers/vocal_하수지.jpeg' },
-      { name: '김수현', image: '/images/lecturers/vocal_김수현.jpeg' },
-      { name: '김한울', image: '/images/lecturers/vocal_김한울.jpg' },
-      { name: '이은지', image: '/images/lecturers/vocal_이은지.jpg' },
-      { name: '전용일', image: '/images/lecturers/vocal_전용일.jpg' },
-      { name: '홍연하', image: '/images/lecturers/vocal_홍연하.png' },
-      { name: '홍효진', image: '/images/lecturers/vocal_홍효진.png' },
-    ],
-  },
-  {
-    title: 'Piano',
-    instructors: [
-      { name: '이민경', image: '/images/lecturers/piano_이민경.jpg' },
-      { name: '이소정', image: '/images/lecturers/piano_이소정.jpg' },
-      { name: '김하영', image: '/images/lecturers/piano_김하영.png' },
-      { name: '황진하', image: '/images/lecturers/piano_황진하.jpg' },
-      { name: '구자경', image: '/images/lecturers/piano_구자경.png' },
-      { name: '박한빈', image: '/images/lecturers/piano_박한빈.jpeg' },
-    ],
-  },
-  {
-    title: 'Guitar',
-    instructors: [
-      { name: '노아(Noah)', image: '/images/lecturers/guitar_노아.jpg' },
-      { name: '김영롱', image: '/images/lecturers/guitar_김영롱.jpg' },
-      { name: '남윤찬', image: '/images/lecturers/guitar_남윤찬.jpg' },
-      { name: '공석배', image: '/images/lecturers/guitar_공석배.jpg' },
-      { name: '구자훈', image: '/images/lecturers/guitar_구자훈.png' },
-    ],
-  },
-  {
-    title: 'Bass',
-    instructors: [
-      { name: '현재천', image: '/images/lecturers/bass_현재천.jpg' },
-      { name: '신희주', image: '/images/lecturers/bass_신희주.png' },
-    ],
-  },
-  {
-    title: 'Drums',
-    instructors: [
-      { name: '유종광', image: '/images/lecturers/drums_유종광.jpeg' },
-    ],
-  },
-  {
-    title: 'Composing',
-    instructors: [
-      { name: '강혜민', image: '/images/lecturers/composing_강혜민.jpg' },
-      { name: '이재혁', image: '/images/lecturers/composing_이재혁.jpg' },
-      { name: '이은비', image: '/images/lecturers/composing_이은비.jpg' },
-      { name: '황진하', image: '/images/lecturers/composing_황진하.jpg' },
-    ],
-  },
-  {
-    title: 'MIDI/EMP',
-    instructors: [
-      { name: '이재혁', image: '/images/lecturers/midi_이재혁.jpg' },
-      { name: '조윤상', image: '/images/lecturers/midi_조윤상.jpg' },
-    ],
-  },
-  {
-    title: 'Dance',
-    instructors: [
-      { name: '양지은', image: '/images/lecturers/dance_양지은.jpeg' },
-    ],
-  },
+const allInstructors = [
+  { name: '하수지', category: 'Vocal', image: '/images/lecturers/vocal_하수지.jpeg' },
+  { name: '김수현', category: 'Vocal', image: '/images/lecturers/vocal_김수현.jpeg' },
+  { name: '김한울', category: 'Vocal', image: '/images/lecturers/vocal_김한울.jpg' },
+  { name: '이은지', category: 'Vocal', image: '/images/lecturers/vocal_이은지.jpg' },
+  { name: '전용일', category: 'Vocal', image: '/images/lecturers/vocal_전용일.jpg' },
+  { name: '홍연하', category: 'Vocal', image: '/images/lecturers/vocal_홍연하.png' },
+  { name: '이민경', category: 'Piano', image: '/images/lecturers/piano_이민경.jpg' },
+  { name: '이소정', category: 'Piano', image: '/images/lecturers/piano_이소정.jpg' },
+  { name: '김하영', category: 'Piano', image: '/images/lecturers/piano_김하영.png' },
+  { name: '황진하', category: 'Piano', image: '/images/lecturers/piano_황진하.jpg' },
+  { name: '노아(Noah)', category: 'Guitar', image: '/images/lecturers/guitar_노아.jpg' },
+  { name: '김영롱', category: 'Guitar', image: '/images/lecturers/guitar_김영롱.jpg' },
+  { name: '남윤찬', category: 'Guitar', image: '/images/lecturers/guitar_남윤찬.jpg' },
+  { name: '현재천', category: 'Bass', image: '/images/lecturers/bass_현재천.jpg' },
+  { name: '유종광', category: 'Drums', image: '/images/lecturers/drums_유종광.jpeg' },
+  { name: '강혜민', category: 'Composing', image: '/images/lecturers/composing_강혜민.jpg' },
+  { name: '이재혁', category: 'MIDI', image: '/images/lecturers/midi_이재혁.jpg' },
+  { name: '양지은', category: 'Dance', image: '/images/lecturers/dance_양지은.jpeg' },
 ];
 
 export default function InstructorsSection() {
-  const sectionRef = useRef<HTMLElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.instructor-item', {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
-        },
-        y: 40,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: 'power3.out',
+  const checkScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+    }
+  };
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = 320;
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
       });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+      setTimeout(checkScroll, 300);
+    }
+  };
 
   return (
-    <section id="instructors" ref={sectionRef} style={{ padding: '120px 0', backgroundColor: '#111' }}>
+    <section id="instructors" style={{ padding: '100px 0', backgroundColor: '#111' }}>
       <div className="container">
-        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '24px' }}>
-          LECTURER
-        </p>
-        <h2 style={{ fontSize: 'clamp(40px, 6vw, 64px)', fontWeight: 700, color: '#fff', marginBottom: '24px' }}>
-          전공별 강사진
-        </h2>
-        <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '18px', marginBottom: '60px', maxWidth: '600px' }}>
-          현직에서 활동 중인 전문 뮤지션들이 직접 지도합니다.
-        </p>
-
-        {/* Instructor Categories */}
-        {instructorCategories.map((category, catIndex) => (
-          <div key={catIndex} style={{ marginBottom: '60px' }}>
-            <h3 style={{ fontSize: '24px', fontWeight: 700, color: '#fff', marginBottom: '24px' }}>
-              {category.title}
-            </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
-              {category.instructors.map((instructor, index) => (
-                <div
-                  key={index}
-                  className="instructor-item"
-                  style={{
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                    backgroundColor: '#1a1a1a',
-                  }}
-                >
-                  <div style={{ position: 'relative', aspectRatio: '3/4' }}>
-                    <Image
-                      src={instructor.image}
-                      alt={instructor.name}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 50vw, 200px"
-                    />
-                  </div>
-                  <div style={{ padding: '16px', textAlign: 'center' }}>
-                    <p style={{ fontSize: '16px', fontWeight: 600, color: '#fff' }}>
-                      {instructor.name}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px', flexWrap: 'wrap', gap: '20px' }}>
+          <div>
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>
+              INSTRUCTORS
+            </p>
+            <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>
+              전문 강사진
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '16px' }}>
+              현직에서 활동 중인 전문 뮤지션들이 직접 지도합니다.
+            </p>
           </div>
-        ))}
 
-        {/* Instructor Info */}
-        <div style={{ marginTop: '60px', padding: '40px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '16px' }}>
-          <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px', marginBottom: '32px', fontWeight: 600 }}>강사진 특징</p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '40px' }}>
-            <div>
-              <p style={{ fontSize: '20px', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>현직 뮤지션 & 전문가</p>
-              <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.8 }}>실제 음악 현장에서 활동 중인 전문가들이 직접 지도합니다.</p>
-            </div>
-            <div>
-              <p style={{ fontSize: '20px', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>최강 3인 멘토링 시스템</p>
-              <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.8 }}>담당 강사, 부강사, 스텝강사가 함께 체계적으로 지도합니다.</p>
-            </div>
+          {/* Navigation Arrows */}
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <button
+              onClick={() => scroll('left')}
+              disabled={!canScrollLeft}
+              style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '50%',
+                border: '1px solid rgba(255,255,255,0.3)',
+                backgroundColor: 'transparent',
+                color: canScrollLeft ? '#fff' : 'rgba(255,255,255,0.3)',
+                cursor: canScrollLeft ? 'pointer' : 'default',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s',
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <button
+              onClick={() => scroll('right')}
+              disabled={!canScrollRight}
+              style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '50%',
+                border: '1px solid rgba(255,255,255,0.3)',
+                backgroundColor: 'transparent',
+                color: canScrollRight ? '#fff' : 'rgba(255,255,255,0.3)',
+                cursor: canScrollRight ? 'pointer' : 'default',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s',
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
           </div>
         </div>
+
+        {/* Carousel */}
+        <div
+          ref={scrollRef}
+          onScroll={checkScroll}
+          style={{
+            display: 'flex',
+            gap: '20px',
+            overflowX: 'auto',
+            scrollSnapType: 'x mandatory',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            paddingBottom: '20px',
+          }}
+        >
+          {allInstructors.map((instructor, index) => (
+            <div
+              key={index}
+              style={{
+                flex: '0 0 200px',
+                scrollSnapAlign: 'start',
+                borderRadius: '16px',
+                overflow: 'hidden',
+                backgroundColor: '#1a1a1a',
+              }}
+            >
+              <div style={{ position: 'relative', aspectRatio: '3/4' }}>
+                <Image
+                  src={instructor.image}
+                  alt={instructor.name}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="200px"
+                />
+                <div style={{
+                  position: 'absolute',
+                  top: '12px',
+                  left: '12px',
+                  padding: '4px 10px',
+                  backgroundColor: 'rgba(0,0,0,0.7)',
+                  borderRadius: '20px',
+                  fontSize: '12px',
+                  color: '#fff',
+                  fontWeight: 500,
+                }}>
+                  {instructor.category}
+                </div>
+              </div>
+              <div style={{ padding: '16px', textAlign: 'center' }}>
+                <p style={{ fontSize: '16px', fontWeight: 600, color: '#fff' }}>
+                  {instructor.name}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* View All Link */}
+        <div style={{ textAlign: 'center', marginTop: '40px' }}>
+          <Link
+            href="/instructors"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '14px 28px',
+              border: '1px solid rgba(255,255,255,0.3)',
+              borderRadius: '8px',
+              color: '#fff',
+              textDecoration: 'none',
+              fontSize: '15px',
+              fontWeight: 500,
+              transition: 'all 0.2s',
+            }}
+          >
+            전체 강사진 보기
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
       </div>
+
+      <style jsx>{`
+        div::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 }

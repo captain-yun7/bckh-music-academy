@@ -1,11 +1,8 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
-
-gsap.registerPlugin(ScrollTrigger);
+import Link from 'next/link';
 
 const facilities = [
   { title: '레코딩 스튜디오', image: '/images/facilities/facility01.jpg' },
@@ -23,53 +20,114 @@ const facilities = [
 ];
 
 export default function FacilitiesSection() {
-  const sectionRef = useRef<HTMLElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.facility-item', {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
-        },
-        y: 40,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: 'power3.out',
+  const checkScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+    }
+  };
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = 350;
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
       });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+      setTimeout(checkScroll, 300);
+    }
+  };
 
   return (
-    <section
-      id="facilities"
-      ref={sectionRef}
-      style={{ padding: '120px 0', backgroundColor: '#f8f8f8' }}
-    >
+    <section id="facilities" style={{ padding: '100px 0', backgroundColor: '#f8f8f8' }}>
       <div className="container">
-        {/* Section Header */}
-        <p style={{ color: '#999', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '24px' }}>
-          FACILITIES
-        </p>
-        <h2 style={{ fontSize: 'clamp(40px, 6vw, 64px)', fontWeight: 700, color: '#000', marginBottom: '24px' }}>
-          시설 사진
-        </h2>
-        <p style={{ color: '#666', fontSize: '18px', marginBottom: '60px', maxWidth: '600px' }}>
-          최신 장비와 쾌적한 환경에서 음악에만 집중할 수 있습니다.
-        </p>
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px', flexWrap: 'wrap', gap: '20px' }}>
+          <div>
+            <p style={{ color: '#999', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>
+              FACILITIES
+            </p>
+            <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#000', marginBottom: '12px' }}>
+              시설 안내
+            </h2>
+            <p style={{ color: '#666', fontSize: '16px' }}>
+              최신 장비와 쾌적한 환경에서 음악에만 집중할 수 있습니다.
+            </p>
+          </div>
 
-        {/* Facilities Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+          {/* Navigation Arrows */}
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <button
+              onClick={() => scroll('left')}
+              disabled={!canScrollLeft}
+              style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '50%',
+                border: '1px solid #ddd',
+                backgroundColor: '#fff',
+                color: canScrollLeft ? '#333' : '#ccc',
+                cursor: canScrollLeft ? 'pointer' : 'default',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s',
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <button
+              onClick={() => scroll('right')}
+              disabled={!canScrollRight}
+              style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '50%',
+                border: '1px solid #ddd',
+                backgroundColor: '#fff',
+                color: canScrollRight ? '#333' : '#ccc',
+                cursor: canScrollRight ? 'pointer' : 'default',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s',
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Carousel */}
+        <div
+          ref={scrollRef}
+          onScroll={checkScroll}
+          style={{
+            display: 'flex',
+            gap: '20px',
+            overflowX: 'auto',
+            scrollSnapType: 'x mandatory',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            paddingBottom: '20px',
+          }}
+        >
           {facilities.map((item, index) => (
             <div
               key={index}
-              className="facility-item"
               style={{
-                borderRadius: '12px',
+                flex: '0 0 320px',
+                scrollSnapAlign: 'start',
+                borderRadius: '16px',
                 overflow: 'hidden',
                 backgroundColor: '#fff',
                 boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
@@ -80,19 +138,51 @@ export default function FacilitiesSection() {
                   src={item.image}
                   alt={item.title}
                   fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 25vw"
+                  style={{ objectFit: 'cover' }}
+                  sizes="320px"
                 />
               </div>
-              <div style={{ padding: '16px', textAlign: 'center' }}>
-                <p style={{ fontSize: '16px', fontWeight: 600, color: '#000' }}>
+              <div style={{ padding: '20px', textAlign: 'center' }}>
+                <p style={{ fontSize: '17px', fontWeight: 600, color: '#000' }}>
                   {item.title}
                 </p>
               </div>
             </div>
           ))}
         </div>
+
+        {/* View All Link */}
+        <div style={{ textAlign: 'center', marginTop: '40px' }}>
+          <Link
+            href="/facilities"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '14px 28px',
+              border: '1px solid #ddd',
+              borderRadius: '8px',
+              color: '#333',
+              textDecoration: 'none',
+              fontSize: '15px',
+              fontWeight: 500,
+              backgroundColor: '#fff',
+              transition: 'all 0.2s',
+            }}
+          >
+            전체 시설 보기
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
       </div>
+
+      <style jsx>{`
+        div::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 }
