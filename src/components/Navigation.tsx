@@ -152,7 +152,7 @@ export default function Navigation() {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '2px',
+              gap: '8px',
             }}
             className="desktop-nav"
           >
@@ -168,9 +168,9 @@ export default function Navigation() {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: '3px',
-                    padding: '8px 10px',
-                    fontSize: '14px',
+                    gap: '4px',
+                    padding: '10px 20px',
+                    fontSize: '15px',
                     fontWeight: 500,
                     color: '#333',
                     textDecoration: 'none',
