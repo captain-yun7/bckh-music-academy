@@ -33,7 +33,7 @@ export default function ArtHighschoolPage() {
     <SubPageLayout
       title="예술고등학교"
       subtitle="예술고 입시 안내"
-      bgImage="/images/about/intro_a.jpg"
+      bgImage="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

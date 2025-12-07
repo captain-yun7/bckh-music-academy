@@ -13,7 +13,7 @@ export default function HTPage() {
     <SubPageLayout
       title="HT 프로그램"
       subtitle="Harmony Training - 그룹 합주 프로그램"
-      bgImage="/images/about/intro_f.jpg"
+      bgImage="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

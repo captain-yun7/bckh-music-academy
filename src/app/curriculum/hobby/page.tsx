@@ -13,7 +13,7 @@ export default function HobbyCoursePage() {
     <SubPageLayout
       title="취미반"
       subtitle="음악을 즐기는 가장 쉬운 방법"
-      bgImage="/images/about/intro_c.jpg"
+      bgImage="https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

@@ -42,7 +42,7 @@ export default function AdmissionsPage() {
     <SubPageLayout
       title="합격자명단"
       subtitle="경희실용음악학원 음대 합격 현황"
-      bgImage="/images/about/intro_a.jpg"
+      bgImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&q=80"
     >
       {/* Stats Section */}
       <section style={{ padding: '60px 0', backgroundColor: '#000' }}>

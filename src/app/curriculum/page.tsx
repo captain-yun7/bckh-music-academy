@@ -46,7 +46,7 @@ export default function CurriculumPage() {
     <SubPageLayout
       title="커리큘럼"
       subtitle="목표에 맞는 맞춤형 교육 과정"
-      bgImage="/images/about/intro_c.jpg"
+      bgImage="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '60px 0', backgroundColor: '#000' }}>

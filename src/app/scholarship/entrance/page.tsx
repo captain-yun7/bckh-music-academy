@@ -13,7 +13,7 @@ export default function EntranceScholarshipPage() {
     <SubPageLayout
       title="입학장학"
       subtitle="시작부터 함께하는 장학 혜택"
-      bgImage="/images/about/intro_a.jpg"
+      bgImage="https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

@@ -15,7 +15,7 @@ export default function ProfessionalCoursePage() {
     <SubPageLayout
       title="전문반"
       subtitle="프로 뮤지션을 향한 고급 과정"
-      bgImage="/images/about/intro_c.jpg"
+      bgImage="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

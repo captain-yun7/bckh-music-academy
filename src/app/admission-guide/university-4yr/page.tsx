@@ -45,7 +45,7 @@ export default function University4YrPage() {
     <SubPageLayout
       title="4년제대학"
       subtitle="4년제 대학 실용음악과 입시 안내"
-      bgImage="/images/about/intro_a.jpg"
+      bgImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

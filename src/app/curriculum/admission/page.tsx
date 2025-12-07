@@ -21,7 +21,7 @@ export default function AdmissionCoursePage() {
     <SubPageLayout
       title="입시반"
       subtitle="실용음악 대학 합격을 위한 체계적인 준비"
-      bgImage="/images/about/intro_c.jpg"
+      bgImage="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

@@ -50,7 +50,7 @@ export default function CoursesPage() {
     <SubPageLayout
       title="교육과정"
       subtitle="체계적인 커리큘럼으로 음악의 꿈을 실현하세요"
-      bgImage="/images/curriculum/history.jpg"
+      bgImage="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1920&q=80"
     >
       {/* Courses */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

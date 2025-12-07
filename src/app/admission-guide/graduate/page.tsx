@@ -6,7 +6,7 @@ export default function GraduatePage() {
     <SubPageLayout
       title="대학원/편입"
       subtitle="대학원 진학 및 편입 안내"
-      bgImage="/images/about/intro_a.jpg"
+      bgImage="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

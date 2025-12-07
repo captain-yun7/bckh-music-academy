@@ -38,7 +38,7 @@ export default function ProgramsPage() {
     <SubPageLayout
       title="특별프로그램"
       subtitle="차별화된 경희만의 프로그램"
-      bgImage="/images/about/intro_f.jpg"
+      bgImage="https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '60px 0', backgroundColor: '#000' }}>

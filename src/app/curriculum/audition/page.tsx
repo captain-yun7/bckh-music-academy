@@ -15,7 +15,7 @@ export default function AuditionCoursePage() {
     <SubPageLayout
       title="오디션반"
       subtitle="프로 데뷔를 위한 집중 트레이닝"
-      bgImage="/images/about/intro_c.jpg"
+      bgImage="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

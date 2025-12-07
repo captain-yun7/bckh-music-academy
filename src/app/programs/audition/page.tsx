@@ -11,7 +11,7 @@ export default function RegularAuditionPage() {
     <SubPageLayout
       title="정기오디션"
       subtitle="기획사 관계자 초청 오디션"
-      bgImage="/images/about/intro_f.jpg"
+      bgImage="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

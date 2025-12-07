@@ -39,7 +39,7 @@ export default function University2YrPage() {
     <SubPageLayout
       title="2,3년제대학"
       subtitle="전문대학 실용음악과 입시 안내"
-      bgImage="/images/about/intro_a.jpg"
+      bgImage="https://images.unsplash.com/photo-1562774053-701939374585?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

@@ -37,7 +37,7 @@ export default function AdmissionGuidePage() {
     <SubPageLayout
       title="입시요강"
       subtitle="대학별 입시 정보 안내"
-      bgImage="/images/about/intro_a.jpg"
+      bgImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '60px 0', backgroundColor: '#000' }}>
