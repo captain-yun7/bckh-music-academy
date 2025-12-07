@@ -1,11 +1,8 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef, useState } from 'react';
 import Image from 'next/image';
-
-gsap.registerPlugin(ScrollTrigger);
+import Link from 'next/link';
 
 const performances = [
   {
@@ -41,52 +38,113 @@ const performances = [
 ];
 
 export default function PerformancesSection() {
-  const sectionRef = useRef<HTMLElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.performance-item', {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
-        },
-        y: 40,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: 'power3.out',
+  const checkScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+    }
+  };
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = 350;
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
       });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+      setTimeout(checkScroll, 300);
+    }
+  };
 
   return (
-    <section
-      id="performances"
-      ref={sectionRef}
-      style={{ padding: '120px 0', backgroundColor: '#000' }}
-    >
+    <section id="performances" style={{ padding: '100px 0', backgroundColor: '#000' }}>
       <div className="container">
-        {/* Section Header */}
-        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '24px' }}>
-          PERFORMANCES
-        </p>
-        <h2 style={{ fontSize: 'clamp(40px, 6vw, 64px)', fontWeight: 700, color: '#fff', marginBottom: '24px' }}>
-          공연 사진
-        </h2>
-        <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '18px', marginBottom: '60px', maxWidth: '600px' }}>
-          다양한 무대 경험을 통해 실전 감각을 키워갑니다.
-        </p>
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px', flexWrap: 'wrap', gap: '20px' }}>
+          <div>
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>
+              PERFORMANCES
+            </p>
+            <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>
+              공연 사진
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '16px' }}>
+              다양한 무대 경험을 통해 실전 감각을 키워갑니다.
+            </p>
+          </div>
 
-        {/* Performances Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+          {/* Navigation Arrows */}
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <button
+              onClick={() => scroll('left')}
+              disabled={!canScrollLeft}
+              style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '50%',
+                border: '1px solid rgba(255,255,255,0.3)',
+                backgroundColor: 'transparent',
+                color: canScrollLeft ? '#fff' : 'rgba(255,255,255,0.3)',
+                cursor: canScrollLeft ? 'pointer' : 'default',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s',
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <button
+              onClick={() => scroll('right')}
+              disabled={!canScrollRight}
+              style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '50%',
+                border: '1px solid rgba(255,255,255,0.3)',
+                backgroundColor: 'transparent',
+                color: canScrollRight ? '#fff' : 'rgba(255,255,255,0.3)',
+                cursor: canScrollRight ? 'pointer' : 'default',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s',
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Carousel */}
+        <div
+          ref={scrollRef}
+          onScroll={checkScroll}
+          style={{
+            display: 'flex',
+            gap: '20px',
+            overflowX: 'auto',
+            scrollSnapType: 'x mandatory',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            paddingBottom: '20px',
+          }}
+        >
           {performances.map((item, index) => (
             <div
               key={index}
-              className="performance-item"
               style={{
+                flex: '0 0 320px',
+                scrollSnapAlign: 'start',
                 borderRadius: '16px',
                 overflow: 'hidden',
                 backgroundColor: '#111',
@@ -97,22 +155,53 @@ export default function PerformancesSection() {
                   src={item.image}
                   alt={item.title}
                   fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  style={{ objectFit: 'cover' }}
+                  sizes="320px"
                 />
               </div>
-              <div style={{ padding: '24px' }}>
-                <p style={{ fontSize: '20px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>
+              <div style={{ padding: '20px', textAlign: 'center' }}>
+                <p style={{ fontSize: '18px', fontWeight: 600, color: '#fff', marginBottom: '4px' }}>
                   {item.title}
                 </p>
-                <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.5)' }}>
+                <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)' }}>
                   {item.desc}
                 </p>
               </div>
             </div>
           ))}
         </div>
+
+        {/* View All Link */}
+        <div style={{ textAlign: 'center', marginTop: '40px' }}>
+          <Link
+            href="/performances"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '14px 28px',
+              border: '1px solid rgba(255,255,255,0.3)',
+              borderRadius: '8px',
+              color: '#fff',
+              textDecoration: 'none',
+              fontSize: '15px',
+              fontWeight: 500,
+              transition: 'all 0.2s',
+            }}
+          >
+            전체 공연 보기
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
       </div>
+
+      <style jsx>{`
+        div::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 }

@@ -1,16 +1,12 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useRef, useState } from 'react';
+import Link from 'next/link';
 
-gsap.registerPlugin(ScrollTrigger);
-
-// 실제 유튜브 영상 ID로 교체 필요
 const videos = [
   {
     title: '2024 서울예대 합격생 인터뷰',
-    youtubeId: 'dQw4w9WgXcQ', // 예시 ID - 실제 영상으로 교체
+    youtubeId: 'dQw4w9WgXcQ',
     year: '2024',
   },
   {
@@ -28,55 +24,126 @@ const videos = [
     youtubeId: 'dQw4w9WgXcQ',
     year: '2023',
   },
+  {
+    title: '2023 백제예대 합격 인터뷰',
+    youtubeId: 'dQw4w9WgXcQ',
+    year: '2023',
+  },
+  {
+    title: '2022 한양대 실용음악 합격',
+    youtubeId: 'dQw4w9WgXcQ',
+    year: '2022',
+  },
 ];
 
 export default function VideosSection() {
-  const sectionRef = useRef<HTMLElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.video-item', {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
-        },
-        y: 40,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.15,
-        ease: 'power3.out',
+  const checkScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+    }
+  };
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = 400;
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
       });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+      setTimeout(checkScroll, 300);
+    }
+  };
 
   return (
-    <section
-      id="videos"
-      ref={sectionRef}
-      style={{ padding: '120px 0', backgroundColor: '#f8f8f8' }}
-    >
+    <section id="videos" style={{ padding: '100px 0', backgroundColor: '#f8f8f8' }}>
       <div className="container">
-        {/* Section Header */}
-        <p style={{ color: '#999', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '24px' }}>
-          SUCCESS STORIES
-        </p>
-        <h2 style={{ fontSize: 'clamp(40px, 6vw, 64px)', fontWeight: 700, color: '#000', marginBottom: '24px' }}>
-          합격 영상
-        </h2>
-        <p style={{ color: '#666', fontSize: '18px', marginBottom: '60px', maxWidth: '600px' }}>
-          경희실용음악학원 수강생들의 합격 후기와 인터뷰 영상입니다.
-        </p>
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px', flexWrap: 'wrap', gap: '20px' }}>
+          <div>
+            <p style={{ color: '#999', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>
+              SUCCESS STORIES
+            </p>
+            <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#000', marginBottom: '12px' }}>
+              합격 영상
+            </h2>
+            <p style={{ color: '#666', fontSize: '16px' }}>
+              경희실용음악학원 수강생들의 합격 후기와 인터뷰 영상입니다.
+            </p>
+          </div>
 
-        {/* Videos Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '32px' }}>
+          {/* Navigation Arrows */}
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <button
+              onClick={() => scroll('left')}
+              disabled={!canScrollLeft}
+              style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '50%',
+                border: '1px solid #ddd',
+                backgroundColor: '#fff',
+                color: canScrollLeft ? '#333' : '#ccc',
+                cursor: canScrollLeft ? 'pointer' : 'default',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s',
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <button
+              onClick={() => scroll('right')}
+              disabled={!canScrollRight}
+              style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '50%',
+                border: '1px solid #ddd',
+                backgroundColor: '#fff',
+                color: canScrollRight ? '#333' : '#ccc',
+                cursor: canScrollRight ? 'pointer' : 'default',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s',
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Carousel */}
+        <div
+          ref={scrollRef}
+          onScroll={checkScroll}
+          style={{
+            display: 'flex',
+            gap: '20px',
+            overflowX: 'auto',
+            scrollSnapType: 'x mandatory',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            paddingBottom: '20px',
+          }}
+        >
           {videos.map((video, index) => (
             <div
               key={index}
-              className="video-item"
               style={{
+                flex: '0 0 380px',
+                scrollSnapAlign: 'start',
                 borderRadius: '16px',
                 overflow: 'hidden',
                 backgroundColor: '#fff',
@@ -95,20 +162,20 @@ export default function VideosSection() {
                   style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
                 />
               </div>
-              <div style={{ padding: '24px' }}>
+              <div style={{ padding: '20px' }}>
                 <span style={{
                   display: 'inline-block',
                   backgroundColor: '#000',
                   color: '#fff',
                   fontSize: '12px',
                   fontWeight: 600,
-                  padding: '6px 12px',
+                  padding: '4px 10px',
                   borderRadius: '100px',
-                  marginBottom: '12px',
+                  marginBottom: '10px',
                 }}>
                   {video.year}
                 </span>
-                <p style={{ fontSize: '18px', fontWeight: 700, color: '#000' }}>
+                <p style={{ fontSize: '16px', fontWeight: 600, color: '#000' }}>
                   {video.title}
                 </p>
               </div>
@@ -116,27 +183,37 @@ export default function VideosSection() {
           ))}
         </div>
 
-        {/* More Videos Link */}
-        <div style={{ textAlign: 'center', marginTop: '60px' }}>
-          <a
-            href="https://www.youtube.com/@khmusic"
-            target="_blank"
-            rel="noopener noreferrer"
+        {/* View All Link */}
+        <div style={{ textAlign: 'center', marginTop: '40px' }}>
+          <Link
+            href="/success-videos"
             style={{
-              display: 'inline-block',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '14px 28px',
               backgroundColor: '#000',
+              borderRadius: '8px',
               color: '#fff',
-              fontSize: '16px',
-              fontWeight: 600,
-              padding: '16px 40px',
-              borderRadius: '100px',
               textDecoration: 'none',
+              fontSize: '15px',
+              fontWeight: 500,
+              transition: 'all 0.2s',
             }}
           >
             더 많은 영상 보기
-          </a>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </Link>
         </div>
       </div>
+
+      <style jsx>{`
+        div::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 }
