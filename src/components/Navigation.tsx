@@ -16,10 +16,26 @@ interface NavLink {
 }
 
 const navLinks: NavLink[] = [
-  { name: '학원소개', href: '/about' },
-  { name: '합격자명단', href: '/admissions' },
-  { name: '합격자동영상', href: '/success-videos' },
-  { name: '배출뮤지션', href: '/musicians' },
+  {
+    name: '학원소개',
+    href: '/about',
+    children: [
+      { name: '교육이념', href: '/about' },
+      { name: '출신뮤지션', href: '/musicians' },
+      { name: '장학제도', href: '/scholarship' },
+      { name: '특별프로그램', href: '/programs' },
+      { name: '사진', href: '/facilities' },
+      { name: '오시는 길', href: '/contact' },
+    ],
+  },
+  {
+    name: '합격자명단',
+    href: '/admissions',
+    children: [
+      { name: '연도별 합격자', href: '/admissions' },
+      { name: '합격자 동영상', href: '/success-videos' },
+    ],
+  },
   {
     name: '강사진',
     href: '/instructors',
@@ -35,8 +51,6 @@ const navLinks: NavLink[] = [
       { name: '댄스', href: '/instructors/dance' },
     ],
   },
-  { name: '내부시설', href: '/facilities' },
-  { name: '공연사진', href: '/performances' },
   {
     name: '커리큘럼',
     href: '/curriculum',
@@ -45,24 +59,6 @@ const navLinks: NavLink[] = [
       { name: '오디션반', href: '/curriculum/audition' },
       { name: '전문반', href: '/curriculum/professional' },
       { name: '취미반', href: '/curriculum/hobby' },
-    ],
-  },
-  {
-    name: '장학제도',
-    href: '/scholarship',
-    children: [
-      { name: '입학장학', href: '/scholarship/entrance' },
-      { name: '성적장학', href: '/scholarship/merit' },
-    ],
-  },
-  {
-    name: '특별프로그램',
-    href: '/programs',
-    children: [
-      { name: 'HT 프로그램', href: '/programs/ht' },
-      { name: '케이크콘서트', href: '/programs/cake-concert' },
-      { name: '수강생음반', href: '/programs/album' },
-      { name: '정기오디션', href: '/programs/audition' },
     ],
   },
   {
@@ -447,7 +443,7 @@ export default function Navigation() {
           display: block !important;
         }
 
-        @media (min-width: 1280px) {
+        @media (min-width: 900px) {
           .desktop-nav {
             display: flex !important;
           }
