@@ -6,40 +6,46 @@ import Link from 'next/link';
 
 const musicians = [
   {
-    name: '문수진',
-    role: '싱어송라이터',
-    achievement: '음원 발매 및 활발한 활동',
-    image: '/images/pride/debut_moon.jpg',
+    name: '문별',
+    generation: '4기',
+    role: '마마무 멤버',
+    achievement: '마마무 활동중',
+    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=500&fit=crop',
   },
   {
-    name: '포테이토',
-    role: '아티스트',
-    achievement: '음원 발매',
-    image: '/images/pride/debut_potato.jpg',
+    name: '나다',
+    generation: '3기',
+    role: '래퍼 / 방송인',
+    achievement: '와썹, 쇼미더머니3, 언프리티랩스타',
+    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=500&fit=crop',
   },
   {
-    name: '리사',
-    role: '아티스트',
-    achievement: '활발한 음악 활동',
-    image: '/images/pride/risa.jpg',
+    name: '신이삭',
+    generation: '5기',
+    role: '세션 드러머',
+    achievement: '악뮤/에픽하이/잔나비 세션',
+    image: 'https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?w=400&h=500&fit=crop',
   },
   {
-    name: '수강생 A',
-    role: '프로 뮤지션',
-    achievement: '데뷔 및 활동',
-    image: '/images/pride/debut_a.jpg',
+    name: '이종훈',
+    generation: '10기',
+    role: '슈퍼밴드 출연',
+    achievement: '케빈오와 애프터문',
+    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&h=500&fit=crop',
   },
   {
-    name: '수강생 B',
-    role: '프로 뮤지션',
-    achievement: '데뷔 및 활동',
-    image: '/images/pride/debut_b.jpg',
+    name: '고석우',
+    generation: '13기',
+    role: 'KPOP 작곡가',
+    achievement: '화사, 로시 등 곡 작업',
+    image: 'https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=400&h=500&fit=crop',
   },
   {
-    name: '수강생 C',
-    role: '프로 뮤지션',
-    achievement: '데뷔 및 활동',
-    image: '/images/pride/debut_c.jpg',
+    name: '박진오',
+    generation: '14기',
+    role: '래퍼',
+    achievement: '고등랩퍼, 쇼미더머니',
+    image: 'https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=400&h=500&fit=crop',
   },
 ];
 
@@ -164,12 +170,25 @@ export default function MusiciansSection() {
                   style={{ objectFit: 'cover' }}
                   sizes="260px"
                 />
+                <div style={{
+                  position: 'absolute',
+                  top: '12px',
+                  left: '12px',
+                  backgroundColor: '#ffc50a',
+                  color: '#000',
+                  padding: '4px 12px',
+                  borderRadius: '20px',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                }}>
+                  {musician.generation}
+                </div>
               </div>
               <div style={{ padding: '20px', textAlign: 'center' }}>
                 <p style={{ fontSize: '18px', fontWeight: 600, color: '#fff', marginBottom: '6px' }}>
                   {musician.name}
                 </p>
-                <p style={{ fontSize: '13px', color: '#3b82f6', fontWeight: 600, marginBottom: '6px' }}>
+                <p style={{ fontSize: '13px', color: '#ffc50a', fontWeight: 600, marginBottom: '6px' }}>
                   {musician.role}
                 </p>
                 <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)' }}>
@@ -189,12 +208,12 @@ export default function MusiciansSection() {
               alignItems: 'center',
               gap: '8px',
               padding: '14px 28px',
-              border: '1px solid rgba(255,255,255,0.3)',
+              backgroundColor: '#ffc50a',
               borderRadius: '8px',
-              color: '#fff',
+              color: '#000',
               textDecoration: 'none',
               fontSize: '15px',
-              fontWeight: 500,
+              fontWeight: 600,
               transition: 'all 0.2s',
             }}
           >
@@ -211,30 +230,31 @@ export default function MusiciansSection() {
           gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
           gap: '40px',
           marginTop: '80px',
-          paddingTop: '60px',
-          borderTop: '1px solid rgba(255,255,255,0.1)',
+          padding: '60px 40px',
+          backgroundColor: '#ffc50a',
+          borderRadius: '20px',
         }}>
           <div style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#fff', lineHeight: 1 }}>
-              25+
+            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#000', lineHeight: 1 }}>
+              18+
             </p>
-            <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.5)', marginTop: '12px' }}>
+            <p style={{ fontSize: '15px', color: 'rgba(0,0,0,0.7)', marginTop: '12px' }}>
               Years of History
             </p>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#fff', lineHeight: 1 }}>
+            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#000', lineHeight: 1 }}>
               1000+
             </p>
-            <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.5)', marginTop: '12px' }}>
+            <p style={{ fontSize: '15px', color: 'rgba(0,0,0,0.7)', marginTop: '12px' }}>
               합격생 배출
             </p>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#fff', lineHeight: 1 }}>
+            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#000', lineHeight: 1 }}>
               100+
             </p>
-            <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.5)', marginTop: '12px' }}>
+            <p style={{ fontSize: '15px', color: 'rgba(0,0,0,0.7)', marginTop: '12px' }}>
               프로 뮤지션 배출
             </p>
           </div>

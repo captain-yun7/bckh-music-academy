@@ -24,6 +24,7 @@ const navLinks: NavLink[] = [
       { name: '출신뮤지션', href: '/musicians' },
       { name: '장학제도', href: '/scholarship' },
       { name: '특별프로그램', href: '/programs' },
+      { name: '오픈스테이지', href: '/programs/open-stage' },
       { name: '사진', href: '/facilities' },
       { name: '오시는 길', href: '/contact' },
     ],

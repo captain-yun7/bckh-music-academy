@@ -165,8 +165,8 @@ export default function VideosSection() {
               <div style={{ padding: '20px' }}>
                 <span style={{
                   display: 'inline-block',
-                  backgroundColor: '#000',
-                  color: '#fff',
+                  backgroundColor: '#ffc50a',
+                  color: '#000',
                   fontSize: '12px',
                   fontWeight: 600,
                   padding: '4px 10px',
@@ -192,12 +192,12 @@ export default function VideosSection() {
               alignItems: 'center',
               gap: '8px',
               padding: '14px 28px',
-              backgroundColor: '#000',
+              backgroundColor: '#ffc50a',
               borderRadius: '8px',
-              color: '#fff',
+              color: '#000',
               textDecoration: 'none',
               fontSize: '15px',
-              fontWeight: 500,
+              fontWeight: 600,
               transition: 'all 0.2s',
             }}
           >

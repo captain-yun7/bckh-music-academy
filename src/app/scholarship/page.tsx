@@ -6,17 +6,17 @@ const scholarships = [
     id: 'entrance',
     name: '입학장학',
     amount: '최대 50%',
-    description: '입학 레벨 테스트 결과에 따른 장학금',
-    color: '#3b82f6',
-    criteria: ['레벨 테스트 성적 우수자', '타 학원 수료자 우대', '형제/자매 동시 등록 시'],
+    description: '대학 합격생/재학생 대상 장학금',
+    color: '#ffc50a',
+    criteria: ['서울예대/동아방송예대 합격자', '실용음악 대학 재학생', '예비번호 보유자'],
   },
   {
     id: 'merit',
     name: '성적장학',
-    amount: '최대 30%',
-    description: '재학 중 성적 우수자에게 지급',
-    color: '#10b981',
-    criteria: ['월별 레슨 성취도 평가', '정기 테스트 우수자', '출석률 100% 달성자'],
+    amount: '최대 50%',
+    description: '전공실기 시험 우수자 장학금',
+    color: '#ffc50a',
+    criteria: ['1위: 다음달 수강료 50%', '2위: 다음달 수강료 30%', '3위: 다음달 수강료 20%'],
   },
 ];
 
@@ -144,7 +144,7 @@ export default function ScholarshipPage() {
             style={{
               display: 'inline-block',
               padding: '16px 40px',
-              backgroundColor: '#fff',
+              backgroundColor: '#ffc50a',
               color: '#000',
               borderRadius: '8px',
               fontSize: '16px',

@@ -180,12 +180,12 @@ export default function PerformancesSection() {
               alignItems: 'center',
               gap: '8px',
               padding: '14px 28px',
-              border: '1px solid rgba(255,255,255,0.3)',
+              border: '2px solid #ffc50a',
               borderRadius: '8px',
-              color: '#fff',
+              color: '#ffc50a',
               textDecoration: 'none',
               fontSize: '15px',
-              fontWeight: 500,
+              fontWeight: 600,
               transition: 'all 0.2s',
             }}
           >
