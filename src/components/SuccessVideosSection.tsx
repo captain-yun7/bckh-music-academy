@@ -105,11 +105,11 @@ export default function SuccessVideosSection() {
           gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
           gap: '24px',
         }}>
-          {successVideos.map((video) => (
+          {successVideos.map((video, index) => (
             <div
               key={video.id}
               style={{
-                borderRadius: '16px',
+                borderRadius: '20px',
                 overflow: 'hidden',
                 backgroundColor: '#111',
                 transition: 'transform 0.3s ease',
@@ -129,18 +129,42 @@ export default function SuccessVideosSection() {
                   />
                 ) : (
                   <>
-                    <img
-                      src={`https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`}
-                      alt={video.title}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                      }}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = `https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`;
-                      }}
-                    />
+                    {/* Gradient Background instead of YouTube thumbnail */}
+                    <div style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: `linear-gradient(135deg, #1a1a2e ${index * 5}%, #16213e ${50 + index * 5}%, #0f3460 100%)`,
+                    }} />
+
+                    {/* University Logo/Text Overlay */}
+                    <div style={{
+                      position: 'absolute',
+                      inset: 0,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: '20px',
+                    }}>
+                      <div style={{
+                        fontSize: '48px',
+                        marginBottom: '12px',
+                        opacity: 0.3,
+                      }}>
+                        🎓
+                      </div>
+                      <p style={{
+                        color: 'rgba(255,255,255,0.4)',
+                        fontSize: '14px',
+                        fontWeight: 600,
+                        letterSpacing: '0.1em',
+                        textTransform: 'uppercase',
+                      }}>
+                        {video.year} 합격
+                      </p>
+                    </div>
+
+                    {/* Play Button Overlay */}
                     <div
                       onClick={() => setPlayingVideo(video.youtubeId)}
                       style={{
@@ -149,7 +173,6 @@ export default function SuccessVideosSection() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        backgroundColor: 'rgba(0,0,0,0.4)',
                         cursor: 'pointer',
                         transition: 'background-color 0.3s ease',
                       }}
@@ -162,6 +185,7 @@ export default function SuccessVideosSection() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        boxShadow: '0 4px 20px rgba(255,197,10,0.4)',
                         transition: 'transform 0.3s ease',
                       }}>
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="#000">
@@ -169,12 +193,13 @@ export default function SuccessVideosSection() {
                         </svg>
                       </div>
                     </div>
+
                     {/* Year Badge */}
                     <div style={{
                       position: 'absolute',
-                      top: '12px',
-                      left: '12px',
-                      padding: '6px 14px',
+                      top: '16px',
+                      left: '16px',
+                      padding: '8px 16px',
                       backgroundColor: '#ffc50a',
                       color: '#000',
                       borderRadius: '100px',
@@ -183,34 +208,37 @@ export default function SuccessVideosSection() {
                     }}>
                       {video.year}학년도
                     </div>
+
+                    {/* Major Badge */}
+                    <div style={{
+                      position: 'absolute',
+                      top: '16px',
+                      right: '16px',
+                      padding: '8px 16px',
+                      backgroundColor: 'rgba(255,255,255,0.15)',
+                      backdropFilter: 'blur(10px)',
+                      color: '#fff',
+                      borderRadius: '100px',
+                      fontSize: '13px',
+                      fontWeight: 600,
+                    }}>
+                      {video.major}
+                    </div>
                   </>
                 )}
               </div>
-              <div style={{ padding: '20px' }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  marginBottom: '8px'
-                }}>
-                  <span style={{
-                    color: '#ffc50a',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                  }}>
-                    {video.university}
-                  </span>
-                  <span style={{ color: 'rgba(255,255,255,0.3)' }}>|</span>
-                  <span style={{
-                    color: 'rgba(255,255,255,0.6)',
-                    fontSize: '14px',
-                  }}>
-                    {video.major}
-                  </span>
-                </div>
+              <div style={{ padding: '24px' }}>
                 <p style={{
-                  fontSize: '18px',
+                  color: '#ffc50a',
+                  fontSize: '15px',
                   fontWeight: 600,
+                  marginBottom: '8px',
+                }}>
+                  {video.university}
+                </p>
+                <p style={{
+                  fontSize: '20px',
+                  fontWeight: 700,
                   color: '#fff',
                   marginBottom: '4px',
                 }}>
@@ -220,7 +248,10 @@ export default function SuccessVideosSection() {
                   <p style={{
                     fontSize: '13px',
                     color: 'rgba(255,255,255,0.5)',
-                    marginTop: '8px',
+                    marginTop: '12px',
+                    padding: '10px 14px',
+                    backgroundColor: 'rgba(255,255,255,0.05)',
+                    borderRadius: '8px',
                   }}>
                     {video.additionalInfo}
                   </p>
@@ -237,12 +268,11 @@ export default function SuccessVideosSection() {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '8px',
+              gap: '10px',
               padding: '16px 32px',
-              backgroundColor: 'transparent',
-              border: '2px solid #ffc50a',
-              borderRadius: '8px',
-              color: '#ffc50a',
+              backgroundColor: '#ffc50a',
+              borderRadius: '50px',
+              color: '#000',
               textDecoration: 'none',
               fontSize: '16px',
               fontWeight: 600,
@@ -250,7 +280,7 @@ export default function SuccessVideosSection() {
             }}
           >
             전체 합격생 보기
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </Link>

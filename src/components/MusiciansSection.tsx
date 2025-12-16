@@ -74,18 +74,18 @@ export default function MusiciansSection() {
   };
 
   return (
-    <section id="musicians" style={{ padding: '100px 0', backgroundColor: '#000' }}>
+    <section id="musicians" style={{ padding: '100px 0', backgroundColor: '#f8f8f8' }}>
       <div className="container">
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px', flexWrap: 'wrap', gap: '20px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', flexWrap: 'wrap', gap: '20px' }}>
           <div>
-            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>
+            <p style={{ color: '#ffc50a', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>
               TRAINEE DEBUT
             </p>
-            <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>
+            <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#000', marginBottom: '16px' }}>
               배출 뮤지션
             </h2>
-            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '16px' }}>
+            <p style={{ color: '#666', fontSize: '17px', lineHeight: 1.6 }}>
               경희실용음악학원을 거쳐 현재 음악계에서 활발히 활동 중인 뮤지션들입니다.
             </p>
           </div>
@@ -96,20 +96,20 @@ export default function MusiciansSection() {
               onClick={() => scroll('left')}
               disabled={!canScrollLeft}
               style={{
-                width: '48px',
-                height: '48px',
+                width: '52px',
+                height: '52px',
                 borderRadius: '50%',
-                border: '1px solid rgba(255,255,255,0.3)',
-                backgroundColor: 'transparent',
-                color: canScrollLeft ? '#fff' : 'rgba(255,255,255,0.3)',
+                border: canScrollLeft ? '2px solid #000' : '2px solid #ddd',
+                backgroundColor: '#fff',
+                color: canScrollLeft ? '#000' : '#ccc',
                 cursor: canScrollLeft ? 'pointer' : 'default',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                transition: 'all 0.2s',
+                transition: 'all 0.3s',
               }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M15 18l-6-6 6-6" />
               </svg>
             </button>
@@ -117,20 +117,20 @@ export default function MusiciansSection() {
               onClick={() => scroll('right')}
               disabled={!canScrollRight}
               style={{
-                width: '48px',
-                height: '48px',
+                width: '52px',
+                height: '52px',
                 borderRadius: '50%',
-                border: '1px solid rgba(255,255,255,0.3)',
-                backgroundColor: 'transparent',
-                color: canScrollRight ? '#fff' : 'rgba(255,255,255,0.3)',
+                border: canScrollRight ? '2px solid #000' : '2px solid #ddd',
+                backgroundColor: '#fff',
+                color: canScrollRight ? '#000' : '#ccc',
                 cursor: canScrollRight ? 'pointer' : 'default',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                transition: 'all 0.2s',
+                transition: 'all 0.3s',
               }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M9 18l6-6-6-6" />
               </svg>
             </button>
@@ -143,23 +143,28 @@ export default function MusiciansSection() {
           onScroll={checkScroll}
           style={{
             display: 'flex',
-            gap: '20px',
+            gap: '24px',
             overflowX: 'auto',
             scrollSnapType: 'x mandatory',
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',
             paddingBottom: '20px',
+            marginLeft: '-20px',
+            marginRight: '-20px',
+            paddingLeft: '20px',
+            paddingRight: '20px',
           }}
         >
           {musicians.map((musician, index) => (
             <div
               key={index}
               style={{
-                flex: '0 0 260px',
+                flex: '0 0 280px',
                 scrollSnapAlign: 'start',
-                borderRadius: '16px',
+                borderRadius: '20px',
                 overflow: 'hidden',
-                backgroundColor: '#111',
+                backgroundColor: '#fff',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
               }}
             >
               <div style={{ position: 'relative', aspectRatio: '3/4' }}>
@@ -168,30 +173,44 @@ export default function MusiciansSection() {
                   alt={musician.name}
                   fill
                   style={{ objectFit: 'cover' }}
-                  sizes="260px"
+                  sizes="280px"
                 />
+                {/* Gradient Overlay */}
                 <div style={{
                   position: 'absolute',
-                  top: '12px',
-                  left: '12px',
+                  inset: 0,
+                  background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 40%)',
+                }} />
+                <div style={{
+                  position: 'absolute',
+                  top: '16px',
+                  left: '16px',
                   backgroundColor: '#ffc50a',
                   color: '#000',
-                  padding: '4px 12px',
+                  padding: '6px 14px',
                   borderRadius: '20px',
-                  fontSize: '12px',
+                  fontSize: '13px',
                   fontWeight: 700,
                 }}>
                   {musician.generation}
                 </div>
+                {/* Info on Image */}
+                <div style={{
+                  position: 'absolute',
+                  bottom: '20px',
+                  left: '20px',
+                  right: '20px',
+                }}>
+                  <p style={{ fontSize: '22px', fontWeight: 700, color: '#fff', marginBottom: '6px' }}>
+                    {musician.name}
+                  </p>
+                  <p style={{ fontSize: '14px', color: '#ffc50a', fontWeight: 600 }}>
+                    {musician.role}
+                  </p>
+                </div>
               </div>
-              <div style={{ padding: '20px', textAlign: 'center' }}>
-                <p style={{ fontSize: '18px', fontWeight: 600, color: '#fff', marginBottom: '6px' }}>
-                  {musician.name}
-                </p>
-                <p style={{ fontSize: '13px', color: '#ffc50a', fontWeight: 600, marginBottom: '6px' }}>
-                  {musician.role}
-                </p>
-                <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)' }}>
+              <div style={{ padding: '16px 20px', backgroundColor: '#fff' }}>
+                <p style={{ fontSize: '14px', color: '#666', lineHeight: 1.5 }}>
                   {musician.achievement}
                 </p>
               </div>
@@ -200,25 +219,25 @@ export default function MusiciansSection() {
         </div>
 
         {/* View All Link */}
-        <div style={{ textAlign: 'center', marginTop: '40px' }}>
+        <div style={{ textAlign: 'center', marginTop: '48px' }}>
           <Link
             href="/musicians"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '8px',
-              padding: '14px 28px',
-              backgroundColor: '#ffc50a',
-              borderRadius: '8px',
-              color: '#000',
+              gap: '10px',
+              padding: '16px 32px',
+              backgroundColor: '#000',
+              borderRadius: '50px',
+              color: '#fff',
               textDecoration: 'none',
-              fontSize: '15px',
+              fontSize: '16px',
               fontWeight: 600,
-              transition: 'all 0.2s',
+              transition: 'all 0.3s',
             }}
           >
             전체 뮤지션 보기
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </Link>
@@ -231,30 +250,30 @@ export default function MusiciansSection() {
           gap: '40px',
           marginTop: '80px',
           padding: '60px 40px',
-          backgroundColor: '#ffc50a',
+          backgroundColor: '#000',
           borderRadius: '20px',
         }}>
           <div style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#000', lineHeight: 1 }}>
+            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#ffc50a', lineHeight: 1 }}>
               18+
             </p>
-            <p style={{ fontSize: '15px', color: 'rgba(0,0,0,0.7)', marginTop: '12px' }}>
+            <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.7)', marginTop: '12px' }}>
               Years of History
             </p>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#000', lineHeight: 1 }}>
+            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#ffc50a', lineHeight: 1 }}>
               1000+
             </p>
-            <p style={{ fontSize: '15px', color: 'rgba(0,0,0,0.7)', marginTop: '12px' }}>
+            <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.7)', marginTop: '12px' }}>
               합격생 배출
             </p>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#000', lineHeight: 1 }}>
+            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#ffc50a', lineHeight: 1 }}>
               100+
             </p>
-            <p style={{ fontSize: '15px', color: 'rgba(0,0,0,0.7)', marginTop: '12px' }}>
+            <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.7)', marginTop: '12px' }}>
               프로 뮤지션 배출
             </p>
           </div>
