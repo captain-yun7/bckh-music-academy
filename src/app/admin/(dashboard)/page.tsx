@@ -9,6 +9,9 @@ async function getStats() {
     musicianCount,
     consultationCount,
     pendingConsultations,
+    galleryCount,
+    videoCount,
+    admissionGuideCount,
   ] = await Promise.all([
     prisma.instructor.count({ where: { isActive: true } }),
     prisma.notice.count({ where: { isPublished: true } }),
@@ -16,6 +19,9 @@ async function getStats() {
     prisma.musician.count({ where: { isPublished: true } }),
     prisma.consultation.count(),
     prisma.consultation.count({ where: { status: 'PENDING' } }),
+    prisma.galleryImage.count({ where: { isPublished: true } }),
+    prisma.video.count({ where: { isPublished: true } }),
+    prisma.admissionGuide.count({ where: { isPublished: true } }),
   ]);
 
   return {
@@ -25,6 +31,9 @@ async function getStats() {
     musicianCount,
     consultationCount,
     pendingConsultations,
+    galleryCount,
+    videoCount,
+    admissionGuideCount,
   };
 }
 
@@ -44,6 +53,9 @@ export default async function AdminDashboardPage() {
     { label: '공지사항', value: stats.noticeCount, href: '/admin/notices', color: '#22c55e' },
     { label: '합격자', value: stats.admissionCount, href: '/admin/admissions', color: '#f59e0b' },
     { label: '배출 뮤지션', value: stats.musicianCount, href: '/admin/musicians', color: '#8b5cf6' },
+    { label: '갤러리', value: stats.galleryCount, href: '/admin/gallery', color: '#06b6d4' },
+    { label: '영상', value: stats.videoCount, href: '/admin/videos', color: '#dc2626' },
+    { label: '입시요강', value: stats.admissionGuideCount, href: '/admin/admission-guides', color: '#0ea5e9' },
     { label: '상담 신청', value: stats.consultationCount, href: '/admin/consultations', color: '#ec4899' },
     { label: '대기중 상담', value: stats.pendingConsultations, href: '/admin/consultations?status=PENDING', color: '#ef4444' },
   ];

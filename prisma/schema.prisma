@@ -186,6 +186,37 @@ enum VideoCategory {
   PERFORMANCE       // 공연 영상
 }
 
+// ==================== 입시요강 ====================
+
+model AdmissionGuide {
+  id            String              @id @default(cuid())
+  university    String              // 대학명
+  department    String?             // 학과
+  category      AdmissionGuideCategory
+  year          Int                 // 입시 연도
+  content       String              @db.Text  // 요강 내용
+  deadline      String?             // 지원 마감일
+  examDate      String?             // 시험 일정
+  requirements  String?             @db.Text  // 지원 자격
+  documents     String?             @db.Text  // 제출 서류
+  examContent   String?             @db.Text  // 실기 내용
+  link          String?             // 대학 원서 링크
+  isPublished   Boolean             @default(true)
+  order         Int                 @default(0)
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+
+  @@index([year])
+  @@index([category])
+}
+
+enum AdmissionGuideCategory {
+  UNIVERSITY_4YR   // 4년제 대학
+  UNIVERSITY_2YR   // 전문대학
+  ART_HIGHSCHOOL   // 예술고등학교
+  GRADUATE         // 대학원
+}
+
 // ==================== 사이트 설정 ====================
 
 model SiteSetting {

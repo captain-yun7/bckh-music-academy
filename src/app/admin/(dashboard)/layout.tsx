@@ -13,6 +13,7 @@ const menuItems = [
   { name: '상담 신청', href: '/admin/consultations', icon: '📞' },
   { name: '갤러리', href: '/admin/gallery', icon: '🖼️' },
   { name: '영상 관리', href: '/admin/videos', icon: '🎬' },
+  { name: '입시요강', href: '/admin/admission-guides', icon: '📋' },
   { name: '설정', href: '/admin/settings', icon: '⚙️' },
 ];
 
