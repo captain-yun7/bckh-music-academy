@@ -3,7 +3,6 @@ import HeroSection from '@/components/HeroSection';
 import SuccessVideosSection from '@/components/SuccessVideosSection';
 import FacilitiesSection from '@/components/FacilitiesSection';
 import PerformancesSection from '@/components/PerformancesSection';
-import VideosSection from '@/components/VideosSection';
 import MusiciansSection from '@/components/MusiciansSection';
 import AboutSection from '@/components/AboutSection';
 import InstructorsSection from '@/components/InstructorsSection';
@@ -34,9 +33,6 @@ export default function HomePage() {
 
         {/* 공연사진 */}
         <PerformancesSection />
-
-        {/* 합격영상 */}
-        <VideosSection />
 
         {/* 배출뮤지션 */}
         <MusiciansSection />
