@@ -72,29 +72,50 @@ export default function ReviewsSection() {
           <p style={{ color: '#666', fontSize: '18px', fontWeight: 600, marginBottom: '40px' }}>
             연도별 합격생 명단
           </p>
-          <div style={{ display: 'flex', gap: '16px', overflowX: 'auto', paddingBottom: '20px' }}>
+          <div style={{ display: 'flex', gap: '20px', overflowX: 'auto', paddingBottom: '20px' }}>
             {yearlyAdmissions.map((item, index) => (
               <div
                 key={index}
                 className="admission-item"
                 style={{
-                  minWidth: '200px',
-                  borderRadius: '12px',
+                  minWidth: '220px',
+                  borderRadius: '16px',
                   overflow: 'hidden',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
+                  backgroundColor: '#fff',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-8px)';
+                  e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.18)';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.12)';
                 }}
               >
-                <div style={{ position: 'relative', aspectRatio: '3/4' }}>
+                <div style={{ position: 'relative', aspectRatio: '3/4', backgroundColor: '#f5f5f5' }}>
                   <Image
                     src={item.image}
                     alt={`${item.year}년 합격생`}
                     fill
                     className="object-cover"
-                    sizes="200px"
+                    sizes="220px"
                   />
+                  {/* Gradient Overlay */}
+                  <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 40%)',
+                  }} />
                 </div>
-                <div style={{ padding: '16px', textAlign: 'center', backgroundColor: '#000' }}>
-                  <p style={{ fontSize: '18px', fontWeight: 700, color: '#fff' }}>
+                <div style={{
+                  padding: '20px',
+                  textAlign: 'center',
+                  backgroundColor: '#111',
+                  borderTop: '3px solid #ffc50a',
+                }}>
+                  <p style={{ fontSize: '20px', fontWeight: 700, color: '#fff' }}>
                     {item.year}년
                   </p>
                 </div>
