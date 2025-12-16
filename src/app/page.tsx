@@ -1,5 +1,6 @@
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/HeroSection';
+import SuccessVideosSection from '@/components/SuccessVideosSection';
 import FacilitiesSection from '@/components/FacilitiesSection';
 import PerformancesSection from '@/components/PerformancesSection';
 import VideosSection from '@/components/VideosSection';
@@ -24,6 +25,9 @@ export default function HomePage() {
       <main>
         {/* Hero - 다이나믹 텍스트 애니메이션 */}
         <HeroSection />
+
+        {/* 합격생 동영상 - 히어로 바로 하단 */}
+        <SuccessVideosSection />
 
         {/* 시설사진 */}
         <FacilitiesSection />
