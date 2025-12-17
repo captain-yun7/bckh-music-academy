@@ -2,16 +2,77 @@
 
 import Link from 'next/link';
 
+// 전공 분야 SVG 아이콘
+const MajorIcons = {
+  vocal: (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+      <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8" />
+    </svg>
+  ),
+  piano: (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      <path d="M6 4v10M10 4v10M14 4v10M18 4v10" />
+      <path d="M2 14h20" />
+    </svg>
+  ),
+  guitar: (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <path d="M11.5 8.5L19 1l4 4-7.5 7.5" />
+      <path d="M12 12c-3 3-3.5 5.5-1 8s5 2 8-1c2.5-2.5 2-6-.5-8.5S15 7.5 12 12z" />
+      <circle cx="11" cy="15" r="1" fill="#ffc50a" />
+    </svg>
+  ),
+  bass: (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <path d="M3 6l3-3h3l-3 3H3zM3 6v12c0 2 1 3 3 3h3c2 0 3-1 3-3V6" />
+      <path d="M6 9v6M9 9v6" />
+      <circle cx="7.5" cy="18" r="1" fill="#ffc50a" />
+    </svg>
+  ),
+  drums: (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <ellipse cx="12" cy="8" rx="9" ry="4" />
+      <path d="M3 8v8c0 2.2 4 4 9 4s9-1.8 9-4V8" />
+      <path d="M3 12c0 2.2 4 4 9 4s9-1.8 9-4" />
+      <path d="M7 2L5 6M17 2l2 4" />
+    </svg>
+  ),
+  composing: (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <path d="M9 18V5l12-2v13" />
+      <circle cx="6" cy="18" r="3" />
+      <circle cx="18" cy="16" r="3" />
+    </svg>
+  ),
+  midi: (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <rect x="4" y="14" width="16" height="6" rx="2" />
+      <path d="M9 14V9a3 3 0 0 1 6 0v5" />
+      <circle cx="8" cy="17" r="1" fill="#ffc50a" />
+      <circle cx="16" cy="17" r="1" fill="#ffc50a" />
+    </svg>
+  ),
+  dance: (
+    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <circle cx="12" cy="4" r="2" />
+      <path d="M12 6v4M12 10l4 4-2 6M12 10l-4 4 2 6" />
+      <path d="M8 10l-3-2M16 10l3-2" />
+    </svg>
+  ),
+};
+
 // 전공 분야
 const majors = [
-  { name: 'VOCAL', korean: '보컬', icon: '🎤' },
-  { name: 'PIANO', korean: '피아노', icon: '🎹' },
-  { name: 'GUITAR', korean: '기타', icon: '🎸' },
-  { name: 'BASS', korean: '베이스', icon: '🎸' },
-  { name: 'DRUMS', korean: '드럼', icon: '🥁' },
-  { name: 'COMPOSING', korean: '작곡', icon: '🎼' },
-  { name: 'MIDI', korean: '미디/프로듀싱', icon: '🎧' },
-  { name: 'DANCE', korean: '댄스', icon: '💃' },
+  { name: 'VOCAL', korean: '보컬', icon: 'vocal' },
+  { name: 'PIANO', korean: '피아노', icon: 'piano' },
+  { name: 'GUITAR', korean: '기타', icon: 'guitar' },
+  { name: 'BASS', korean: '베이스', icon: 'bass' },
+  { name: 'DRUMS', korean: '드럼', icon: 'drums' },
+  { name: 'COMPOSING', korean: '작곡', icon: 'composing' },
+  { name: 'MIDI', korean: '미디/프로듀싱', icon: 'midi' },
+  { name: 'DANCE', korean: '댄스', icon: 'dance' },
 ];
 
 export default function AboutSection() {
@@ -130,8 +191,8 @@ export default function AboutSection() {
                   cursor: 'pointer',
                 }}
               >
-                <span style={{ fontSize: '32px', marginBottom: '16px', display: 'block' }}>
-                  {major.icon}
+                <span style={{ marginBottom: '16px', display: 'block' }}>
+                  {MajorIcons[major.icon as keyof typeof MajorIcons]}
                 </span>
                 <p style={{
                   fontSize: '20px',

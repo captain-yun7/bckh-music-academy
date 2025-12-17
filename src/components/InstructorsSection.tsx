@@ -50,18 +50,18 @@ export default function InstructorsSection() {
   };
 
   return (
-    <section id="instructors" style={{ padding: '100px 0', backgroundColor: '#111' }}>
+    <section id="instructors" style={{ padding: '100px 0', backgroundColor: '#fff' }}>
       <div className="container">
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px', flexWrap: 'wrap', gap: '20px' }}>
           <div>
-            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>
+            <p style={{ color: '#ffc50a', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>
               INSTRUCTORS
             </p>
-            <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>
+            <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#000', marginBottom: '12px' }}>
               전문 강사진
             </h2>
-            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '16px' }}>
+            <p style={{ color: 'rgba(0,0,0,0.6)', fontSize: '16px' }}>
               현직에서 활동 중인 전문 뮤지션들이 직접 지도합니다.
             </p>
           </div>
@@ -75,9 +75,9 @@ export default function InstructorsSection() {
                 width: '48px',
                 height: '48px',
                 borderRadius: '50%',
-                border: '1px solid rgba(255,255,255,0.3)',
+                border: '1px solid rgba(0,0,0,0.2)',
                 backgroundColor: 'transparent',
-                color: canScrollLeft ? '#fff' : 'rgba(255,255,255,0.3)',
+                color: canScrollLeft ? '#000' : 'rgba(0,0,0,0.3)',
                 cursor: canScrollLeft ? 'pointer' : 'default',
                 display: 'flex',
                 alignItems: 'center',
@@ -96,9 +96,9 @@ export default function InstructorsSection() {
                 width: '48px',
                 height: '48px',
                 borderRadius: '50%',
-                border: '1px solid rgba(255,255,255,0.3)',
+                border: '1px solid rgba(0,0,0,0.2)',
                 backgroundColor: 'transparent',
-                color: canScrollRight ? '#fff' : 'rgba(255,255,255,0.3)',
+                color: canScrollRight ? '#000' : 'rgba(0,0,0,0.3)',
                 cursor: canScrollRight ? 'pointer' : 'default',
                 display: 'flex',
                 alignItems: 'center',
@@ -135,7 +135,8 @@ export default function InstructorsSection() {
                 scrollSnapAlign: 'start',
                 borderRadius: '16px',
                 overflow: 'hidden',
-                backgroundColor: '#1a1a1a',
+                backgroundColor: '#f5f5f5',
+                border: '1px solid rgba(0,0,0,0.08)',
               }}
             >
               <div style={{ position: 'relative', aspectRatio: '3/4' }}>
@@ -151,17 +152,17 @@ export default function InstructorsSection() {
                   top: '12px',
                   left: '12px',
                   padding: '4px 10px',
-                  backgroundColor: 'rgba(0,0,0,0.7)',
+                  backgroundColor: '#ffc50a',
                   borderRadius: '20px',
                   fontSize: '12px',
-                  color: '#fff',
-                  fontWeight: 500,
+                  color: '#000',
+                  fontWeight: 600,
                 }}>
                   {instructor.category}
                 </div>
               </div>
               <div style={{ padding: '16px', textAlign: 'center' }}>
-                <p style={{ fontSize: '16px', fontWeight: 600, color: '#fff' }}>
+                <p style={{ fontSize: '16px', fontWeight: 600, color: '#000' }}>
                   {instructor.name}
                 </p>
               </div>
@@ -178,12 +179,12 @@ export default function InstructorsSection() {
               alignItems: 'center',
               gap: '8px',
               padding: '14px 28px',
-              border: '1px solid rgba(255,255,255,0.3)',
-              borderRadius: '8px',
+              backgroundColor: '#000',
+              borderRadius: '100px',
               color: '#fff',
               textDecoration: 'none',
               fontSize: '15px',
-              fontWeight: 500,
+              fontWeight: 600,
               transition: 'all 0.2s',
             }}
           >

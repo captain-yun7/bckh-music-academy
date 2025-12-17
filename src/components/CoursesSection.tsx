@@ -45,11 +45,43 @@ const courses = [
   },
 ];
 
+// SVG 아이콘
+const BenefitIcons = {
+  practice: (
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <path d="M3 18V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v12" />
+      <path d="M3 18h18" />
+      <path d="M7 9h.01M12 9h.01M17 9h.01M7 14h.01M12 14h.01M17 14h.01" />
+    </svg>
+  ),
+  recording: (
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+      <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+      <line x1="12" y1="19" x2="12" y2="23" />
+      <line x1="8" y1="23" x2="16" y2="23" />
+    </svg>
+  ),
+  performance: (
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <path d="M12 3v18M5 8l7-5 7 5M5 8v8l7 5 7-5V8" />
+    </svg>
+  ),
+  mentoring: (
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <circle cx="12" cy="5" r="3" />
+      <circle cx="5" cy="19" r="3" />
+      <circle cx="19" cy="19" r="3" />
+      <path d="M12 8v4M8 16l4-4 4 4" />
+    </svg>
+  ),
+};
+
 const benefits = [
-  { icon: '🎵', title: '연습실 무제한', desc: '운영시간 내 자유롭게 연습' },
-  { icon: '🎙️', title: '전문 레코딩', desc: '녹음실 포트폴리오 제작' },
-  { icon: '🎤', title: '정기 공연', desc: '케이크콘서트 무대 경험' },
-  { icon: '👥', title: '3인 멘토링', desc: '담당·부·스텝강사 지도' },
+  { icon: 'practice', title: '연습실 무제한', desc: '운영시간 내 자유롭게 연습' },
+  { icon: 'recording', title: '전문 레코딩', desc: '녹음실 포트폴리오 제작' },
+  { icon: 'performance', title: '정기 공연', desc: '케이크콘서트 무대 경험' },
+  { icon: 'mentoring', title: '3인 멘토링', desc: '담당·부·스텝강사 지도' },
 ];
 
 export default function CoursesSection() {
@@ -229,8 +261,8 @@ export default function CoursesSection() {
                   textAlign: 'center',
                 }}
               >
-                <span style={{ fontSize: '40px', display: 'block', marginBottom: '20px' }}>
-                  {benefit.icon}
+                <span style={{ display: 'block', marginBottom: '20px' }}>
+                  {BenefitIcons[benefit.icon as keyof typeof BenefitIcons]}
                 </span>
                 <p style={{
                   fontSize: '18px',
