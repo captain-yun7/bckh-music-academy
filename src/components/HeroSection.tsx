@@ -4,34 +4,44 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import Image from 'next/image';
 
-const slides = [
+interface Slide {
+  id: string;
+  title: string;
+  subtitle: string | null;
+  imageUrl: string;
+  buttonText?: string | null;
+  buttonLink?: string | null;
+}
+
+// 기본 슬라이드 (DB가 비어있을 때 사용)
+const defaultSlides: Slide[] = [
   {
-    id: 1,
-    image: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1920&q=80',
+    id: '1',
+    imageUrl: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1920&q=80',
     title: '음악의 꿈을 현실로',
     subtitle: '25년 전통의 경희실용음악학원',
   },
   {
-    id: 2,
-    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1920&q=80',
+    id: '2',
+    imageUrl: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1920&q=80',
     title: '최고의 강사진',
     subtitle: '현역 뮤지션 출신 전문 강사진이 함께합니다',
   },
   {
-    id: 3,
-    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1920&q=80',
+    id: '3',
+    imageUrl: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1920&q=80',
     title: '전문 시설',
     subtitle: '최신 장비와 쾌적한 연습실 환경',
   },
   {
-    id: 4,
-    image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1920&q=80',
+    id: '4',
+    imageUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1920&q=80',
     title: '1000+ 합격생 배출',
     subtitle: '실용음악과 입시 합격의 산실',
   },
   {
-    id: 5,
-    image: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1920&q=80',
+    id: '5',
+    imageUrl: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1920&q=80',
     title: '다양한 전공',
     subtitle: '보컬 · 피아노 · 기타 · 베이스 · 드럼 · 작곡',
   },
@@ -40,6 +50,24 @@ const slides = [
 export default function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [slides, setSlides] = useState<Slide[]>(defaultSlides);
+
+  // 슬라이드 데이터 로드
+  useEffect(() => {
+    const fetchSlides = async () => {
+      try {
+        const res = await fetch('/api/hero-slides');
+        const data = await res.json();
+        if (data && data.length > 0) {
+          setSlides(data);
+        }
+      } catch {
+        // API 실패 시 기본 슬라이드 유지
+      }
+    };
+
+    fetchSlides();
+  }, []);
 
   const goToSlide = useCallback((index: number) => {
     setCurrentSlide(index);
@@ -47,20 +75,22 @@ export default function HeroSection() {
 
   const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
-  }, []);
+  }, [slides.length]);
 
   const prevSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
-  }, []);
+  }, [slides.length]);
 
   // Auto-play functionality - always running
   useEffect(() => {
+    if (slides.length === 0) return;
+
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [slides.length]);
 
   // GSAP animations
   useEffect(() => {
@@ -110,7 +140,7 @@ export default function HeroSection() {
           }}
         >
           <Image
-            src={slide.image}
+            src={slide.imageUrl}
             alt={slide.title}
             fill
             style={{ objectFit: 'cover' }}
@@ -162,24 +192,26 @@ export default function HeroSection() {
                 lineHeight: 1.2,
               }}
             >
-              {slides[currentSlide].title}
+              {slides[currentSlide]?.title}
             </h1>
 
             {/* Subtitle */}
-            <p
-              style={{
-                fontSize: 'clamp(18px, 3vw, 24px)',
-                color: 'rgba(255,255,255,0.9)',
-                marginBottom: '40px',
-              }}
-            >
-              {slides[currentSlide].subtitle}
-            </p>
+            {slides[currentSlide]?.subtitle && (
+              <p
+                style={{
+                  fontSize: 'clamp(18px, 3vw, 24px)',
+                  color: 'rgba(255,255,255,0.9)',
+                  marginBottom: '40px',
+                }}
+              >
+                {slides[currentSlide].subtitle}
+              </p>
+            )}
 
             {/* Buttons */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
               <a
-                href="#contact"
+                href={slides[currentSlide]?.buttonLink || '#contact'}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -194,7 +226,7 @@ export default function HeroSection() {
                   transition: 'background-color 0.2s',
                 }}
               >
-                상담 신청하기
+                {slides[currentSlide]?.buttonText || '상담 신청하기'}
                 <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>

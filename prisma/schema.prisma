@@ -217,6 +217,21 @@ enum AdmissionGuideCategory {
   GRADUATE         // 대학원
 }
 
+// ==================== 히어로 슬라이드 ====================
+
+model HeroSlide {
+  id          String   @id @default(cuid())
+  title       String
+  subtitle    String?
+  imageUrl    String
+  buttonText  String?
+  buttonLink  String?
+  order       Int      @default(0)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 // ==================== 사이트 설정 ====================
 
 model SiteSetting {

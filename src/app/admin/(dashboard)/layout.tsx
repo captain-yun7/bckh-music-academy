@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 
 const menuItems = [
   { name: '대시보드', href: '/admin', icon: '📊' },
+  { name: '히어로 슬라이드', href: '/admin/hero-slides', icon: '🎠' },
   { name: '강사 관리', href: '/admin/instructors', icon: '👨‍🏫' },
   { name: '공지사항', href: '/admin/notices', icon: '📢' },
   { name: '합격자 명단', href: '/admin/admissions', icon: '🎓' },
