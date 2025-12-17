@@ -4,48 +4,56 @@ import { useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
+// 배출 뮤지션 데이터 (khmusic.co.kr 실제 데이터)
 const musicians = [
   {
     name: '문별',
-    generation: '4기',
-    role: '마마무 멤버',
-    achievement: '마마무 활동중',
-    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=500&fit=crop',
+    group: '마마무',
+    role: '래퍼 / 싱어송라이터',
+    achievement: '마마무 멤버, 솔로 활동',
+    description: '대한민국 대표 걸그룹 마마무의 래퍼이자 서브보컬. 작사, 작곡에도 참여하며 솔로 아티스트로도 활발히 활동 중',
+    image: '/images/musicians/moonbyul.jpg',
   },
   {
     name: '나다',
-    generation: '3기',
+    realName: '윤예진',
+    group: '와썹',
     role: '래퍼 / 방송인',
-    achievement: '와썹, 쇼미더머니3, 언프리티랩스타',
-    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=500&fit=crop',
-  },
-  {
-    name: '신이삭',
-    generation: '5기',
-    role: '세션 드러머',
-    achievement: '악뮤/에픽하이/잔나비 세션',
-    image: 'https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?w=400&h=500&fit=crop',
+    achievement: '쇼미더머니3, 언프리티랩스타',
+    description: '걸그룹 와썹 출신 래퍼. Mnet 쇼미더머니3, 언프리티랩스타 출연으로 주목받았으며 현재 방송인으로도 활동',
+    image: '/images/musicians/nada.jpg',
   },
   {
     name: '이종훈',
-    generation: '10기',
-    role: '슈퍼밴드 출연',
-    achievement: '케빈오와 애프터문',
-    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&h=500&fit=crop',
+    group: '애프터문',
+    role: '보컬 / 기타리스트',
+    achievement: '슈퍼밴드, 케빈오와 애프터문',
+    description: 'JTBC 슈퍼밴드 출연, 케빈오와 애프터문 멤버로 활동하며 독보적인 음악 세계를 구축',
+    image: '/images/musicians/aftermoon.jpg',
   },
   {
-    name: '고석우',
-    generation: '13기',
-    role: 'KPOP 작곡가',
-    achievement: '화사, 로시 등 곡 작업',
-    image: 'https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=400&h=500&fit=crop',
+    name: '웰던포테이토',
+    group: '밴드',
+    role: '인디밴드',
+    achievement: '인디씬 활동',
+    description: '감각적인 사운드와 독특한 음악 색깔로 인디음악 씬에서 주목받는 밴드',
+    image: '/images/musicians/weldonpotato.jpg',
   },
   {
-    name: '박진오',
-    generation: '14기',
-    role: '래퍼',
-    achievement: '고등랩퍼, 쇼미더머니',
-    image: 'https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=400&h=500&fit=crop',
+    name: '리싸',
+    group: '솔로',
+    role: 'R&B 아티스트',
+    achievement: '솔로 활동',
+    description: '감성적인 R&B 보컬로 주목받는 솔로 아티스트',
+    image: '/images/musicians/risa.jpg',
+  },
+  {
+    name: '주대건',
+    group: '소리얼',
+    role: '보컬',
+    achievement: '소리얼 멤버',
+    description: '혼성 보컬 그룹 소리얼의 멤버로 활동',
+    image: '/images/musicians/soreal.jpg',
   },
 ];
 
@@ -64,7 +72,7 @@ export default function MusiciansSection() {
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
-      const scrollAmount = 280;
+      const scrollAmount = 320;
       scrollRef.current.scrollBy({
         left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: 'smooth',
@@ -74,19 +82,19 @@ export default function MusiciansSection() {
   };
 
   return (
-    <section id="musicians" style={{ padding: '100px 0', backgroundColor: '#f8f8f8' }}>
+    <section id="musicians" style={{ padding: '100px 0', backgroundColor: '#000' }}>
       <div className="container">
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', flexWrap: 'wrap', gap: '20px' }}>
           <div>
-            <p style={{ color: '#ffc50a', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>
+            <p style={{ color: '#ffc50a', fontSize: '14px', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '16px' }}>
               TRAINEE DEBUT
             </p>
-            <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#000', marginBottom: '16px' }}>
+            <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#fff', marginBottom: '16px' }}>
               배출 뮤지션
             </h2>
-            <p style={{ color: '#666', fontSize: '17px', lineHeight: 1.6 }}>
-              경희실용음악학원을 거쳐 현재 음악계에서 활발히 활동 중인 뮤지션들입니다.
+            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '17px', lineHeight: 1.6 }}>
+              경희실용음악학원을 거쳐 현재 음악계에서 활발히 활동 중인 뮤지션들입니다
             </p>
           </div>
 
@@ -99,9 +107,9 @@ export default function MusiciansSection() {
                 width: '52px',
                 height: '52px',
                 borderRadius: '50%',
-                border: canScrollLeft ? '2px solid #000' : '2px solid #ddd',
-                backgroundColor: '#fff',
-                color: canScrollLeft ? '#000' : '#ccc',
+                border: canScrollLeft ? '2px solid #ffc50a' : '2px solid rgba(255,255,255,0.2)',
+                backgroundColor: 'transparent',
+                color: canScrollLeft ? '#ffc50a' : 'rgba(255,255,255,0.3)',
                 cursor: canScrollLeft ? 'pointer' : 'default',
                 display: 'flex',
                 alignItems: 'center',
@@ -120,9 +128,9 @@ export default function MusiciansSection() {
                 width: '52px',
                 height: '52px',
                 borderRadius: '50%',
-                border: canScrollRight ? '2px solid #000' : '2px solid #ddd',
-                backgroundColor: '#fff',
-                color: canScrollRight ? '#000' : '#ccc',
+                border: canScrollRight ? '2px solid #ffc50a' : '2px solid rgba(255,255,255,0.2)',
+                backgroundColor: 'transparent',
+                color: canScrollRight ? '#ffc50a' : 'rgba(255,255,255,0.3)',
                 cursor: canScrollRight ? 'pointer' : 'default',
                 display: 'flex',
                 alignItems: 'center',
@@ -159,12 +167,12 @@ export default function MusiciansSection() {
             <div
               key={index}
               style={{
-                flex: '0 0 280px',
+                flex: '0 0 300px',
                 scrollSnapAlign: 'start',
                 borderRadius: '20px',
                 overflow: 'hidden',
-                backgroundColor: '#fff',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                backgroundColor: '#111',
+                transition: 'transform 0.3s ease',
               }}
             >
               <div style={{ position: 'relative', aspectRatio: '3/4' }}>
@@ -173,26 +181,27 @@ export default function MusiciansSection() {
                   alt={musician.name}
                   fill
                   style={{ objectFit: 'cover' }}
-                  sizes="280px"
+                  sizes="300px"
                 />
                 {/* Gradient Overlay */}
                 <div style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 40%)',
+                  background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0) 60%)',
                 }} />
+                {/* Group Badge */}
                 <div style={{
                   position: 'absolute',
                   top: '16px',
                   left: '16px',
                   backgroundColor: '#ffc50a',
                   color: '#000',
-                  padding: '6px 14px',
-                  borderRadius: '20px',
+                  padding: '8px 16px',
+                  borderRadius: '100px',
                   fontSize: '13px',
                   fontWeight: 700,
                 }}>
-                  {musician.generation}
+                  {musician.group}
                 </div>
                 {/* Info on Image */}
                 <div style={{
@@ -201,17 +210,20 @@ export default function MusiciansSection() {
                   left: '20px',
                   right: '20px',
                 }}>
-                  <p style={{ fontSize: '22px', fontWeight: 700, color: '#fff', marginBottom: '6px' }}>
+                  <p style={{ fontSize: '13px', color: '#ffc50a', fontWeight: 600, marginBottom: '6px' }}>
+                    {musician.role}
+                  </p>
+                  <p style={{ fontSize: '26px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>
                     {musician.name}
                   </p>
-                  <p style={{ fontSize: '14px', color: '#ffc50a', fontWeight: 600 }}>
-                    {musician.role}
+                  <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.5 }}>
+                    {musician.achievement}
                   </p>
                 </div>
               </div>
-              <div style={{ padding: '16px 20px', backgroundColor: '#fff' }}>
-                <p style={{ fontSize: '14px', color: '#666', lineHeight: 1.5 }}>
-                  {musician.achievement}
+              <div style={{ padding: '20px', backgroundColor: '#111' }}>
+                <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', lineHeight: 1.7 }}>
+                  {musician.description}
                 </p>
               </div>
             </div>
@@ -227,9 +239,10 @@ export default function MusiciansSection() {
               alignItems: 'center',
               gap: '10px',
               padding: '16px 32px',
-              backgroundColor: '#000',
+              backgroundColor: 'transparent',
+              border: '2px solid #ffc50a',
               borderRadius: '50px',
-              color: '#fff',
+              color: '#ffc50a',
               textDecoration: 'none',
               fontSize: '16px',
               fontWeight: 600,
@@ -250,30 +263,30 @@ export default function MusiciansSection() {
           gap: '40px',
           marginTop: '80px',
           padding: '60px 40px',
-          backgroundColor: '#000',
+          backgroundColor: '#ffc50a',
           borderRadius: '20px',
         }}>
           <div style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#ffc50a', lineHeight: 1 }}>
-              18+
+            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#000', lineHeight: 1 }}>
+              25+
             </p>
-            <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.7)', marginTop: '12px' }}>
+            <p style={{ fontSize: '15px', color: 'rgba(0,0,0,0.7)', marginTop: '12px' }}>
               Years of History
             </p>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#ffc50a', lineHeight: 1 }}>
+            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#000', lineHeight: 1 }}>
               1000+
             </p>
-            <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.7)', marginTop: '12px' }}>
+            <p style={{ fontSize: '15px', color: 'rgba(0,0,0,0.7)', marginTop: '12px' }}>
               합격생 배출
             </p>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#ffc50a', lineHeight: 1 }}>
+            <p style={{ fontSize: 'clamp(40px, 7vw, 64px)', fontWeight: 700, color: '#000', lineHeight: 1 }}>
               100+
             </p>
-            <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.7)', marginTop: '12px' }}>
+            <p style={{ fontSize: '15px', color: 'rgba(0,0,0,0.7)', marginTop: '12px' }}>
               프로 뮤지션 배출
             </p>
           </div>
