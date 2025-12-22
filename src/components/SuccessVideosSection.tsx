@@ -169,20 +169,6 @@ export default function SuccessVideosSection() {
                         </svg>
                       </div>
                     </div>
-                    {/* Year Badge */}
-                    <div style={{
-                      position: 'absolute',
-                      top: '12px',
-                      left: '12px',
-                      padding: '6px 14px',
-                      backgroundColor: '#ffc50a',
-                      color: '#000',
-                      borderRadius: '100px',
-                      fontSize: '13px',
-                      fontWeight: 700,
-                    }}>
-                      {video.year}학년도
-                    </div>
                   </>
                 )}
               </div>

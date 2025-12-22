@@ -138,8 +138,10 @@ export default function AboutSection() {
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
               </Link>
-              <Link
-                href="/contact"
+              <a
+                href="https://pf.kakao.com/_xixgxgxmj"
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -155,7 +157,7 @@ export default function AboutSection() {
                 }}
               >
                 상담 신청
-              </Link>
+              </a>
             </div>
           </div>
         </div>

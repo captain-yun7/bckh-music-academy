@@ -170,21 +170,13 @@ export default function FacilitiesSection() {
                 }}>
                   {String(index + 1).padStart(2, '0')}
                 </div>
-                {/* Title on Image */}
+                {/* Description on Image */}
                 <div style={{
                   position: 'absolute',
                   bottom: '20px',
                   left: '20px',
                   right: '20px',
                 }}>
-                  <p style={{
-                    fontSize: '20px',
-                    fontWeight: 700,
-                    color: '#fff',
-                    marginBottom: '6px',
-                  }}>
-                    {item.title}
-                  </p>
                   <p style={{
                     fontSize: '14px',
                     color: 'rgba(255,255,255,0.7)',

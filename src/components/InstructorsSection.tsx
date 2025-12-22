@@ -1,6 +1,5 @@
 'use client';
 
-import { useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -26,113 +25,36 @@ const allInstructors = [
 ];
 
 export default function InstructorsSection() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
-
-  const checkScroll = () => {
-    if (scrollRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
-    }
-  };
-
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const scrollAmount = 320;
-      scrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth',
-      });
-      setTimeout(checkScroll, 300);
-    }
-  };
 
   return (
     <section id="instructors" style={{ padding: '100px 0', backgroundColor: '#fff' }}>
       <div className="container">
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px', flexWrap: 'wrap', gap: '20px' }}>
-          <div>
-            <p style={{ color: '#ffc50a', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>
-              INSTRUCTORS
-            </p>
-            <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#000', marginBottom: '12px' }}>
-              전문 강사진
-            </h2>
-            <p style={{ color: 'rgba(0,0,0,0.6)', fontSize: '16px' }}>
-              현직에서 활동 중인 전문 뮤지션들이 직접 지도합니다.
-            </p>
-          </div>
-
-          {/* Navigation Arrows */}
-          <div style={{ display: 'flex', gap: '12px' }}>
-            <button
-              onClick={() => scroll('left')}
-              disabled={!canScrollLeft}
-              style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: '50%',
-                border: '1px solid rgba(0,0,0,0.2)',
-                backgroundColor: 'transparent',
-                color: canScrollLeft ? '#000' : 'rgba(0,0,0,0.3)',
-                cursor: canScrollLeft ? 'pointer' : 'default',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.2s',
-              }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M15 18l-6-6 6-6" />
-              </svg>
-            </button>
-            <button
-              onClick={() => scroll('right')}
-              disabled={!canScrollRight}
-              style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: '50%',
-                border: '1px solid rgba(0,0,0,0.2)',
-                backgroundColor: 'transparent',
-                color: canScrollRight ? '#000' : 'rgba(0,0,0,0.3)',
-                cursor: canScrollRight ? 'pointer' : 'default',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.2s',
-              }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M9 18l6-6-6-6" />
-              </svg>
-            </button>
-          </div>
+        <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+          <p style={{ color: '#ffc50a', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>
+            INSTRUCTORS
+          </p>
+          <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#000', marginBottom: '12px' }}>
+            강사진
+          </h2>
+          <p style={{ color: 'rgba(0,0,0,0.6)', fontSize: '16px' }}>
+            현직에서 활동 중인 프로뮤지션들이 직접 지도합니다.
+          </p>
         </div>
 
-        {/* Carousel */}
+        {/* Grid */}
         <div
-          ref={scrollRef}
-          onScroll={checkScroll}
           style={{
-            display: 'flex',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
             gap: '20px',
-            overflowX: 'auto',
-            scrollSnapType: 'x mandatory',
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none',
-            paddingBottom: '20px',
+            marginBottom: '60px',
           }}
         >
           {allInstructors.map((instructor, index) => (
             <div
               key={index}
               style={{
-                flex: '0 0 200px',
-                scrollSnapAlign: 'start',
                 borderRadius: '16px',
                 overflow: 'hidden',
                 backgroundColor: '#f5f5f5',
@@ -145,7 +67,7 @@ export default function InstructorsSection() {
                   alt={instructor.name}
                   fill
                   style={{ objectFit: 'cover' }}
-                  sizes="200px"
+                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 180px"
                 />
                 <div style={{
                   position: 'absolute',
@@ -171,7 +93,7 @@ export default function InstructorsSection() {
         </div>
 
         {/* View All Link */}
-        <div style={{ textAlign: 'center', marginTop: '40px' }}>
+        <div style={{ textAlign: 'center' }}>
           <Link
             href="/instructors"
             style={{
@@ -188,19 +110,13 @@ export default function InstructorsSection() {
               transition: 'all 0.2s',
             }}
           >
-            전체 강사진 보기
+            강사진프로필 상세보기
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </Link>
         </div>
       </div>
-
-      <style jsx>{`
-        div::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </section>
   );
 }

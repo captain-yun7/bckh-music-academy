@@ -153,19 +153,11 @@ export default function PerformancesSection() {
               <div style={{ position: 'relative', aspectRatio: '3/2' }}>
                 <Image
                   src={item.image}
-                  alt={item.title}
+                  alt={`공연 ${index + 1}`}
                   fill
                   style={{ objectFit: 'cover' }}
                   sizes="320px"
                 />
-              </div>
-              <div style={{ padding: '20px', textAlign: 'center' }}>
-                <p style={{ fontSize: '18px', fontWeight: 600, color: '#fff', marginBottom: '4px' }}>
-                  {item.title}
-                </p>
-                <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.5)' }}>
-                  {item.desc}
-                </p>
               </div>
             </div>
           ))}

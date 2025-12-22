@@ -189,20 +189,6 @@ export default function MusiciansSection() {
                   inset: 0,
                   background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0) 60%)',
                 }} />
-                {/* Group Badge */}
-                <div style={{
-                  position: 'absolute',
-                  top: '16px',
-                  left: '16px',
-                  backgroundColor: '#ffc50a',
-                  color: '#000',
-                  padding: '8px 16px',
-                  borderRadius: '100px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                }}>
-                  {musician.group}
-                </div>
                 {/* Info on Image */}
                 <div style={{
                   position: 'absolute',

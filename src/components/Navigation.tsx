@@ -240,8 +240,10 @@ export default function Navigation() {
 
           {/* CTA + Hamburger */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Link
-              href="/contact"
+            <a
+              href="https://pf.kakao.com/_xixgxgxmj"
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
                 padding: '8px 16px',
                 fontSize: '14px',
@@ -254,7 +256,7 @@ export default function Navigation() {
               className="desktop-cta"
             >
               상담신청
-            </Link>
+            </a>
 
             {/* Mobile Hamburger */}
             <button
@@ -405,8 +407,10 @@ export default function Navigation() {
               )}
             </div>
           ))}
-          <Link
-            href="/contact"
+          <a
+            href="https://pf.kakao.com/_xixgxgxmj"
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={() => setIsMobileMenuOpen(false)}
             style={{
               display: 'block',
@@ -422,7 +426,7 @@ export default function Navigation() {
             }}
           >
             상담신청
-          </Link>
+          </a>
         </div>
       </div>
 

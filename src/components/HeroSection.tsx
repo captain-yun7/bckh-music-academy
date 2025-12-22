@@ -178,7 +178,7 @@ export default function HeroSection() {
                   fontWeight: 500,
                 }}
               >
-                Since 1999 · 부천시 심곡동
+                Since 2007
               </span>
             </div>
 
@@ -211,7 +211,9 @@ export default function HeroSection() {
             {/* Buttons */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
               <a
-                href={slides[currentSlide]?.buttonLink || '#contact'}
+                href={slides[currentSlide]?.buttonLink || 'https://pf.kakao.com/_xixgxgxmj'}
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
