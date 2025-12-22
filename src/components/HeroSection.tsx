@@ -102,15 +102,6 @@ export default function HeroSection() {
         delay: 0.3,
         ease: 'power3.out',
       });
-
-      gsap.from('.hero-stats-item', {
-        y: 20,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        delay: 0.6,
-        ease: 'power3.out',
-      });
     }, heroRef);
 
     return () => ctx.revert();
@@ -251,33 +242,6 @@ export default function HeroSection() {
               >
                 과정 알아보기
               </a>
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div
-            style={{
-              marginTop: '80px',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
-              gap: '24px',
-            }}
-          >
-            <div className="hero-stats-item">
-              <p style={{ fontSize: '36px', fontWeight: 700, color: 'white', marginBottom: '4px' }}>25+</p>
-              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>Years of Excellence</p>
-            </div>
-            <div className="hero-stats-item">
-              <p style={{ fontSize: '36px', fontWeight: 700, color: 'white', marginBottom: '4px' }}>8</p>
-              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>전공 분야</p>
-            </div>
-            <div className="hero-stats-item">
-              <p style={{ fontSize: '36px', fontWeight: 700, color: 'white', marginBottom: '4px' }}>16</p>
-              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>전공별 스텝수업</p>
-            </div>
-            <div className="hero-stats-item">
-              <p style={{ fontSize: '36px', fontWeight: 700, color: 'white', marginBottom: '4px' }}>1000+</p>
-              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>합격생 배출</p>
             </div>
           </div>
         </div>
