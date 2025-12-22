@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -25,40 +26,123 @@ const allInstructors = [
 ];
 
 export default function InstructorsSection() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+    }
+  };
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = 220;
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+      setTimeout(checkScroll, 300);
+    }
+  };
 
   return (
     <section id="instructors" style={{ padding: '100px 0', backgroundColor: '#fff' }}>
       <div className="container">
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-          <p style={{ color: '#ffc50a', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>
-            INSTRUCTORS
-          </p>
-          <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#000', marginBottom: '12px' }}>
-            강사진
-          </h2>
-          <p style={{ color: 'rgba(0,0,0,0.6)', fontSize: '16px' }}>
-            현직에서 활동 중인 프로뮤지션들이 직접 지도합니다.
-          </p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', flexWrap: 'wrap', gap: '20px' }}>
+          <div>
+            <p style={{ color: '#ffc50a', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>
+              INSTRUCTORS
+            </p>
+            <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#000', marginBottom: '12px' }}>
+              강사진
+            </h2>
+            <p style={{ color: 'rgba(0,0,0,0.6)', fontSize: '16px' }}>
+              현직에서 활동 중인 프로뮤지션들이 직접 지도합니다.
+            </p>
+          </div>
+
+          {/* Navigation Arrows */}
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <button
+              onClick={() => scroll('left')}
+              disabled={!canScrollLeft}
+              style={{
+                width: '52px',
+                height: '52px',
+                borderRadius: '50%',
+                border: canScrollLeft ? '2px solid #ffc50a' : '2px solid rgba(0,0,0,0.2)',
+                backgroundColor: 'transparent',
+                color: canScrollLeft ? '#ffc50a' : 'rgba(0,0,0,0.3)',
+                cursor: canScrollLeft ? 'pointer' : 'default',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s',
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+            <button
+              onClick={() => scroll('right')}
+              disabled={!canScrollRight}
+              style={{
+                width: '52px',
+                height: '52px',
+                borderRadius: '50%',
+                border: canScrollRight ? '2px solid #ffc50a' : '2px solid rgba(0,0,0,0.2)',
+                backgroundColor: 'transparent',
+                color: canScrollRight ? '#ffc50a' : 'rgba(0,0,0,0.3)',
+                cursor: canScrollRight ? 'pointer' : 'default',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.3s',
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
         </div>
 
-        {/* Grid */}
+        {/* Carousel */}
         <div
+          ref={scrollRef}
+          onScroll={checkScroll}
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
+            display: 'flex',
             gap: '20px',
-            marginBottom: '60px',
+            overflowX: 'auto',
+            scrollSnapType: 'x mandatory',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+            paddingBottom: '20px',
+            marginBottom: '40px',
+            marginLeft: '-20px',
+            marginRight: '-20px',
+            paddingLeft: '20px',
+            paddingRight: '20px',
           }}
         >
           {allInstructors.map((instructor, index) => (
             <div
               key={index}
               style={{
+                flex: '0 0 180px',
+                scrollSnapAlign: 'start',
                 borderRadius: '16px',
                 overflow: 'hidden',
                 backgroundColor: '#f5f5f5',
                 border: '1px solid rgba(0,0,0,0.08)',
+                transition: 'transform 0.3s ease',
               }}
             >
               <div style={{ position: 'relative', aspectRatio: '3/4' }}>
@@ -67,7 +151,7 @@ export default function InstructorsSection() {
                   alt={instructor.name}
                   fill
                   style={{ objectFit: 'cover' }}
-                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 180px"
+                  sizes="180px"
                 />
                 <div style={{
                   position: 'absolute',
@@ -117,6 +201,12 @@ export default function InstructorsSection() {
           </Link>
         </div>
       </div>
+
+      <style jsx>{`
+        div::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 }
