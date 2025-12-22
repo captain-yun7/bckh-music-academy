@@ -49,36 +49,6 @@ export default function ReviewsSection() {
             </p>
           </div>
 
-          {/* Big Numbers */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '24px',
-            maxWidth: '900px',
-            margin: '0 auto',
-          }}>
-            {[
-              { number: '25+', label: '년 전통' },
-              { number: '1000+', label: '누적 합격생' },
-              { number: '95%', label: '합격률' },
-              { number: '50+', label: '합격 대학' },
-            ].map((stat, index) => (
-              <div key={index} style={{ textAlign: 'center' }}>
-                <p style={{
-                  fontSize: 'clamp(40px, 8vw, 72px)',
-                  fontWeight: 800,
-                  color: '#ffc50a',
-                  lineHeight: 1,
-                  marginBottom: '12px',
-                }}>
-                  {stat.number}
-                </p>
-                <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '15px' }}>
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 
