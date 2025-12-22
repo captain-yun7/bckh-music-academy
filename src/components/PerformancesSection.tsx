@@ -5,36 +5,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 const performances = [
-  {
-    title: '케이크 콘서트',
-    desc: '정기 발표회',
-    image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=600&h=400&fit=crop',
-  },
-  {
-    title: '버스킹 공연',
-    desc: '야외 무대 경험',
-    image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600&h=400&fit=crop',
-  },
-  {
-    title: '졸업 공연',
-    desc: '수료 기념 무대',
-    image: 'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=600&h=400&fit=crop',
-  },
-  {
-    title: '합동 공연',
-    desc: '학원 연합 무대',
-    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&h=400&fit=crop',
-  },
-  {
-    title: '라이브 공연',
-    desc: '클럽 라이브 무대',
-    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&h=400&fit=crop',
-  },
-  {
-    title: '특별 공연',
-    desc: '초청 이벤트',
-    image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600&h=400&fit=crop',
-  },
+  { image: '/images/performances/performance01.jpg' },
+  { image: '/images/performances/performance02.jpg' },
+  { image: '/images/performances/performance03.jpg' },
+  { image: '/images/performances/performance04.jpg' },
+  { image: '/images/performances/performance05.jpg' },
+  { image: '/images/performances/performance06.jpg' },
+  { image: '/images/performances/performance07.jpg' },
+  { image: '/images/performances/performance08.jpg' },
+  { image: '/images/performances/performance09.jpg' },
+  { image: '/images/performances/performance10.jpg' },
+  { image: '/images/performances/performance11.jpg' },
+  { image: '/images/performances/performance12.jpg' },
+  { image: '/images/performances/performance13.jpg' },
+  { image: '/images/performances/performance14.jpg' },
+  { image: '/images/performances/performance15.jpg' },
 ];
 
 export default function PerformancesSection() {

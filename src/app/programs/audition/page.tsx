@@ -6,7 +6,7 @@ export default function RegularAuditionPage() {
     <SubPageLayout
       title="정기오디션"
       subtitle="국내 70여개 기획사 참여 오디션"
-      bgImage="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1920&q=80"
+      bgImage="/images/programs/audition/photo01.jpg"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

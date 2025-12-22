@@ -53,7 +53,7 @@ export default function OpenStagePage() {
     <SubPageLayout
       title="오픈스테이지"
       subtitle="무대 경험을 쌓는 열린 공연"
-      bgImage="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1920&q=80"
+      bgImage="/images/programs/open-stage/photo01.jpg"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>
