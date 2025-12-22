@@ -15,12 +15,6 @@ const courses = [
     image: '/images/curriculum/info1.jpg',
   },
   {
-    title: '랩/HIPHOP',
-    desc: '랩, 힙합 전문 트레이닝',
-    features: ['라임 작성법', '플로우 훈련', '비트메이킹', '믹스테잎 제작'],
-    image: '/images/curriculum/info2.jpg',
-  },
-  {
     title: '전문반',
     desc: '프로 뮤지션을 위한 심화 과정',
     features: ['고급 테크닉', '음원 제작', '공연 기획', '저작권 교육'],
