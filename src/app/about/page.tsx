@@ -1,5 +1,4 @@
 import SubPageLayout from '@/components/SubPageLayout';
-import Image from 'next/image';
 
 const philosophies = [
   { num: '01', title: '솔직한 상담', desc: '솔직한 상담을 하는 학원입니다. 꼭 필요한 수업만 수강하시면 됩니다.' },
@@ -25,29 +24,6 @@ const ceoCareer = [
   '씨야, 가비엔제이 등 다수의 건반 세션',
   '경기문화재단 주최 시민문화축제 음악감독',
   '경기도지사 선거 메인테마송 작/편곡 음악감독',
-];
-
-const specialSystems = [
-  {
-    title: '최강 3인 멘토링',
-    desc: '담당 강사 · 부강사 · 스텝강사가 함께 지도하여 체계적인 교육을 제공합니다.',
-    image: '/images/about/intro_c.jpg',
-  },
-  {
-    title: '16개 스텝수업',
-    desc: '전공별 그룹 수업으로 체계적인 학습을 진행합니다.',
-    image: '/images/about/intro_d.jpg',
-  },
-  {
-    title: '레코딩 시스템',
-    desc: '전문 녹음실에서 포트폴리오를 제작합니다.',
-    image: '/images/about/intro_e.jpg',
-  },
-  {
-    title: '케이크 콘서트',
-    desc: '정기 공연을 통한 무대 경험을 축적합니다.',
-    image: '/images/about/intro_f.jpg',
-  },
 ];
 
 export default function AboutPage() {
@@ -211,74 +187,6 @@ export default function AboutPage() {
                 ))}
               </ul>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section style={{ padding: '80px 0', backgroundColor: '#ffc50a' }}>
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '40px', textAlign: 'center' }}>
-            <div>
-              <p style={{ fontSize: 'clamp(48px, 8vw, 72px)', fontWeight: 700, color: '#000', lineHeight: 1 }}>18+</p>
-              <p style={{ fontSize: '16px', color: '#000', marginTop: '12px', fontWeight: 500 }}>Years of History</p>
-            </div>
-            <div>
-              <p style={{ fontSize: 'clamp(48px, 8vw, 72px)', fontWeight: 700, color: '#000', lineHeight: 1 }}>1000+</p>
-              <p style={{ fontSize: '16px', color: '#000', marginTop: '12px', fontWeight: 500 }}>합격생 배출</p>
-            </div>
-            <div>
-              <p style={{ fontSize: 'clamp(48px, 8vw, 72px)', fontWeight: 700, color: '#000', lineHeight: 1 }}>95%</p>
-              <p style={{ fontSize: '16px', color: '#000', marginTop: '12px', fontWeight: 500 }}>합격률</p>
-            </div>
-            <div>
-              <p style={{ fontSize: 'clamp(48px, 8vw, 72px)', fontWeight: 700, color: '#000', lineHeight: 1 }}>100+</p>
-              <p style={{ fontSize: '16px', color: '#000', marginTop: '12px', fontWeight: 500 }}>프로 뮤지션 배출</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Special System */}
-      <section style={{ padding: '100px 0', backgroundColor: '#fff' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-            <p style={{ color: '#ffc50a', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>
-              SPECIAL SYSTEM
-            </p>
-            <h2 style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 700, color: '#000' }}>
-              경희만의 특별 시스템
-            </h2>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
-            {specialSystems.map((system, index) => (
-              <div
-                key={index}
-                style={{
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  backgroundColor: '#000',
-                }}
-              >
-                <div style={{ position: 'relative', aspectRatio: '16/10' }}>
-                  <Image
-                    src={system.image}
-                    alt={system.title}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div style={{ padding: '24px' }}>
-                  <p style={{ fontSize: '20px', fontWeight: 700, color: '#fff', marginBottom: '12px' }}>
-                    {system.title}
-                  </p>
-                  <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.7 }}>
-                    {system.desc}
-                  </p>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>

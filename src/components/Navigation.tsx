@@ -24,9 +24,6 @@ const navLinks: NavLink[] = [
       { name: '출신뮤지션', href: '/musicians' },
       { name: '장학제도', href: '/scholarship' },
       { name: '특별프로그램', href: '/programs' },
-      { name: '오픈스테이지', href: '/programs/open-stage' },
-      { name: '사진', href: '/facilities' },
-      { name: '오시는 길', href: '/contact' },
     ],
   },
   {
@@ -71,6 +68,18 @@ const navLinks: NavLink[] = [
       { name: '예술고등학교', href: '/admission-guide/art-highschool' },
       { name: '대학원/편입', href: '/admission-guide/graduate' },
     ],
+  },
+  {
+    name: '갤러리',
+    href: '/gallery',
+    children: [
+      { name: '공연사진', href: '/gallery/performances' },
+      { name: '시설사진', href: '/gallery/facilities' },
+    ],
+  },
+  {
+    name: '오시는길',
+    href: '/contact',
   },
 ];
 
@@ -238,25 +247,55 @@ export default function Navigation() {
             ))}
           </div>
 
-          {/* CTA + Hamburger */}
+          {/* SNS Icons + Hamburger */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <a
-              href="https://pf.kakao.com/_xixgxgxmj"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                padding: '8px 16px',
-                fontSize: '14px',
-                fontWeight: 600,
-                color: '#fff',
-                backgroundColor: '#111',
-                borderRadius: '6px',
-                textDecoration: 'none',
-              }}
-              className="desktop-cta"
-            >
-              상담신청
-            </a>
+            {/* SNS Icons - Desktop Only */}
+            <div className="desktop-sns" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <a
+                href="https://www.youtube.com/@user-mv4ws2qy8t"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ padding: '6px', color: '#666', transition: 'color 0.2s' }}
+                aria-label="YouTube"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+              </a>
+              <a
+                href="https://blog.naver.com/khmusic2007"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ padding: '6px', color: '#666', transition: 'color 0.2s' }}
+                aria-label="Blog"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16.273 12.845 7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z"/>
+                </svg>
+              </a>
+              <a
+                href="https://www.instagram.com/khmusic_official/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ padding: '6px', color: '#666', transition: 'color 0.2s' }}
+                aria-label="Instagram"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                </svg>
+              </a>
+              <a
+                href="https://pf.kakao.com/_xixgxgxmj"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ padding: '6px', color: '#666', transition: 'color 0.2s' }}
+                aria-label="KakaoTalk"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 3c-5.523 0-10 3.582-10 8 0 2.792 1.86 5.247 4.644 6.619-.178.633-.645 2.298-.738 2.655-.117.446.163.44.343.32.142-.094 2.257-1.533 3.175-2.156.842.123 1.71.188 2.576.188 5.523 0 10-3.582 10-8s-4.477-8-10-8z"/>
+                </svg>
+              </a>
+            </div>
 
             {/* Mobile Hamburger */}
             <button
@@ -407,26 +446,30 @@ export default function Navigation() {
               )}
             </div>
           ))}
-          <a
-            href="https://pf.kakao.com/_xixgxgxmj"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setIsMobileMenuOpen(false)}
-            style={{
-              display: 'block',
-              marginTop: '16px',
-              padding: '14px',
-              fontSize: '15px',
-              fontWeight: 600,
-              color: '#fff',
-              backgroundColor: '#111',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              textAlign: 'center',
-            }}
-          >
-            상담신청
-          </a>
+
+          {/* Mobile SNS Icons */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #eee' }}>
+            <a href="https://www.youtube.com/@user-mv4ws2qy8t" target="_blank" rel="noopener noreferrer" style={{ padding: '8px', color: '#666' }} aria-label="YouTube">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+            </a>
+            <a href="https://blog.naver.com/khmusic2007" target="_blank" rel="noopener noreferrer" style={{ padding: '8px', color: '#666' }} aria-label="Blog">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16.273 12.845 7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z"/>
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/khmusic_official/" target="_blank" rel="noopener noreferrer" style={{ padding: '8px', color: '#666' }} aria-label="Instagram">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+              </svg>
+            </a>
+            <a href="https://pf.kakao.com/_xixgxgxmj" target="_blank" rel="noopener noreferrer" style={{ padding: '8px', color: '#666' }} aria-label="KakaoTalk">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 3c-5.523 0-10 3.582-10 8 0 2.792 1.86 5.247 4.644 6.619-.178.633-.645 2.298-.738 2.655-.117.446.163.44.343.32.142-.094 2.257-1.533 3.175-2.156.842.123 1.71.188 2.576.188 5.523 0 10-3.582 10-8s-4.477-8-10-8z"/>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
 
@@ -435,7 +478,7 @@ export default function Navigation() {
         .desktop-nav {
           display: none !important;
         }
-        .desktop-cta {
+        .desktop-sns {
           display: none !important;
         }
         .mobile-hamburger {
@@ -452,8 +495,8 @@ export default function Navigation() {
           .desktop-nav {
             display: flex !important;
           }
-          .desktop-cta {
-            display: block !important;
+          .desktop-sns {
+            display: flex !important;
           }
           .mobile-hamburger {
             display: none !important;

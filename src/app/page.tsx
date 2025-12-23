@@ -4,12 +4,12 @@ import SuccessVideosSection from '@/components/SuccessVideosSection';
 import FacilitiesSection from '@/components/FacilitiesSection';
 import PerformancesSection from '@/components/PerformancesSection';
 import MusiciansSection from '@/components/MusiciansSection';
-import AboutSection from '@/components/AboutSection';
 import InstructorsSection from '@/components/InstructorsSection';
 import CoursesSection from '@/components/CoursesSection';
 import ReviewsSection from '@/components/ReviewsSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
+import FloatingCTA from '@/components/FloatingCTA';
 
 export default function HomePage() {
   return (
@@ -22,11 +22,17 @@ export default function HomePage() {
 
       {/* Main Content */}
       <main>
-        {/* Hero - 다이나믹 텍스트 애니메이션 */}
+        {/* Hero - 이미지 슬라이드 */}
         <HeroSection />
 
-        {/* 합격생 동영상 - 히어로 바로 하단 */}
+        {/* 강사진 - 최상위 */}
+        <InstructorsSection />
+
+        {/* 합격생 동영상 */}
         <SuccessVideosSection />
+
+        {/* 커리큘럼 */}
+        <CoursesSection />
 
         {/* 시설사진 */}
         <FacilitiesSection />
@@ -37,17 +43,8 @@ export default function HomePage() {
         {/* 배출뮤지션 */}
         <MusiciansSection />
 
-        {/* 강사진 */}
-        <InstructorsSection />
-
         {/* 합격 실적 */}
         <ReviewsSection />
-
-        {/* 학원 소개 */}
-        <AboutSection />
-
-        {/* 교육과정 */}
-        <CoursesSection />
 
         {/* Contact - 오시는길 */}
         <ContactSection />
@@ -55,6 +52,9 @@ export default function HomePage() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Floating CTA Button */}
+      <FloatingCTA />
     </>
   );
 }

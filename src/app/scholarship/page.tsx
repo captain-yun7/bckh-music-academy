@@ -1,3 +1,6 @@
+'use client';
+
+import { useRef, useState } from 'react';
 import SubPageLayout from '@/components/SubPageLayout';
 import Link from 'next/link';
 
@@ -21,6 +24,29 @@ const scholarships = [
 ];
 
 export default function ScholarshipPage() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+    }
+  };
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = 420;
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+      setTimeout(checkScroll, 300);
+    }
+  };
+
   return (
     <SubPageLayout
       title="장학제도"
@@ -40,32 +66,111 @@ export default function ScholarshipPage() {
         </div>
       </section>
 
-      {/* Scholarship Cards */}
+      {/* Scholarship Carousel */}
       <section style={{ padding: '80px 0', backgroundColor: '#f8f8f8' }}>
         <div className="container">
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-            gap: '32px',
-          }}>
+          {/* Header with Navigation */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px', flexWrap: 'wrap', gap: '20px' }}>
+            <div>
+              <p style={{ color: '#ffc50a', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '12px' }}>
+                SCHOLARSHIP
+              </p>
+              <h2 style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 700, color: '#000' }}>
+                장학금 안내
+              </h2>
+            </div>
+
+            {/* Navigation Arrows */}
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <button
+                onClick={() => scroll('left')}
+                disabled={!canScrollLeft}
+                style={{
+                  width: '52px',
+                  height: '52px',
+                  borderRadius: '50%',
+                  border: canScrollLeft ? '2px solid #ffc50a' : '2px solid rgba(0,0,0,0.2)',
+                  backgroundColor: 'transparent',
+                  color: canScrollLeft ? '#ffc50a' : 'rgba(0,0,0,0.3)',
+                  cursor: canScrollLeft ? 'pointer' : 'default',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.3s',
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+              <button
+                onClick={() => scroll('right')}
+                disabled={!canScrollRight}
+                style={{
+                  width: '52px',
+                  height: '52px',
+                  borderRadius: '50%',
+                  border: canScrollRight ? '2px solid #ffc50a' : '2px solid rgba(0,0,0,0.2)',
+                  backgroundColor: 'transparent',
+                  color: canScrollRight ? '#ffc50a' : 'rgba(0,0,0,0.3)',
+                  cursor: canScrollRight ? 'pointer' : 'default',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.3s',
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Scrollable Cards */}
+          <div
+            ref={scrollRef}
+            onScroll={checkScroll}
+            style={{
+              display: 'flex',
+              gap: '24px',
+              overflowX: 'auto',
+              scrollSnapType: 'x mandatory',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              paddingBottom: '20px',
+              marginLeft: '-20px',
+              marginRight: '-20px',
+              paddingLeft: '20px',
+              paddingRight: '20px',
+            }}
+          >
             {scholarships.map((scholarship) => (
               <Link
                 key={scholarship.id}
                 href={`/scholarship/${scholarship.id}`}
-                style={{ textDecoration: 'none' }}
+                style={{
+                  flex: '0 0 400px',
+                  scrollSnapAlign: 'start',
+                  textDecoration: 'none',
+                }}
               >
-                <div style={{
-                  backgroundColor: '#fff',
-                  borderRadius: '20px',
-                  padding: '40px',
-                  boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
-                  transition: 'transform 0.3s ease',
-                }}>
+                <div
+                  style={{
+                    backgroundColor: '#fff',
+                    borderRadius: '20px',
+                    padding: '40px',
+                    boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
+                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                    height: '100%',
+                  }}
+                  className="scholarship-card"
+                >
                   <div style={{
                     display: 'inline-block',
                     padding: '8px 16px',
                     backgroundColor: scholarship.color,
-                    color: '#fff',
+                    color: '#000',
                     borderRadius: '20px',
                     fontSize: '14px',
                     fontWeight: 600,
@@ -128,6 +233,17 @@ export default function ScholarshipPage() {
             ))}
           </div>
         </div>
+
+        <style jsx>{`
+          div::-webkit-scrollbar {
+            display: none;
+          }
+
+          .scholarship-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+          }
+        `}</style>
       </section>
 
       {/* CTA */}

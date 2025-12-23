@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
-import gsap from 'gsap';
+import { useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
 
 interface Slide {
@@ -18,37 +17,36 @@ const defaultSlides: Slide[] = [
   {
     id: '1',
     imageUrl: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1920&q=80',
-    title: '음악의 꿈을 현실로',
-    subtitle: '25년 전통의 경희실용음악학원',
+    title: '',
+    subtitle: null,
   },
   {
     id: '2',
     imageUrl: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1920&q=80',
-    title: '최고의 강사진',
-    subtitle: '현역 뮤지션 출신 전문 강사진이 함께합니다',
+    title: '',
+    subtitle: null,
   },
   {
     id: '3',
     imageUrl: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1920&q=80',
-    title: '전문 시설',
-    subtitle: '최신 장비와 쾌적한 연습실 환경',
+    title: '',
+    subtitle: null,
   },
   {
     id: '4',
     imageUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1920&q=80',
-    title: '1000+ 합격생 배출',
-    subtitle: '실용음악과 입시 합격의 산실',
+    title: '',
+    subtitle: null,
   },
   {
     id: '5',
     imageUrl: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1920&q=80',
-    title: '다양한 전공',
-    subtitle: '보컬 · 피아노 · 기타 · 베이스 · 드럼 · 작곡',
+    title: '',
+    subtitle: null,
   },
 ];
 
 export default function HeroSection() {
-  const heroRef = useRef<HTMLDivElement>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slides, setSlides] = useState<Slide[]>(defaultSlides);
 
@@ -92,24 +90,8 @@ export default function HeroSection() {
     return () => clearInterval(interval);
   }, [slides.length]);
 
-  // GSAP animations
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from('.hero-content', {
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.3,
-        ease: 'power3.out',
-      });
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
     <section
-      ref={heroRef}
       style={{
         position: 'relative',
         height: '100vh',
@@ -132,120 +114,15 @@ export default function HeroSection() {
         >
           <Image
             src={slide.imageUrl}
-            alt={slide.title}
+            alt={`슬라이드 ${index + 1}`}
             fill
             style={{ objectFit: 'cover' }}
             priority={index === 0}
           />
-          {/* Overlay */}
-          <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)' }} />
+          {/* Light Overlay for better visibility */}
+          <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.2)' }} />
         </div>
       ))}
-
-      {/* Content */}
-      <div
-        style={{
-          position: 'relative',
-          zIndex: 20,
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-        }}
-      >
-        <div className="container">
-          <div className="hero-content" style={{ maxWidth: '800px' }}>
-            {/* Badge */}
-            <div style={{ marginBottom: '24px' }}>
-              <span
-                style={{
-                  display: 'inline-block',
-                  padding: '8px 16px',
-                  backgroundColor: 'rgba(255,255,255,0.1)',
-                  backdropFilter: 'blur(4px)',
-                  borderRadius: '9999px',
-                  color: 'rgba(255,255,255,0.8)',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                }}
-              >
-                Since 2007
-              </span>
-            </div>
-
-            {/* Title */}
-            <h1
-              style={{
-                fontSize: 'clamp(36px, 8vw, 72px)',
-                fontWeight: 700,
-                color: 'white',
-                marginBottom: '24px',
-                lineHeight: 1.2,
-              }}
-            >
-              {slides[currentSlide]?.title}
-            </h1>
-
-            {/* Subtitle */}
-            {slides[currentSlide]?.subtitle && (
-              <p
-                style={{
-                  fontSize: 'clamp(18px, 3vw, 24px)',
-                  color: 'rgba(255,255,255,0.9)',
-                  marginBottom: '40px',
-                }}
-              >
-                {slides[currentSlide].subtitle}
-              </p>
-            )}
-
-            {/* Buttons */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
-              <a
-                href={slides[currentSlide]?.buttonLink || 'https://pf.kakao.com/_xixgxgxmj'}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '16px 32px',
-                  backgroundColor: 'white',
-                  color: 'black',
-                  fontWeight: 600,
-                  fontSize: '16px',
-                  borderRadius: '9999px',
-                  textDecoration: 'none',
-                  transition: 'background-color 0.2s',
-                }}
-              >
-                {slides[currentSlide]?.buttonText || '상담 신청하기'}
-                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
-              <a
-                href="#courses"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  padding: '16px 32px',
-                  backgroundColor: 'transparent',
-                  color: 'white',
-                  fontWeight: 600,
-                  fontSize: '16px',
-                  borderRadius: '9999px',
-                  border: '2px solid white',
-                  textDecoration: 'none',
-                  transition: 'background-color 0.2s',
-                }}
-              >
-                과정 알아보기
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Navigation Arrows */}
       <button

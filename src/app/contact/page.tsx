@@ -6,17 +6,17 @@ export default function ContactPage() {
       title="오시는길"
       subtitle="경희실용음악학원 위치 안내"
     >
-      {/* Map Section */}
+      {/* Naver Map Section */}
       <section style={{ padding: '0' }}>
         <div style={{ width: '100%', height: '450px', backgroundColor: '#e5e5e5' }}>
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3167.5!2d126.76!3d37.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDMwJzAwLjAiTiAxMjbCsDQ1JzM2LjAiRQ!5e0!3m2!1sko!2skr!4v1234567890"
+            src="https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EB%B6%80%EC%B2%9C%EC%8B%9C%20%EC%9B%90%EB%AF%B8%EA%B5%AC%20%EC%A4%91%EB%8F%99%201141-2?c=15.00,0,0,0,dh"
             width="100%"
             height="100%"
             style={{ border: 0 }}
             allowFullScreen
             loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
+            title="경희실용음악학원 네이버 지도"
           />
         </div>
       </section>
