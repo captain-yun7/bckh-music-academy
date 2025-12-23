@@ -1,31 +1,109 @@
 'use client';
 
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 
-// 합격 대학 데이터
-const universities = {
-  fourYear: ['경희대학교', '한양대학교', '단국대학교', '동덕여자대학교', '명지대학교', '상명대학교', '서경대학교', '백석대학교', '호원대학교', '계명대학교'],
-  twoYear: ['서울예술대학교', '동아방송예술대학교', '백제예술대학교', '여주대학교', '국제예술대학교', '한국영상대학교'],
-  highSchool: ['서울공연예술고등학교', '서서울생활과학고등학교', '한림연예예술고등학교', '리라아트고등학교', '서울실용음악고등학교'],
+// 년도별 합격자 데이터
+const admissionsByYear: Record<string, { summary: string; students: { name: string; school: string; major: string }[] }> = {
+  '2025': {
+    summary: '서울예대 외 32명',
+    students: [
+      { name: '박은진', school: '단국대학교', major: '싱어송라이터' },
+      { name: '강은지', school: '동덕여자대학교', major: '피아노' },
+      { name: '최영민', school: '호원대학교', major: 'K-POP' },
+      { name: '김서연', school: '서울예술대학교', major: '실용음악' },
+      { name: '이하늘', school: '경희대학교', major: '포스트모던음악' },
+      { name: '정민수', school: '한양대학교', major: '실용음악' },
+      { name: '박지원', school: '동아방송예술대학교', major: '보컬' },
+      { name: '김도현', school: '백제예술대학교', major: '작곡' },
+    ],
+  },
+  '2024': {
+    summary: '서울예대 외 45명',
+    students: [
+      { name: '차예서', school: '호원대학교', major: 'K-POP' },
+      { name: '최지혜', school: '서울공연예술고등학교', major: '보컬' },
+      { name: '이은비', school: '동아방송예술대학교', major: '작곡' },
+      { name: '김태윤', school: '서울예술대학교', major: '실용음악' },
+      { name: '박소희', school: '경희대학교', major: '포스트모던음악' },
+      { name: '정유진', school: '단국대학교', major: '뮤지컬' },
+      { name: '이준서', school: '한양대학교', major: '실용음악' },
+      { name: '강민지', school: '동덕여자대학교', major: '피아노' },
+      { name: '조현아', school: '백제예술대학교', major: '보컬' },
+      { name: '윤서현', school: '서울실용음악고등학교', major: '보컬' },
+    ],
+  },
+  '2023': {
+    summary: '서울예대 외 52명',
+    students: [
+      { name: '김하은', school: '서울예술대학교', major: '실용음악' },
+      { name: '이서준', school: '경희대학교', major: '포스트모던음악' },
+      { name: '박민서', school: '한양대학교', major: '실용음악' },
+      { name: '정예린', school: '동아방송예술대학교', major: '보컬' },
+      { name: '최우진', school: '단국대학교', major: '작곡' },
+      { name: '강지우', school: '백제예술대학교', major: '실용음악' },
+      { name: '윤하영', school: '명지대학교', major: '보컬' },
+      { name: '조민준', school: '상명대학교', major: 'MIDI' },
+      { name: '임수빈', school: '서울공연예술고등학교', major: '보컬' },
+      { name: '한지민', school: '동덕여자대학교', major: '피아노' },
+      { name: '송예나', school: '호원대학교', major: 'K-POP' },
+      { name: '오승우', school: '계명대학교', major: '실용음악' },
+    ],
+  },
+  '2022': {
+    summary: '서울예대 외 48명',
+    students: [
+      { name: '김도윤', school: '서울예술대학교', major: '실용음악' },
+      { name: '이수민', school: '경희대학교', major: '포스트모던음악' },
+      { name: '박지훈', school: '한양대학교', major: '실용음악' },
+      { name: '정서연', school: '동아방송예술대학교', major: '작곡' },
+      { name: '최민혁', school: '단국대학교', major: '싱어송라이터' },
+      { name: '강수진', school: '백제예술대학교', major: '보컬' },
+      { name: '윤재현', school: '명지대학교', major: '기타' },
+      { name: '조아린', school: '상명대학교', major: '피아노' },
+      { name: '임채원', school: '한림연예예술고등학교', major: '보컬' },
+      { name: '한서윤', school: '동덕여자대학교', major: '작곡' },
+    ],
+  },
+  '2021': {
+    summary: '서울예대 외 41명',
+    students: [
+      { name: '김예진', school: '서울예술대학교', major: '실용음악' },
+      { name: '이하준', school: '경희대학교', major: '포스트모던음악' },
+      { name: '박서아', school: '한양대학교', major: '실용음악' },
+      { name: '정우성', school: '동아방송예술대학교', major: 'MIDI' },
+      { name: '최유나', school: '단국대학교', major: '보컬' },
+      { name: '강태현', school: '백제예술대학교', major: '드럼' },
+      { name: '윤미래', school: '명지대학교', major: '작곡' },
+      { name: '조현우', school: '상명대학교', major: '기타' },
+    ],
+  },
 };
 
-// 최근 합격 소식
-const recentAdmissions = [
-  { year: '2025', name: '박은진', university: '단국대학교', major: '싱어송라이터' },
-  { year: '2025', name: '강은지', university: '동덕여자대학교', major: '피아노' },
-  { year: '2025', name: '최영민', university: '호원대학교', major: 'K-POP' },
-  { year: '2024', name: '차예서', university: '호원대학교', major: 'K-POP' },
-  { year: '2024', name: '최지혜', university: '서울공연예술고', major: '보컬' },
-  { year: '2024', name: '이은비', university: '동아방송예술대', major: '작곡' },
-];
+const years = ['2025', '2024', '2023', '2022', '2021'];
 
 export default function ReviewsSection() {
+  const [selectedYear, setSelectedYear] = useState('2025');
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const currentData = admissionsByYear[selectedYear];
+
+  // 이름 마스킹 함수 (중간 글자를 * 처리)
+  const maskName = (name: string) => {
+    if (name.length === 2) {
+      return name[0] + '*';
+    } else if (name.length >= 3) {
+      return name[0] + '*'.repeat(name.length - 2) + name[name.length - 1];
+    }
+    return name;
+  };
+
   return (
     <section id="reviews" style={{ backgroundColor: '#000' }}>
-      {/* Hero Stats */}
-      <div style={{ padding: '100px 0', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+      {/* Header */}
+      <div style={{ padding: '100px 0 60px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+          <div style={{ textAlign: 'center' }}>
             <p style={{
               color: '#ffc50a',
               fontSize: '14px',
@@ -45,192 +123,181 @@ export default function ReviewsSection() {
               합격 실적
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '17px' }}>
-              25년간 쌓아온 신뢰와 결과로 증명합니다
+              18년간 쌓아온 신뢰와 결과로 증명합니다
             </p>
           </div>
-
         </div>
       </div>
 
-      {/* Recent Admissions Ticker */}
+      {/* Year Selector Ticker */}
       <div style={{
-        padding: '40px 0',
+        padding: '0',
         backgroundColor: '#ffc50a',
         overflow: 'hidden',
       }}>
-        <div style={{
-          display: 'flex',
-          gap: '60px',
-          animation: 'scroll 30s linear infinite',
-          whiteSpace: 'nowrap',
-        }}>
-          {[...recentAdmissions, ...recentAdmissions].map((item, index) => (
-            <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <div
+          ref={scrollRef}
+          style={{
+            display: 'flex',
+            animation: 'scrollYears 20s linear infinite',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {[...years, ...years, ...years].map((year, index) => (
+            <button
+              key={index}
+              onClick={() => setSelectedYear(year)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '16px',
+                padding: '24px 48px',
+                backgroundColor: selectedYear === year ? '#000' : 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.3s',
+                flexShrink: 0,
+              }}
+            >
               <span style={{
-                backgroundColor: '#000',
-                color: '#ffc50a',
-                padding: '4px 12px',
+                backgroundColor: selectedYear === year ? '#ffc50a' : '#000',
+                color: selectedYear === year ? '#000' : '#ffc50a',
+                padding: '6px 14px',
                 borderRadius: '4px',
-                fontSize: '13px',
+                fontSize: '15px',
                 fontWeight: 700,
               }}>
-                {item.year}
+                {year}
               </span>
-              <span style={{ color: '#000', fontSize: '16px', fontWeight: 600 }}>
-                {item.name}
+              <span style={{
+                color: selectedYear === year ? '#fff' : '#000',
+                fontSize: '16px',
+                fontWeight: 600,
+              }}>
+                {admissionsByYear[year].summary}
               </span>
-              <span style={{ color: 'rgba(0,0,0,0.6)', fontSize: '15px' }}>
-                {item.university} {item.major}
-              </span>
-            </div>
+            </button>
           ))}
         </div>
       </div>
 
-      {/* University List */}
-      <div style={{ padding: '100px 0' }}>
+      {/* Year Tabs (Static) */}
+      <div style={{
+        padding: '40px 0',
+        backgroundColor: '#111',
+        borderBottom: '1px solid rgba(255,255,255,0.1)',
+      }}>
         <div className="container">
-          <p style={{
-            color: 'rgba(255,255,255,0.5)',
-            fontSize: '14px',
-            fontWeight: 600,
-            letterSpacing: '0.1em',
-            marginBottom: '48px',
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '12px',
+            flexWrap: 'wrap',
           }}>
-            합격 대학 목록
-          </p>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '48px' }}>
-            {/* 4년제 */}
-            <div>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                marginBottom: '24px',
-                paddingBottom: '16px',
-                borderBottom: '2px solid #ffc50a',
-              }}>
-                <span style={{
-                  backgroundColor: '#ffc50a',
-                  color: '#000',
-                  padding: '6px 14px',
+            {years.map((year) => (
+              <button
+                key={year}
+                onClick={() => setSelectedYear(year)}
+                style={{
+                  padding: '14px 28px',
+                  backgroundColor: selectedYear === year ? '#ffc50a' : 'transparent',
+                  border: selectedYear === year ? 'none' : '1px solid rgba(255,255,255,0.2)',
                   borderRadius: '100px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                }}>
-                  4년제
-                </span>
-                <span style={{ color: '#fff', fontSize: '16px', fontWeight: 600 }}>
-                  대학교
-                </span>
-              </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                {universities.fourYear.map((uni, index) => (
-                  <span
-                    key={index}
-                    style={{
-                      padding: '10px 18px',
-                      backgroundColor: 'rgba(255,255,255,0.05)',
-                      borderRadius: '100px',
-                      color: 'rgba(255,255,255,0.8)',
-                      fontSize: '14px',
-                      transition: 'all 0.2s',
-                    }}
-                  >
-                    {uni}
-                  </span>
-                ))}
-              </div>
-            </div>
+                  color: selectedYear === year ? '#000' : '#fff',
+                  fontSize: '15px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.3s',
+                }}
+              >
+                {year}년
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
 
-            {/* 2년제 */}
-            <div>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                marginBottom: '24px',
-                paddingBottom: '16px',
-                borderBottom: '2px solid #ffc50a',
-              }}>
-                <span style={{
-                  backgroundColor: '#ffc50a',
-                  color: '#000',
-                  padding: '6px 14px',
-                  borderRadius: '100px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                }}>
-                  2년제
-                </span>
-                <span style={{ color: '#fff', fontSize: '16px', fontWeight: 600 }}>
-                  대학교
-                </span>
-              </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                {universities.twoYear.map((uni, index) => (
-                  <span
-                    key={index}
-                    style={{
-                      padding: '10px 18px',
-                      backgroundColor: 'rgba(255,255,255,0.05)',
-                      borderRadius: '100px',
-                      color: 'rgba(255,255,255,0.8)',
-                      fontSize: '14px',
-                    }}
-                  >
-                    {uni}
-                  </span>
-                ))}
-              </div>
-            </div>
+      {/* Admission List by Year */}
+      <div style={{ padding: '80px 0' }}>
+        <div className="container">
+          {/* Year Title */}
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <h3 style={{
+              fontSize: '32px',
+              fontWeight: 700,
+              color: '#fff',
+              marginBottom: '12px',
+            }}>
+              {selectedYear}년 합격자
+            </h3>
+            <p style={{
+              color: '#ffc50a',
+              fontSize: '20px',
+              fontWeight: 600,
+            }}>
+              {currentData.summary}
+            </p>
+          </div>
 
-            {/* 고등학교 */}
-            <div>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                marginBottom: '24px',
-                paddingBottom: '16px',
-                borderBottom: '2px solid #ffc50a',
-              }}>
-                <span style={{
+          {/* Student Grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: '16px',
+            maxWidth: '1200px',
+            margin: '0 auto',
+          }}>
+            {currentData.students.map((student, index) => (
+              <div
+                key={index}
+                style={{
+                  padding: '24px',
+                  backgroundColor: 'rgba(255,255,255,0.03)',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px',
+                  transition: 'all 0.3s',
+                }}
+              >
+                <div style={{
+                  width: '48px',
+                  height: '48px',
                   backgroundColor: '#ffc50a',
-                  color: '#000',
-                  padding: '6px 14px',
-                  borderRadius: '100px',
-                  fontSize: '13px',
-                  fontWeight: 700,
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
                 }}>
-                  예고
-                </span>
-                <span style={{ color: '#fff', fontSize: '16px', fontWeight: 600 }}>
-                  예술고등학교
-                </span>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                  </svg>
+                </div>
+                <div>
+                  <p style={{
+                    color: '#fff',
+                    fontSize: '17px',
+                    fontWeight: 600,
+                    marginBottom: '4px',
+                  }}>
+                    {maskName(student.name)}
+                  </p>
+                  <p style={{
+                    color: 'rgba(255,255,255,0.6)',
+                    fontSize: '14px',
+                  }}>
+                    {student.school} · {student.major}
+                  </p>
+                </div>
               </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-                {universities.highSchool.map((school, index) => (
-                  <span
-                    key={index}
-                    style={{
-                      padding: '10px 18px',
-                      backgroundColor: 'rgba(255,255,255,0.05)',
-                      borderRadius: '100px',
-                      color: 'rgba(255,255,255,0.8)',
-                      fontSize: '14px',
-                    }}
-                  >
-                    {school}
-                  </span>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
 
           {/* CTA */}
-          <div style={{ textAlign: 'center', marginTop: '80px' }}>
+          <div style={{ textAlign: 'center', marginTop: '60px' }}>
             <Link
               href="/admissions"
               style={{
@@ -257,14 +324,9 @@ export default function ReviewsSection() {
       </div>
 
       <style jsx>{`
-        @keyframes scroll {
+        @keyframes scrollYears {
           0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @media (max-width: 768px) {
-          div[style*="grid-template-columns: repeat(4"] {
-            grid-template-columns: repeat(2, 1fr) !important;
-          }
+          100% { transform: translateX(-33.33%); }
         }
       `}</style>
     </section>

@@ -1,3 +1,5 @@
+'use client';
+
 import SubPageLayout from '@/components/SubPageLayout';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,6 +18,13 @@ const programs = [
     subtitle: 'Cake Concert',
     description: '정기적으로 열리는 수강생 발표회',
     image: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800',
+  },
+  {
+    id: 'open-stage',
+    name: '오픈스테이지',
+    subtitle: 'Open Stage',
+    description: '자유롭게 무대 경험을 쌓는 공개 공연',
+    image: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800',
   },
   {
     id: 'album',
@@ -52,23 +61,34 @@ export default function ProgramsPage() {
 
       {/* Programs */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>
-        <div className="container">
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '32px',
-          }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'flex-start',
+          overflowX: 'auto',
+          scrollSnapType: 'x mandatory',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+          gap: '20px',
+          paddingBottom: '20px',
+          paddingLeft: 'max(20px, calc((100vw - 1700px) / 2))',
+          paddingRight: 'max(20px, calc((100vw - 1700px) / 2))',
+        }}>
             {programs.map((program) => (
               <Link
                 key={program.id}
                 href={`/programs/${program.id}`}
-                style={{ textDecoration: 'none' }}
+                style={{
+                  flex: '0 0 min(320px, 85vw)',
+                  scrollSnapAlign: 'start',
+                  textDecoration: 'none',
+                }}
               >
                 <div style={{
                   borderRadius: '20px',
                   overflow: 'hidden',
                   backgroundColor: '#f8f8f8',
                   transition: 'transform 0.3s ease',
+                  height: '100%',
                 }}>
                   <div style={{ position: 'relative', aspectRatio: '16/10' }}>
                     <Image
@@ -125,7 +145,12 @@ export default function ProgramsPage() {
               </Link>
             ))}
           </div>
-        </div>
+
+        <style jsx>{`
+          div::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
       </section>
     </SubPageLayout>
   );
