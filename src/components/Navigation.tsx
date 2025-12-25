@@ -147,6 +147,9 @@ export default function Navigation() {
           <Link
             href="/"
             style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
               fontSize: '18px',
               fontWeight: 700,
               color: '#111',
@@ -154,6 +157,15 @@ export default function Navigation() {
               whiteSpace: 'nowrap',
             }}
           >
+            <img
+              src="/logo.png"
+              alt="경희실용음악학원"
+              style={{
+                width: '36px',
+                height: '36px',
+                objectFit: 'contain',
+              }}
+            />
             경희실용음악학원
           </Link>
 
@@ -252,7 +264,7 @@ export default function Navigation() {
             {/* SNS Icons - Desktop Only */}
             <div className="desktop-sns" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <a
-                href="https://www.youtube.com/@user-mv4ws2qy8t"
+                href="https://www.youtube.com/channel/UC064T0e2BoevLYHkXkp8Yog"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ padding: '6px', color: '#666', transition: 'color 0.2s' }}
@@ -263,7 +275,7 @@ export default function Navigation() {
                 </svg>
               </a>
               <a
-                href="https://blog.naver.com/khmusic2007"
+                href="https://blog.naver.com/kyunghee_music"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ padding: '6px', color: '#666', transition: 'color 0.2s' }}
@@ -449,12 +461,12 @@ export default function Navigation() {
 
           {/* Mobile SNS Icons */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #eee' }}>
-            <a href="https://www.youtube.com/@user-mv4ws2qy8t" target="_blank" rel="noopener noreferrer" style={{ padding: '8px', color: '#666' }} aria-label="YouTube">
+            <a href="https://www.youtube.com/channel/UC064T0e2BoevLYHkXkp8Yog" target="_blank" rel="noopener noreferrer" style={{ padding: '8px', color: '#666' }} aria-label="YouTube">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
               </svg>
             </a>
-            <a href="https://blog.naver.com/khmusic2007" target="_blank" rel="noopener noreferrer" style={{ padding: '8px', color: '#666' }} aria-label="Blog">
+            <a href="https://blog.naver.com/kyunghee_music" target="_blank" rel="noopener noreferrer" style={{ padding: '8px', color: '#666' }} aria-label="Blog">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M16.273 12.845 7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z"/>
               </svg>

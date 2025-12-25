@@ -127,51 +127,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '80px 0', backgroundColor: '#000', textAlign: 'center' }}>
-        <div className="container">
-          <h2 style={{ fontSize: '32px', fontWeight: 700, color: '#fff', marginBottom: '16px' }}>
-            방문 상담 예약
-          </h2>
-          <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.7)', marginBottom: '32px' }}>
-            직접 방문하시기 전 예약하시면 더 자세한 상담이 가능합니다
-          </p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
-            <a
-              href="tel:032-321-8668"
-              style={{
-                display: 'inline-block',
-                backgroundColor: '#fff',
-                color: '#000',
-                fontSize: '16px',
-                fontWeight: 600,
-                padding: '16px 40px',
-                borderRadius: '100px',
-                textDecoration: 'none',
-              }}
-            >
-              전화 상담
-            </a>
-            <a
-              href="https://pf.kakao.com/_xixgxgxmj"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-block',
-                backgroundColor: '#fee500',
-                color: '#000',
-                fontSize: '16px',
-                fontWeight: 600,
-                padding: '16px 40px',
-                borderRadius: '100px',
-                textDecoration: 'none',
-              }}
-            >
-              카카오톡 상담
-            </a>
-          </div>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }

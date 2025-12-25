@@ -37,13 +37,13 @@ export default function Footer() {
     },
     {
       name: 'Blog',
-      href: 'http://blog.naver.com/kyunghee_music',
+      href: 'https://blog.naver.com/kyunghee_music',
       icon: NaverBlogIcon,
       hoverColor: 'hover:text-green-500',
     },
     {
       name: 'Instagram',
-      href: 'https://www.instagram.com/kyunghee_music/',
+      href: 'https://www.instagram.com/khmusic_official/',
       icon: InstagramIcon,
       hoverColor: 'hover:text-pink-500',
     },
