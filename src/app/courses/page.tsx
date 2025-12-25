@@ -133,32 +133,6 @@ export default function CoursesPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '80px 0', backgroundColor: '#f8f8f8', textAlign: 'center' }}>
-        <div className="container">
-          <h2 style={{ fontSize: '32px', fontWeight: 700, color: '#000', marginBottom: '16px' }}>
-            수강 상담 신청
-          </h2>
-          <p style={{ fontSize: '17px', color: '#666', marginBottom: '32px' }}>
-            어떤 과정이 나에게 맞는지 무료 상담을 받아보세요
-          </p>
-          <a
-            href="tel:032-321-8668"
-            style={{
-              display: 'inline-block',
-              backgroundColor: '#000',
-              color: '#fff',
-              fontSize: '16px',
-              fontWeight: 600,
-              padding: '16px 48px',
-              borderRadius: '100px',
-              textDecoration: 'none',
-            }}
-          >
-            032-321-8668
-          </a>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }

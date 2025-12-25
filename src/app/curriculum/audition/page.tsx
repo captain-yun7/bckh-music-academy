@@ -1,5 +1,4 @@
 import SubPageLayout from '@/components/SubPageLayout';
-import Link from 'next/link';
 
 const features = [
   { icon: '🎤', title: '오디션 곡 선정', desc: '개인의 강점을 살리는 곡 선정 및 편곡' },
@@ -114,26 +113,6 @@ export default function AuditionCoursePage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '60px 0', backgroundColor: '#fff' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <Link
-            href="/contact"
-            style={{
-              display: 'inline-block',
-              padding: '16px 40px',
-              backgroundColor: '#10b981',
-              color: '#fff',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            오디션 상담 신청하기
-          </Link>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }

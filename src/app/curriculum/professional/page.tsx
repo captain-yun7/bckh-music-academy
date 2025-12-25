@@ -1,5 +1,4 @@
 import SubPageLayout from '@/components/SubPageLayout';
-import Link from 'next/link';
 
 const programs = [
   { title: '고급 테크닉', desc: '전공별 심화 테크닉 및 표현력 향상' },
@@ -88,26 +87,6 @@ export default function ProfessionalCoursePage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '60px 0', backgroundColor: '#fff' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <Link
-            href="/contact"
-            style={{
-              display: 'inline-block',
-              padding: '16px 40px',
-              backgroundColor: '#f59e0b',
-              color: '#fff',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            전문반 상담 신청하기
-          </Link>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }

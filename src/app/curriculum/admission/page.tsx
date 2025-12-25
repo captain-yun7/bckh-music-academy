@@ -1,5 +1,4 @@
 import SubPageLayout from '@/components/SubPageLayout';
-import Link from 'next/link';
 
 const curriculum = [
   { step: '01', title: '레벨 테스트', desc: '현재 실력 진단 및 목표 대학 설정' },
@@ -117,26 +116,6 @@ export default function AdmissionCoursePage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '60px 0', backgroundColor: '#fff' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <Link
-            href="/contact"
-            style={{
-              display: 'inline-block',
-              padding: '16px 40px',
-              backgroundColor: '#3b82f6',
-              color: '#fff',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            입시 상담 신청하기
-          </Link>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }

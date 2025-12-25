@@ -1,5 +1,4 @@
 import SubPageLayout from '@/components/SubPageLayout';
-import Link from 'next/link';
 
 export default function GraduatePage() {
   return (
@@ -138,26 +137,6 @@ export default function GraduatePage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '60px 0', backgroundColor: '#fff' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <Link
-            href="/contact"
-            style={{
-              display: 'inline-block',
-              padding: '16px 40px',
-              backgroundColor: '#8b5cf6',
-              color: '#fff',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            대학원/편입 상담
-          </Link>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }

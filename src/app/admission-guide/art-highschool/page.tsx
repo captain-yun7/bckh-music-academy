@@ -1,5 +1,4 @@
 import SubPageLayout from '@/components/SubPageLayout';
-import Link from 'next/link';
 
 const schools = [
   {
@@ -148,26 +147,6 @@ export default function ArtHighschoolPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '60px 0', backgroundColor: '#fff' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <Link
-            href="/contact"
-            style={{
-              display: 'inline-block',
-              padding: '16px 40px',
-              backgroundColor: '#f59e0b',
-              color: '#fff',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            예술고 입시 상담
-          </Link>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }

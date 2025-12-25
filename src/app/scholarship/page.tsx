@@ -1,50 +1,62 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import SubPageLayout from '@/components/SubPageLayout';
-import Link from 'next/link';
 
+// 장학금 요약 카드 데이터
 const scholarships = [
   {
     id: 'entrance',
     name: '입학장학',
-    amount: '최대 50%',
-    description: '대학 합격생/재학생 대상 장학금',
+    amount: '10%~50%',
+    description: '반수생 및 예비 합격자 대상 장학금',
     color: '#ffc50a',
-    criteria: ['서울예대/동아방송예대 합격자', '실용음악 대학 재학생', '예비번호 보유자'],
+    criteria: ['반수생', '전년도/당해년도 예비 10순위 이내인 자', '학교별 차등 지급'],
   },
   {
     id: 'merit',
     name: '성적장학',
+    amount: '5%~20%',
+    description: '입시 종합반 연습량 우수자 장학금',
+    color: '#ffc50a',
+    criteria: ['입시 종합반 학생 대상', '연습량이 우수하여 상점을 부여받은 자', '상점 순위에 따른 차등 지급'],
+  },
+  {
+    id: 'point',
+    name: '상점장학',
     amount: '최대 50%',
-    description: '전공실기 시험 우수자 장학금',
+    description: '출석 및 태도 우수자 장학금',
     color: '#ffc50a',
     criteria: ['1위: 다음달 수강료 50%', '2위: 다음달 수강료 30%', '3위: 다음달 수강료 20%'],
   },
 ];
 
+// 상점장학 데이터
+const pointRankings = [
+  { rank: '1위', discount: '50%', color: '#ffc50a' },
+  { rank: '2위', discount: '30%', color: '#c0c0c0' },
+  { rank: '3위', discount: '20%', color: '#cd7f32' },
+];
+
+const pointRules = [
+  { title: '출석 점수', desc: '수업 출석 시 상점 부여 (지각/결석 시 감점)' },
+  { title: '레슨 태도', desc: '적극적인 수업 참여 및 과제 수행' },
+  { title: '연습실 이용', desc: '자율 연습 시간에 따른 가산점' },
+  { title: '공연 참여', desc: '학원 행사 및 공연 참여 시 추가 상점' },
+];
+
 export default function ScholarshipPage() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+  const entranceRef = useRef<HTMLDivElement>(null);
+  const meritRef = useRef<HTMLDivElement>(null);
+  const pointRef = useRef<HTMLDivElement>(null);
 
-  const checkScroll = () => {
-    if (scrollRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
-    }
-  };
-
-  const scroll = (direction: 'left' | 'right') => {
-    if (scrollRef.current) {
-      const scrollAmount = 420;
-      scrollRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth',
-      });
-      setTimeout(checkScroll, 300);
-    }
+  const scrollToSection = (id: string) => {
+    const refs: Record<string, React.RefObject<HTMLDivElement | null>> = {
+      entrance: entranceRef,
+      merit: meritRef,
+      point: pointRef,
+    };
+    refs[id]?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
@@ -59,186 +71,112 @@ export default function ScholarshipPage() {
           <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
             <p style={{ fontSize: '18px', color: '#333', lineHeight: 1.9 }}>
               경희실용음악학원은 열정 있는 학생들의 꿈을 응원합니다.<br />
-              <strong>입학장학과 성적장학</strong>을 통해<br />
+              <strong>입학장학, 성적장학, 상점장학</strong>을 통해<br />
               경제적 부담 없이 음악에 집중할 수 있도록 지원합니다.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Scholarship Carousel */}
+      {/* Scholarship Overview Cards */}
       <section style={{ padding: '80px 0', backgroundColor: '#f8f8f8' }}>
         <div className="container">
-          {/* Header with Navigation */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '40px', flexWrap: 'wrap', gap: '20px' }}>
-            <div>
-              <p style={{ color: '#ffc50a', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '12px' }}>
-                SCHOLARSHIP
-              </p>
-              <h2 style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 700, color: '#000' }}>
-                장학금 안내
-              </h2>
-            </div>
-
-            {/* Navigation Arrows */}
-            <div style={{ display: 'flex', gap: '12px' }}>
-              <button
-                onClick={() => scroll('left')}
-                disabled={!canScrollLeft}
-                style={{
-                  width: '52px',
-                  height: '52px',
-                  borderRadius: '50%',
-                  border: canScrollLeft ? '2px solid #ffc50a' : '2px solid rgba(0,0,0,0.2)',
-                  backgroundColor: 'transparent',
-                  color: canScrollLeft ? '#ffc50a' : 'rgba(0,0,0,0.3)',
-                  cursor: canScrollLeft ? 'pointer' : 'default',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  transition: 'all 0.3s',
-                }}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path d="M15 18l-6-6 6-6" />
-                </svg>
-              </button>
-              <button
-                onClick={() => scroll('right')}
-                disabled={!canScrollRight}
-                style={{
-                  width: '52px',
-                  height: '52px',
-                  borderRadius: '50%',
-                  border: canScrollRight ? '2px solid #ffc50a' : '2px solid rgba(0,0,0,0.2)',
-                  backgroundColor: 'transparent',
-                  color: canScrollRight ? '#ffc50a' : 'rgba(0,0,0,0.3)',
-                  cursor: canScrollRight ? 'pointer' : 'default',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  transition: 'all 0.3s',
-                }}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
-              </button>
-            </div>
+          <div style={{ marginBottom: '40px' }}>
+            <p style={{ color: '#ffc50a', fontSize: '14px', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '12px' }}>
+              SCHOLARSHIP
+            </p>
+            <h2 style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 700, color: '#000' }}>
+              장학금 안내
+            </h2>
           </div>
 
-          {/* Scrollable Cards */}
-          <div
-            ref={scrollRef}
-            onScroll={checkScroll}
-            style={{
-              display: 'flex',
-              gap: '24px',
-              overflowX: 'auto',
-              scrollSnapType: 'x mandatory',
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              paddingBottom: '20px',
-              marginLeft: '-20px',
-              marginRight: '-20px',
-              paddingLeft: '20px',
-              paddingRight: '20px',
-            }}
-          >
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: '24px',
+          }}>
             {scholarships.map((scholarship) => (
-              <Link
+              <div
                 key={scholarship.id}
-                href={`/scholarship/${scholarship.id}`}
+                onClick={() => scrollToSection(scholarship.id)}
                 style={{
-                  flex: '0 0 400px',
-                  scrollSnapAlign: 'start',
-                  textDecoration: 'none',
+                  backgroundColor: '#fff',
+                  borderRadius: '20px',
+                  padding: '40px',
+                  boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
+                  cursor: 'pointer',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                 }}
+                className="scholarship-card"
               >
-                <div
-                  style={{
-                    backgroundColor: '#fff',
-                    borderRadius: '20px',
-                    padding: '40px',
-                    boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
-                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                    height: '100%',
-                  }}
-                  className="scholarship-card"
-                >
-                  <div style={{
-                    display: 'inline-block',
-                    padding: '8px 16px',
-                    backgroundColor: scholarship.color,
-                    color: '#000',
-                    borderRadius: '20px',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    marginBottom: '20px',
-                  }}>
-                    {scholarship.amount} 감면
-                  </div>
-                  <h3 style={{
-                    fontSize: '28px',
-                    fontWeight: 700,
-                    color: '#000',
-                    marginBottom: '12px',
-                  }}>
-                    {scholarship.name}
-                  </h3>
-                  <p style={{
-                    fontSize: '16px',
-                    color: '#666',
-                    marginBottom: '24px',
-                  }}>
-                    {scholarship.description}
-                  </p>
-                  <div style={{ borderTop: '1px solid #eee', paddingTop: '20px' }}>
-                    <p style={{ fontSize: '13px', color: '#999', marginBottom: '12px' }}>지급 기준</p>
-                    <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
-                      {scholarship.criteria.map((item, i) => (
-                        <li
-                          key={i}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            fontSize: '14px',
-                            color: '#444',
-                            marginBottom: '8px',
-                          }}
-                        >
-                          <span style={{ color: scholarship.color }}>✓</span>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    color: scholarship.color,
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    marginTop: '24px',
-                  }}>
-                    자세히 보기
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                  </div>
+                <div style={{
+                  display: 'inline-block',
+                  padding: '8px 16px',
+                  backgroundColor: scholarship.color,
+                  color: '#000',
+                  borderRadius: '20px',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  marginBottom: '20px',
+                }}>
+                  수강료 {scholarship.amount} 할인
                 </div>
-              </Link>
+                <h3 style={{
+                  fontSize: '28px',
+                  fontWeight: 700,
+                  color: '#000',
+                  marginBottom: '12px',
+                }}>
+                  {scholarship.name}
+                </h3>
+                <p style={{
+                  fontSize: '16px',
+                  color: '#666',
+                  marginBottom: '24px',
+                }}>
+                  {scholarship.description}
+                </p>
+                <div style={{ borderTop: '1px solid #eee', paddingTop: '20px' }}>
+                  <p style={{ fontSize: '13px', color: '#999', marginBottom: '12px' }}>지급 대상</p>
+                  <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+                    {scholarship.criteria.map((item, i) => (
+                      <li
+                        key={i}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          fontSize: '14px',
+                          color: '#444',
+                          marginBottom: '8px',
+                        }}
+                      >
+                        <span style={{ color: scholarship.color }}>✓</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  color: scholarship.color,
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  marginTop: '24px',
+                }}>
+                  자세히 보기
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M12 5v14M5 12l7 7 7-7" />
+                  </svg>
+                </div>
+              </div>
             ))}
           </div>
         </div>
 
         <style jsx>{`
-          div::-webkit-scrollbar {
-            display: none;
-          }
-
           .scholarship-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 8px 32px rgba(0,0,0,0.12);
@@ -246,30 +184,477 @@ export default function ScholarshipPage() {
         `}</style>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '80px 0', backgroundColor: '#000' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <h2 style={{ fontSize: '28px', fontWeight: 700, color: '#fff', marginBottom: '16px' }}>
-            장학금 신청 방법이 궁금하신가요?
-          </h2>
-          <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.7)', marginBottom: '32px' }}>
-            무료 상담을 통해 장학금 혜택을 확인해보세요
-          </p>
-          <Link
-            href="/contact"
-            style={{
-              display: 'inline-block',
-              padding: '16px 40px',
-              backgroundColor: '#ffc50a',
-              color: '#000',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            상담 신청하기
-          </Link>
+      {/* ========== 입학장학 섹션 ========== */}
+      <div ref={entranceRef} style={{ scrollMarginTop: '80px' }}>
+        <section style={{ padding: '100px 0 60px', backgroundColor: '#000' }}>
+          <div className="container">
+            <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+              <span style={{
+                display: 'inline-block',
+                padding: '8px 20px',
+                backgroundColor: '#ffc50a',
+                color: '#000',
+                borderRadius: '20px',
+                fontSize: '14px',
+                fontWeight: 600,
+                marginBottom: '20px',
+              }}>
+                01
+              </span>
+              <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#fff', marginBottom: '16px' }}>
+                입학장학
+              </h2>
+              <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.8 }}>
+                반수생 및 예비 합격자를 위한 특별 장학 혜택
+              </p>
+              <div style={{
+                fontSize: '64px',
+                fontWeight: 700,
+                color: '#ffc50a',
+                marginTop: '24px',
+              }}>
+                10%~50%
+              </div>
+              <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)', marginTop: '8px' }}>
+                수강료 할인혜택
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>
+          <div className="container">
+            <h3 style={{ fontSize: '24px', fontWeight: 700, textAlign: 'center', marginBottom: '48px' }}>
+              지급 대상
+            </h3>
+            <div style={{
+              maxWidth: '800px',
+              margin: '0 auto',
+              backgroundColor: '#f8f8f8',
+              borderRadius: '16px',
+              overflow: 'hidden',
+            }}>
+              {/* 대상 목록 */}
+              <div style={{
+                padding: '32px',
+                borderBottom: '1px solid #eee',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
+                  <div style={{
+                    width: '48px',
+                    height: '48px',
+                    backgroundColor: '#ffc50a',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2">
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                      <circle cx="9" cy="7" r="4" />
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: '18px', fontWeight: 700, color: '#000', marginBottom: '4px' }}>
+                      반수생
+                    </h4>
+                    <p style={{ fontSize: '14px', color: '#666' }}>
+                      대학에 합격했으나 재도전하는 학생
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div style={{
+                padding: '32px',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px' }}>
+                  <div style={{
+                    width: '48px',
+                    height: '48px',
+                    backgroundColor: '#ffc50a',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2">
+                      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: '18px', fontWeight: 700, color: '#000', marginBottom: '4px' }}>
+                      전년도 또는 당해년도 예비 10순위 이내인 자
+                    </h4>
+                    <p style={{ fontSize: '14px', color: '#666' }}>
+                      학교별 차등 지급
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 할인율 안내 */}
+            <div style={{
+              maxWidth: '600px',
+              margin: '48px auto 0',
+              textAlign: 'center',
+            }}>
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '24px',
+                flexWrap: 'wrap',
+              }}>
+                <div style={{
+                  padding: '24px 40px',
+                  backgroundColor: '#000',
+                  borderRadius: '16px',
+                  textAlign: 'center',
+                }}>
+                  <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>최소</p>
+                  <p style={{ fontSize: '40px', fontWeight: 700, color: '#ffc50a' }}>10%</p>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', color: '#999', fontSize: '24px' }}>~</div>
+                <div style={{
+                  padding: '24px 40px',
+                  backgroundColor: '#000',
+                  borderRadius: '16px',
+                  textAlign: 'center',
+                }}>
+                  <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>최대</p>
+                  <p style={{ fontSize: '40px', fontWeight: 700, color: '#ffc50a' }}>50%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* ========== 성적장학 섹션 ========== */}
+      <div ref={meritRef} style={{ scrollMarginTop: '80px' }}>
+        <section style={{ padding: '100px 0 60px', backgroundColor: '#111' }}>
+          <div className="container">
+            <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+              <span style={{
+                display: 'inline-block',
+                padding: '8px 20px',
+                backgroundColor: '#ffc50a',
+                color: '#000',
+                borderRadius: '20px',
+                fontSize: '14px',
+                fontWeight: 600,
+                marginBottom: '20px',
+              }}>
+                02
+              </span>
+              <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#fff', marginBottom: '16px' }}>
+                성적장학
+              </h2>
+              <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.8 }}>
+                입시 종합반 학생 중 연습량이 우수한 학생에게 지급
+              </p>
+              <div style={{
+                fontSize: '64px',
+                fontWeight: 700,
+                color: '#ffc50a',
+                marginTop: '24px',
+              }}>
+                5%~20%
+              </div>
+              <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)', marginTop: '8px' }}>
+                수강료 할인
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>
+          <div className="container">
+            <h3 style={{ fontSize: '24px', fontWeight: 700, textAlign: 'center', marginBottom: '48px' }}>
+              지급 대상 및 기준
+            </h3>
+            <div style={{
+              maxWidth: '800px',
+              margin: '0 auto',
+            }}>
+              {/* 대상 */}
+              <div style={{
+                backgroundColor: '#f8f8f8',
+                borderRadius: '16px',
+                padding: '32px',
+                marginBottom: '24px',
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                  <div style={{
+                    width: '48px',
+                    height: '48px',
+                    backgroundColor: '#ffc50a',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2">
+                      <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+                      <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 style={{ fontSize: '18px', fontWeight: 700, color: '#000', marginBottom: '4px' }}>
+                      입시 종합반 학생 대상
+                    </h4>
+                    <p style={{ fontSize: '14px', color: '#666' }}>
+                      연습량이 우수하여 상점을 부여받은 자
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 할인율 범위 */}
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                gap: '24px',
+                flexWrap: 'wrap',
+                marginTop: '48px',
+              }}>
+                <div style={{
+                  padding: '24px 40px',
+                  backgroundColor: '#000',
+                  borderRadius: '16px',
+                  textAlign: 'center',
+                }}>
+                  <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>최소</p>
+                  <p style={{ fontSize: '40px', fontWeight: 700, color: '#ffc50a' }}>5%</p>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', color: '#999', fontSize: '24px' }}>~</div>
+                <div style={{
+                  padding: '24px 40px',
+                  backgroundColor: '#000',
+                  borderRadius: '16px',
+                  textAlign: 'center',
+                }}>
+                  <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>최대</p>
+                  <p style={{ fontSize: '40px', fontWeight: 700, color: '#ffc50a' }}>20%</p>
+                </div>
+              </div>
+
+              {/* 상점 기준 안내 */}
+              <div style={{
+                marginTop: '48px',
+                backgroundColor: '#fffbeb',
+                borderRadius: '16px',
+                padding: '32px',
+                border: '1px solid #ffc50a',
+              }}>
+                <h4 style={{ fontSize: '18px', fontWeight: 700, color: '#000', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="16" x2="12" y2="12" />
+                    <line x1="12" y1="8" x2="12.01" y2="8" />
+                  </svg>
+                  상점 부여 기준
+                </h4>
+                <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+                  <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px', fontSize: '14px', color: '#444', lineHeight: 1.7 }}>
+                    <span style={{ color: '#ffc50a', fontWeight: 700 }}>•</span>
+                    연습실 이용 시간 및 출석률에 따라 상점이 부여됩니다.
+                  </li>
+                  <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px', fontSize: '14px', color: '#444', lineHeight: 1.7 }}>
+                    <span style={{ color: '#ffc50a', fontWeight: 700 }}>•</span>
+                    레슨 참여도 및 과제 수행 능력을 종합적으로 평가합니다.
+                  </li>
+                  <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', fontSize: '14px', color: '#444', lineHeight: 1.7 }}>
+                    <span style={{ color: '#ffc50a', fontWeight: 700 }}>•</span>
+                    상점 순위에 따라 할인율이 차등 적용됩니다.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* ========== 상점장학 섹션 ========== */}
+      <div ref={pointRef} style={{ scrollMarginTop: '80px' }}>
+        <section style={{ padding: '100px 0 60px', backgroundColor: '#000' }}>
+          <div className="container">
+            <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+              <span style={{
+                display: 'inline-block',
+                padding: '8px 20px',
+                backgroundColor: '#ffc50a',
+                color: '#000',
+                borderRadius: '20px',
+                fontSize: '14px',
+                fontWeight: 600,
+                marginBottom: '20px',
+              }}>
+                03
+              </span>
+              <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#fff', marginBottom: '16px' }}>
+                상점장학
+              </h2>
+              <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.8 }}>
+                출석, 수업 태도, 연습 등 학원 생활에 성실한 학생에게 지급
+              </p>
+            </div>
+
+            {/* 순위별 감면율 */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '24px',
+              flexWrap: 'wrap',
+              marginBottom: '60px',
+            }}>
+              {pointRankings.map((item) => (
+                <div
+                  key={item.rank}
+                  style={{
+                    width: '180px',
+                    padding: '32px 24px',
+                    backgroundColor: '#1a1a1a',
+                    borderRadius: '16px',
+                    textAlign: 'center',
+                    border: `2px solid ${item.color}`,
+                  }}
+                >
+                  <div style={{
+                    width: '50px',
+                    height: '50px',
+                    margin: '0 auto 16px',
+                    backgroundColor: item.color,
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#000">
+                      <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#000" strokeWidth="2" fill="none" />
+                    </svg>
+                  </div>
+                  <p style={{ fontSize: '18px', color: item.color, fontWeight: 700, marginBottom: '8px' }}>
+                    {item.rank}
+                  </p>
+                  <p style={{ fontSize: '40px', fontWeight: 700, color: '#fff' }}>
+                    {item.discount}
+                  </p>
+                  <p style={{ fontSize: '13px', color: 'rgba(255,255,255,0.5)', marginTop: '4px' }}>
+                    다음달 수강료
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section style={{ padding: '60px 0', backgroundColor: '#fff' }}>
+          <div className="container">
+            <h3 style={{ fontSize: '24px', fontWeight: 700, textAlign: 'center', marginBottom: '40px' }}>
+              상점 부여 기준
+            </h3>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+              gap: '20px',
+              maxWidth: '1000px',
+              margin: '0 auto',
+            }}>
+              {pointRules.map((item, i) => (
+                <div
+                  key={i}
+                  style={{
+                    padding: '28px',
+                    backgroundColor: '#f8f8f8',
+                    borderRadius: '12px',
+                    textAlign: 'center',
+                  }}
+                >
+                  <div style={{
+                    width: '48px',
+                    height: '48px',
+                    margin: '0 auto 16px',
+                    backgroundColor: '#ffc50a',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '20px',
+                    fontWeight: 700,
+                    color: '#000',
+                  }}>
+                    {i + 1}
+                  </div>
+                  <h4 style={{ fontSize: '17px', fontWeight: 700, color: '#000', marginBottom: '10px' }}>
+                    {item.title}
+                  </h4>
+                  <p style={{ fontSize: '14px', color: '#666', lineHeight: 1.6 }}>
+                    {item.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            {/* 상점장학 안내사항 */}
+            <div style={{
+              maxWidth: '800px',
+              margin: '48px auto 0',
+              backgroundColor: '#f8f8f8',
+              borderRadius: '16px',
+              padding: '32px',
+            }}>
+              <h4 style={{ fontSize: '18px', fontWeight: 700, color: '#000', marginBottom: '20px' }}>
+                안내사항
+              </h4>
+              <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px', fontSize: '14px', color: '#444', lineHeight: 1.7 }}>
+                  <span style={{ color: '#ffc50a', fontWeight: 700 }}>•</span>
+                  상점은 매월 1일에 초기화되며, 월말에 순위를 집계합니다.
+                </li>
+                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px', fontSize: '14px', color: '#444', lineHeight: 1.7 }}>
+                  <span style={{ color: '#ffc50a', fontWeight: 700 }}>•</span>
+                  지각 3회 시 결석 1회로 처리되며, 결석 시 상점이 차감됩니다.
+                </li>
+                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px', fontSize: '14px', color: '#444', lineHeight: 1.7 }}>
+                  <span style={{ color: '#ffc50a', fontWeight: 700 }}>•</span>
+                  학원 공연 및 행사 참여 시 추가 상점이 부여됩니다.
+                </li>
+                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', fontSize: '14px', color: '#444', lineHeight: 1.7 }}>
+                  <span style={{ color: '#ffc50a', fontWeight: 700 }}>•</span>
+                  장학금은 다음 달 수강료에서 자동 차감됩니다.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* 문의 안내 */}
+      <section style={{ padding: '60px 0', backgroundColor: '#f8f8f8' }}>
+        <div className="container">
+          <div style={{
+            maxWidth: '600px',
+            margin: '0 auto',
+            textAlign: 'center',
+            padding: '40px',
+            backgroundColor: '#fff',
+            borderRadius: '16px',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
+          }}>
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="2" style={{ marginBottom: '20px' }}>
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+            <p style={{ fontSize: '18px', color: '#333', fontWeight: 500, marginBottom: '8px' }}>
+              자세한 사항은 전화로 문의 바랍니다.
+            </p>
+            <p style={{ fontSize: '14px', color: '#666' }}>
+              학원 상담을 통해 본인에게 해당되는 장학금을 확인해보세요.
+            </p>
+          </div>
         </div>
       </section>
     </SubPageLayout>

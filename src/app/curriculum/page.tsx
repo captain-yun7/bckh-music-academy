@@ -159,32 +159,6 @@ export default function CurriculumPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '80px 0', backgroundColor: '#f8f8f8' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <h2 style={{ fontSize: '32px', fontWeight: 700, color: '#000', marginBottom: '16px' }}>
-            어떤 과정이 나에게 맞을까요?
-          </h2>
-          <p style={{ fontSize: '17px', color: '#666', marginBottom: '32px' }}>
-            무료 상담을 통해 맞춤 커리큘럼을 추천받으세요
-          </p>
-          <Link
-            href="/contact"
-            style={{
-              display: 'inline-block',
-              padding: '16px 40px',
-              backgroundColor: '#000',
-              color: '#fff',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            무료 상담 신청
-          </Link>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }

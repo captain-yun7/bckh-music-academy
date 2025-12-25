@@ -9,7 +9,6 @@ import CoursesSection from '@/components/CoursesSection';
 import ReviewsSection from '@/components/ReviewsSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
-import FloatingCTA from '@/components/FloatingCTA';
 
 export default function HomePage() {
   return (
@@ -52,9 +51,6 @@ export default function HomePage() {
 
       {/* Footer */}
       <Footer />
-
-      {/* Floating CTA Button */}
-      <FloatingCTA />
     </>
   );
 }

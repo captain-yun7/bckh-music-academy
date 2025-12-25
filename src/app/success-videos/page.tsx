@@ -422,49 +422,6 @@ export default function SuccessVideosPage() {
         </div>
       </section>
 
-      {/* Admissions CTA */}
-      <section style={{ padding: '60px 0', backgroundColor: '#ffc50a' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <h3 style={{ fontSize: '28px', fontWeight: 700, color: '#000', marginBottom: '16px' }}>
-            다음 합격자는 당신입니다
-          </h3>
-          <p style={{ fontSize: '17px', color: 'rgba(0,0,0,0.7)', marginBottom: '32px' }}>
-            체계적인 커리큘럼과 최강 멘토링으로 꿈을 이루세요
-          </p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
-            <a
-              href="/admissions"
-              style={{
-                display: 'inline-block',
-                padding: '16px 36px',
-                backgroundColor: '#000',
-                color: '#fff',
-                borderRadius: '8px',
-                fontSize: '16px',
-                fontWeight: 600,
-                textDecoration: 'none',
-              }}
-            >
-              합격자 명단 보기
-            </a>
-            <a
-              href="/contact"
-              style={{
-                display: 'inline-block',
-                padding: '16px 36px',
-                backgroundColor: '#fff',
-                color: '#000',
-                borderRadius: '8px',
-                fontSize: '16px',
-                fontWeight: 600,
-                textDecoration: 'none',
-              }}
-            >
-              상담 신청하기
-            </a>
-          </div>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }

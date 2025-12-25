@@ -572,32 +572,6 @@ export default function AdmissionsPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section style={{ padding: '80px 0', backgroundColor: '#f8f8f8' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <h2 style={{ fontSize: '32px', fontWeight: 700, color: '#000', marginBottom: '16px' }}>
-            다음 합격자는 당신입니다
-          </h2>
-          <p style={{ fontSize: '17px', color: '#666', marginBottom: '32px' }}>
-            체계적인 커리큘럼과 최강 멘토링으로 꿈을 이루세요
-          </p>
-          <a
-            href="/contact"
-            style={{
-              display: 'inline-block',
-              padding: '16px 40px',
-              backgroundColor: '#000',
-              color: '#fff',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            상담 신청하기
-          </a>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }

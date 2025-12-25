@@ -1,5 +1,4 @@
 import SubPageLayout from '@/components/SubPageLayout';
-import Link from 'next/link';
 
 export default function RegularAuditionPage() {
   return (
@@ -251,32 +250,6 @@ export default function RegularAuditionPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '60px 0', backgroundColor: '#000' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <h3 style={{ fontSize: '24px', fontWeight: 700, color: '#fff', marginBottom: '16px' }}>
-            다음 정기오디션에 도전해보세요!
-          </h3>
-          <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.7)', marginBottom: '32px' }}>
-            수강 상담을 통해 오디션 준비를 시작하세요
-          </p>
-          <Link
-            href="/contact"
-            style={{
-              display: 'inline-block',
-              padding: '16px 40px',
-              backgroundColor: '#ffc50a',
-              color: '#000',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            상담 신청하기
-          </Link>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }

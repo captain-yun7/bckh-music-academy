@@ -1,5 +1,4 @@
 import SubPageLayout from '@/components/SubPageLayout';
-import Link from 'next/link';
 
 export default function CakeConcertPage() {
   return (
@@ -87,29 +86,6 @@ export default function CakeConcertPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '60px 0', backgroundColor: '#fff' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <p style={{ fontSize: '17px', color: '#666', marginBottom: '24px' }}>
-            다음 케이크콘서트의 주인공이 되어보세요
-          </p>
-          <Link
-            href="/contact"
-            style={{
-              display: 'inline-block',
-              padding: '16px 40px',
-              backgroundColor: '#000',
-              color: '#fff',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            참가 문의하기
-          </Link>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }

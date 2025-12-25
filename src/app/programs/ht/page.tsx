@@ -1,5 +1,4 @@
 import SubPageLayout from '@/components/SubPageLayout';
-import Link from 'next/link';
 
 const schedule = [
   { time: '11:00~11:30', activity: '운동, 연습계획표 작성' },
@@ -192,29 +191,6 @@ export default function HTPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '60px 0', backgroundColor: '#ffc50a' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <p style={{ fontSize: '18px', color: 'rgba(0,0,0,0.8)', marginBottom: '24px' }}>
-            HT 프로그램 참여를 원하시면 상담을 신청해주세요
-          </p>
-          <Link
-            href="/contact"
-            style={{
-              display: 'inline-block',
-              padding: '16px 40px',
-              backgroundColor: '#000',
-              color: '#fff',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            HT 프로그램 신청
-          </Link>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }

@@ -1,5 +1,4 @@
 import SubPageLayout from '@/components/SubPageLayout';
-import Link from 'next/link';
 
 const benefits = [
   { icon: '🎵', title: '원하는 곡 레슨', desc: '좋아하는 노래로 배우는 즐거운 레슨' },
@@ -96,29 +95,6 @@ export default function HobbyCoursePage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '60px 0', backgroundColor: '#fff' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <p style={{ fontSize: '17px', color: '#666', marginBottom: '24px' }}>
-            음악을 시작하기에 늦은 때는 없습니다
-          </p>
-          <Link
-            href="/contact"
-            style={{
-              display: 'inline-block',
-              padding: '16px 40px',
-              backgroundColor: '#8b5cf6',
-              color: '#fff',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            취미반 상담 신청하기
-          </Link>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }

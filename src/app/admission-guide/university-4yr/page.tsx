@@ -1,5 +1,4 @@
 import SubPageLayout from '@/components/SubPageLayout';
-import Link from 'next/link';
 
 const universities = [
   {
@@ -110,29 +109,6 @@ export default function University4YrPage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '60px 0', backgroundColor: '#3b82f6' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.9)', marginBottom: '24px' }}>
-            목표 대학에 맞는 맞춤 입시 컨설팅을 받아보세요
-          </p>
-          <Link
-            href="/contact"
-            style={{
-              display: 'inline-block',
-              padding: '16px 40px',
-              backgroundColor: '#fff',
-              color: '#3b82f6',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            입시 상담 신청
-          </Link>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }

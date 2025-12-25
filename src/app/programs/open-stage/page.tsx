@@ -1,5 +1,4 @@
 import SubPageLayout from '@/components/SubPageLayout';
-import Link from 'next/link';
 
 const features = [
   {
@@ -214,29 +213,6 @@ export default function OpenStagePage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '60px 0', backgroundColor: '#ffc50a' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <p style={{ fontSize: '18px', color: 'rgba(0,0,0,0.8)', marginBottom: '24px' }}>
-            다음 오픈스테이지에 참여해보세요!
-          </p>
-          <Link
-            href="/contact"
-            style={{
-              display: 'inline-block',
-              padding: '16px 40px',
-              backgroundColor: '#000',
-              color: '#fff',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            참가 신청하기
-          </Link>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }

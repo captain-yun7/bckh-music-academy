@@ -103,32 +103,6 @@ export default function AdmissionGuidePage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ padding: '80px 0', backgroundColor: '#f8f8f8' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <h2 style={{ fontSize: '28px', fontWeight: 700, marginBottom: '16px' }}>
-            입시 상담이 필요하신가요?
-          </h2>
-          <p style={{ fontSize: '17px', color: '#666', marginBottom: '32px' }}>
-            25년 입시 노하우로 맞춤 컨설팅을 제공합니다
-          </p>
-          <Link
-            href="/contact"
-            style={{
-              display: 'inline-block',
-              padding: '16px 40px',
-              backgroundColor: '#000',
-              color: '#fff',
-              borderRadius: '8px',
-              fontSize: '16px',
-              fontWeight: 600,
-              textDecoration: 'none',
-            }}
-          >
-            무료 입시 상담
-          </Link>
-        </div>
-      </section>
     </SubPageLayout>
   );
 }
