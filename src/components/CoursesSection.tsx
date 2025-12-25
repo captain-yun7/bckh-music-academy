@@ -429,61 +429,6 @@ export default function CoursesSection() {
         </div>
       </div>
 
-      {/* CTA Banner */}
-      <div style={{
-        padding: '80px 0',
-        background: 'linear-gradient(135deg, #ffc50a 0%, #ffb700 100%)',
-      }}>
-        <div className="container">
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '32px',
-          }}>
-            <div>
-              <p style={{
-                fontSize: 'clamp(28px, 5vw, 40px)',
-                fontWeight: 700,
-                color: '#000',
-                marginBottom: '12px',
-              }}>
-                무료 상담 신청
-              </p>
-              <p style={{
-                fontSize: '17px',
-                color: 'rgba(0,0,0,0.7)',
-              }}>
-                레벨테스트 후 맞춤 커리큘럼을 제안해 드립니다
-              </p>
-            </div>
-            <a
-              href="https://pf.kakao.com/_xixgxgxmj"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '10px',
-                padding: '18px 40px',
-                backgroundColor: '#000',
-                borderRadius: '100px',
-                color: '#ffc50a',
-                textDecoration: 'none',
-                fontSize: '16px',
-                fontWeight: 700,
-              }}
-            >
-              상담 신청하기
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </a>
-          </div>
-        </div>
-      </div>
-
       <style jsx>{`
         @media (max-width: 768px) {
           div[style*="text-align: right"] {
