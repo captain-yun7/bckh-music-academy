@@ -31,6 +31,9 @@ export default function HomePage() {
         {/* 합격생 동영상 */}
         <SuccessVideosSection />
 
+        {/* 배출뮤지션 */}
+        <MusiciansSection />
+
         {/* 커리큘럼 */}
         <CoursesSection />
 
@@ -39,9 +42,6 @@ export default function HomePage() {
 
         {/* 공연사진 */}
         <PerformancesSection />
-
-        {/* 배출뮤지션 */}
-        <MusiciansSection />
 
         {/* 합격 실적 */}
         <ReviewsSection />

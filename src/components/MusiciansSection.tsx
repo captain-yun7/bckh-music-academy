@@ -99,15 +99,15 @@ export default function MusiciansSection() {
 
   return (
     <>
-      <section id="musicians" style={{ padding: '100px 0', backgroundColor: '#000' }}>
+      <section id="musicians" style={{ padding: '100px 0', backgroundColor: '#fff' }}>
         <div className="container">
           {/* Header */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px', flexWrap: 'wrap', gap: '20px' }}>
             <div>
-              <p style={{ color: '#ffc50a', fontSize: '14px', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '16px' }}>
+              <p style={{ color: '#d4a000', fontSize: '14px', fontWeight: 600, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '16px' }}>
                 TRAINEE DEBUT
               </p>
-              <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#fff', marginBottom: '16px' }}>
+              <h2 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: 700, color: '#111', marginBottom: '16px' }}>
                 배출 뮤지션
               </h2>
             </div>
@@ -121,9 +121,9 @@ export default function MusiciansSection() {
                   width: '52px',
                   height: '52px',
                   borderRadius: '50%',
-                  border: canScrollLeft ? '2px solid #ffc50a' : '2px solid rgba(255,255,255,0.2)',
+                  border: canScrollLeft ? '2px solid #111' : '2px solid rgba(0,0,0,0.15)',
                   backgroundColor: 'transparent',
-                  color: canScrollLeft ? '#ffc50a' : 'rgba(255,255,255,0.3)',
+                  color: canScrollLeft ? '#111' : 'rgba(0,0,0,0.25)',
                   cursor: canScrollLeft ? 'pointer' : 'default',
                   display: 'flex',
                   alignItems: 'center',
@@ -142,9 +142,9 @@ export default function MusiciansSection() {
                   width: '52px',
                   height: '52px',
                   borderRadius: '50%',
-                  border: canScrollRight ? '2px solid #ffc50a' : '2px solid rgba(255,255,255,0.2)',
+                  border: canScrollRight ? '2px solid #111' : '2px solid rgba(0,0,0,0.15)',
                   backgroundColor: 'transparent',
-                  color: canScrollRight ? '#ffc50a' : 'rgba(255,255,255,0.3)',
+                  color: canScrollRight ? '#111' : 'rgba(0,0,0,0.25)',
                   cursor: canScrollRight ? 'pointer' : 'default',
                   display: 'flex',
                   alignItems: 'center',
@@ -268,10 +268,10 @@ export default function MusiciansSection() {
                 alignItems: 'center',
                 gap: '10px',
                 padding: '16px 32px',
-                backgroundColor: 'transparent',
-                border: '2px solid #ffc50a',
+                backgroundColor: '#111',
+                border: '2px solid #111',
                 borderRadius: '50px',
-                color: '#ffc50a',
+                color: '#fff',
                 textDecoration: 'none',
                 fontSize: '16px',
                 fontWeight: 600,
