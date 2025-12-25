@@ -23,8 +23,8 @@ export default function FloatingCTA() {
       style={{
         position: 'fixed',
         bottom: '32px',
-        left: '50%',
-        transform: `translateX(-50%) translateY(${isVisible ? '0' : '100px'})`,
+        right: '32px',
+        transform: `translateY(${isVisible ? '0' : '100px'})`,
         zIndex: 999,
         display: 'flex',
         alignItems: 'center',
