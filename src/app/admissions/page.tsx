@@ -3,572 +3,667 @@
 import { useState } from 'react';
 import SubPageLayout from '@/components/SubPageLayout';
 
-// 합격생 동영상 데이터 (khmusic.co.kr 실제 데이터)
-const successVideos = [
-  // 2025학년도
-  {
-    id: 233,
-    title: '단국대학교 뉴뮤직학과 싱어송라이터전공',
-    name: '박은진',
-    youtubeId: 'uj73oS-QUi4',
-    year: '2025',
-    university: '단국대학교',
-    major: '싱어송라이터',
-    additionalInfo: '여주대, 남서울대 중복합격',
+// 년도별 합격자 데이터 (khmusic.co.kr 실제 데이터)
+const admissionsByYear: Record<string, { summary: string; students: { name: string; school: string; major: string }[] }> = {
+  '2025': {
+    summary: '서울예대 외 32명',
+    students: [
+      { name: '곽*민', school: '서울예술대학교', major: '베이스' },
+      { name: '곽*민', school: '동아방송예술대학교', major: '베이스' },
+      { name: '강*지', school: '동덕여자대학교', major: '피아노' },
+      { name: '이*환', school: '서경대학교', major: '기타' },
+      { name: '이*진', school: '홍익대학교', major: '기타' },
+      { name: '곽*민', school: '한양대학교', major: '베이스' },
+      { name: '최*민', school: '호원대학교', major: 'K-POP 보컬' },
+      { name: '강*지', school: '백석예술대학교', major: '피아노' },
+      { name: '손*서', school: '백석예술대학교', major: '베이스' },
+      { name: '김*나', school: '백석예술대학교', major: '교회실용음악 피아노' },
+      { name: '박*진', school: '여주대학교', major: '싱어송라이터' },
+      { name: '이*원', school: '여주대학교', major: '기타' },
+      { name: '손*서', school: '국제예술대학교', major: '프로듀싱' },
+      { name: '양*우', school: '국제예술대학교', major: '프로듀싱' },
+      { name: '이*원', school: '용인대학교', major: '기타' },
+      { name: '박*진', school: '정화예술대학교', major: '싱어송라이터' },
+      { name: '최*완', school: '정화예술대학교', major: '기타' },
+      { name: '천*영', school: '김포대학교', major: '보컬' },
+      { name: '김*빈', school: '재능대학교', major: '보컬' },
+      { name: '이*원', school: '청운대학교', major: '기타' },
+    ],
   },
-  {
-    id: 232,
-    title: '동덕여자대학교 피아노전공',
-    name: '강은지',
-    youtubeId: 'fVqn5iH71ys',
-    year: '2025',
-    university: '동덕여자대학교',
-    major: '피아노',
-    additionalInfo: '서경대예비3, 홍익대1차, 백석예대 중복합격',
+  '2024': {
+    summary: '서울예대 외 22명',
+    students: [
+      { name: '이*비', school: '동아방송예술대학교', major: '작곡' },
+      { name: '김*래', school: '호원대학교', major: '작곡' },
+      { name: '차*서', school: '호원대학교', major: 'K-POP' },
+      { name: '이*비', school: '홍익대학교', major: '작곡' },
+      { name: '김*래', school: '경희대학교', major: '포스트모던음악 작곡' },
+      { name: '이*진', school: '백석예술대학교', major: '피아노' },
+      { name: '최*늘', school: '백석예술대학교', major: '교회실용음악 보컬' },
+      { name: '허*진', school: '정화예술대학교', major: '보컬' },
+      { name: '나*성', school: '정화예술대학교', major: '드럼' },
+      { name: '최*은', school: '정화예술대학교', major: '싱어송라이터' },
+      { name: '차*서', school: '정화예술대학교', major: '피아노' },
+      { name: '김*빈', school: '서울신학대학교', major: '피아노' },
+      { name: '윤*연', school: '재능대학교', major: '보컬' },
+      { name: '이*진', school: '신안산대학교', major: '피아노' },
+      { name: '윤*연', school: '김포대학교', major: '보컬' },
+      { name: '박*현', school: '김포대학교', major: '보컬' },
+      { name: '이*진', school: 'KAC 한국예술원', major: '피아노' },
+      { name: '최*혜', school: '서울공연예술고등학교', major: '보컬' },
+      { name: '문*솔', school: '서서울생활과학고등학교', major: '보컬' },
+      { name: '송*원', school: '서서울생활과학고등학교', major: '보컬' },
+    ],
   },
-  {
-    id: 231,
-    title: '호원대학교 K-POP학과',
-    name: '최영민',
-    youtubeId: 'N-0NNbqGWFg',
-    year: '2025',
-    university: '호원대학교',
-    major: 'K-POP',
+  '2023': {
+    summary: '서울예대 외 40명',
+    students: [
+      { name: '박*혁', school: '서울예술대학교', major: '기타' },
+      { name: '김*늬', school: '서울예술대학교', major: '전자음악' },
+      { name: '손*서', school: '동아방송예술대학교', major: '드럼' },
+      { name: '김*성', school: '동아방송예술대학교', major: '베이스' },
+      { name: '손*서', school: '호원대학교', major: '드럼' },
+      { name: '김*성', school: '호원대학교', major: '베이스' },
+      { name: '손*서', school: '명지전문대학교', major: '드럼' },
+      { name: '김*성', school: '성신여자대학교', major: '재즈피아노' },
+      { name: '김*성', school: '여주대학교', major: '재즈피아노' },
+      { name: '장*성', school: '여주대학교', major: '기타' },
+      { name: '이*현', school: '여주대학교', major: '기타' },
+      { name: '최*윤', school: '백석예술대학교', major: '보컬' },
+      { name: '김*찬', school: '백석예술대학교', major: '기타' },
+      { name: '장*성', school: '백석예술대학교', major: '기타' },
+      { name: '곽*현', school: '백석예술대학교', major: '기타' },
+      { name: '김*서', school: '국제예술대학교', major: '기타' },
+      { name: '손*호', school: '백제예술대학교', major: '미디' },
+      { name: '김*현', school: '수원여자대학교', major: '재즈피아노' },
+      { name: '김*민', school: '정화예술대학교', major: '보컬' },
+      { name: '장*기', school: '정화예술대학교', major: '보컬' },
+      { name: '김*늘', school: '정화예술대학교', major: '보컬' },
+      { name: '김*민', school: '정화예술대학교', major: '미디' },
+      { name: '김*서', school: '재능대학교', major: '기타' },
+      { name: '박*른', school: '재능대학교', major: '보컬' },
+      { name: '김*온', school: '재능대학교', major: '드럼' },
+      { name: '이*환', school: '서울공연예술고등학교', major: '기타' },
+      { name: '김*아', school: '서서울생활과학고등학교', major: '베이스' },
+      { name: '김*현', school: '금천문화예술정보학교', major: '보컬' },
+      { name: '이*빈', school: '서경대학교 위탁교육원', major: '작곡' },
+    ],
   },
-  // 2024학년도
-  {
-    id: 228,
-    title: '호원대학교 K-POP학과',
-    name: '차예서',
-    youtubeId: 'zhsj2Wie4IU',
-    year: '2024',
-    university: '호원대학교',
-    major: 'K-POP',
+  '2022': {
+    summary: '서울예대 외 34명',
+    students: [
+      { name: '이*우', school: '서울예술대학교', major: '기타' },
+      { name: '정*영', school: '서울예술대학교', major: '작곡' },
+      { name: '이*린', school: '호원대학교', major: '재즈피아노' },
+      { name: '이*진', school: '호원대학교', major: '작곡' },
+      { name: '이*우', school: '호원대학교', major: '기타' },
+      { name: '조*영', school: '한양대학교', major: '드럼' },
+      { name: '김*민', school: '여주대학교', major: '보컬' },
+      { name: '김*원', school: '여주대학교', major: '탑라이너' },
+      { name: '이*진', school: '여주대학교', major: '작곡' },
+      { name: '백*경', school: '여주대학교', major: '싱어송라이터' },
+      { name: '황*진', school: '여주대학교', major: '베이스' },
+      { name: '권*빈', school: '백석예술대학교', major: '보컬' },
+      { name: '황*빛', school: '백석예술대학교', major: '작곡' },
+      { name: '김*성', school: '백석예술대학교', major: '재즈피아노' },
+      { name: '백*경', school: '백석예술대학교', major: '싱어송라이터' },
+      { name: '이*영', school: '백석예술대학교', major: '교회실용음악 보컬' },
+      { name: '정*영', school: '용인대학교', major: '작곡' },
+      { name: '김*늬', school: '백제예술대학교', major: '미디' },
+      { name: '백*경', school: '백제예술대학교', major: '싱어송라이터' },
+      { name: '방*연', school: '백제예술대학교', major: 'KPOP 보컬' },
+      { name: '이*현', school: '정화예술대학교', major: '기타' },
+      { name: '김*원', school: '정화예술대학교', major: '싱어송라이터' },
+      { name: '박*석', school: '정화예술대학교', major: '보컬' },
+      { name: '권*빈', school: '정화예술대학교', major: '보컬' },
+      { name: '방*연', school: '동서울대학교', major: 'KPOP' },
+      { name: '정*영', school: '중부대학교', major: '작곡' },
+      { name: '이*우', school: '재능대학교', major: '보컬' },
+      { name: '강*지', school: '서울공연예술고등학교', major: '피아노 수석' },
+      { name: '곽*민', school: '서울실용음악고등학교', major: '베이스' },
+      { name: '곽*민', school: '서서울생활과학고등학교', major: '베이스' },
+      { name: '장*미', school: '서서울생활과학고등학교', major: '피아노' },
+      { name: '주*모', school: '아현산업정보학교', major: '보컬' },
+    ],
   },
-  {
-    id: 225,
-    title: '서서울생활과학고 실용음악과 보컬전공',
-    name: '문은솔',
-    youtubeId: '9nprqjZXgvY',
-    year: '2024',
-    university: '서서울생활과학고등학교',
-    major: '보컬',
+  '2021': {
+    summary: '서울예대 외 32명',
+    students: [
+      { name: '정원채', school: '서울예술대학교', major: '드럼' },
+      { name: '조은영', school: '서울예술대학교', major: '드럼' },
+      { name: '최광석', school: '동아방송예술대학교', major: '보컬' },
+      { name: '윤채원', school: '한양대학교', major: '보컬' },
+      { name: '오병진', school: '한양대학교', major: '보컬' },
+      { name: '박도영', school: '호원대학교', major: '보컬' },
+      { name: '최광석', school: '호원대학교', major: '보컬' },
+      { name: '이성근', school: '호원대학교', major: '보컬' },
+      { name: '이지은', school: '호원대학교', major: '보컬' },
+      { name: '최광석', school: '서경대학교', major: '보컬' },
+      { name: '이지은', school: '홍익대학교', major: '보컬' },
+      { name: '정원채', school: '경희대학교', major: '포스트모던음악 드럼' },
+      { name: '박원', school: '단국대학교', major: '뉴뮤직 작곡' },
+      { name: '송태웅', school: '백석예술대학교', major: '뮤직테크놀로지' },
+      { name: '박원', school: '백석예술대학교', major: '싱어송라이터' },
+      { name: '유시찬', school: '백석예술대학교', major: '교회실용음악 보컬' },
+      { name: '김시원', school: '여주대학교', major: '피아노' },
+      { name: '양호준', school: '여주대학교', major: '싱어송라이터' },
+      { name: '정원채', school: '여주대학교', major: '드럼' },
+      { name: '조은영', school: '여주대학교', major: '드럼' },
+      { name: '유시찬', school: '백석대학교', major: '보컬' },
+      { name: '이유진', school: '호서대학교', major: '작곡' },
+      { name: '민예슬', school: '백제예술대학교', major: '미디' },
+      { name: '이유진', school: '수원여자대학교', major: '작곡' },
+      { name: '박원', school: '정화예술대학교', major: '작곡' },
+      { name: '김은실', school: '정화예술대학교', major: '보컬' },
+      { name: '민예슬', school: '정화예술대학교', major: '미디' },
+      { name: '김예진', school: '백석대학교 평생교육신학원', major: '피아노' },
+    ],
   },
-  {
-    id: 224,
-    title: '서서울생활과학고 실용음악과 보컬전공',
-    name: '송채원',
-    youtubeId: 'TXANHRFiLWE',
-    year: '2024',
-    university: '서서울생활과학고등학교',
-    major: '보컬',
+  '2020': {
+    summary: '서울예대 외 35명',
+    students: [
+      { name: '이은비', school: '동아방송예술대학', major: '작곡' },
+      { name: '정하영', school: '동아방송예술대학', major: '작곡' },
+      { name: '이은비', school: '한양대학교', major: '작곡' },
+      { name: '김선경', school: '호원대학교', major: '피아노' },
+      { name: '박도영', school: '서경대학교', major: '보컬' },
+      { name: '박원', school: '경희대학교', major: '포스트모던음악 작곡' },
+      { name: '이은비', school: '홍익대학교', major: '작곡' },
+      { name: '박원', school: '홍익대학교', major: '작곡' },
+      { name: '박도영', school: '홍익대학교', major: '보컬' },
+      { name: '유현준', school: '백석예술대학교', major: '베이스' },
+      { name: '박도영', school: '백석예술대학교', major: '싱어송라이터' },
+      { name: '황인범', school: '백석예술대학교', major: '싱어송라이터' },
+      { name: '정하영', school: '백석예술대학교', major: '작곡' },
+      { name: '박민혁', school: '백석예술대학교', major: '기타' },
+      { name: '홍예서', school: '백석예술대학교', major: '교회실용음악 보컬' },
+      { name: '신해찬', school: '여주대학교', major: '뮤직프로덕션' },
+      { name: '전민기', school: '백석대학교', major: '제작프로듀서' },
+      { name: '박지혜', school: '수원여자대학교', major: '작곡' },
+      { name: '조연우', school: '정화예술대학교', major: '재즈피아노' },
+      { name: '김지수', school: '정화예술대학교', major: '재즈피아노' },
+      { name: '조연우', school: '백제예술대학교', major: '재즈피아노' },
+      { name: '송영우', school: '용인대학교', major: '보컬' },
+      { name: '조연우', school: '동서울대학교', major: '재즈피아노' },
+      { name: '송영우', school: '서울신학대학교', major: '보컬' },
+      { name: '이종훈', school: '백석문화대학교', major: '컴퓨터음악작곡' },
+      { name: '황인범', school: '장안대학교', major: '싱어송라이터' },
+      { name: '강나연', school: '재능대학교', major: '보컬' },
+      { name: '박민혁', school: '청운대학교', major: '기타' },
+      { name: '송영우', school: '성결대학교', major: '현대실용음악 보컬' },
+      { name: '조연우', school: '예원예술대학교', major: '재즈피아노' },
+      { name: '고동현', school: '서서울생활과학고등학교', major: '드럼' },
+    ],
   },
-  {
-    id: 223,
-    title: '호원대학교 실용음악과 작곡전공',
-    name: '김미래',
-    youtubeId: 'zhfYSQb30Sw',
-    year: '2024',
-    university: '호원대학교',
-    major: '작곡',
+  '2019': {
+    summary: '서울예대 외 14명',
+    students: [
+      { name: '임나은', school: '동아방송예술대학', major: '보컬' },
+      { name: '전현우', school: '명지전문대학', major: '보컬' },
+      { name: '김동혁', school: '백석예술대학', major: '드럼' },
+      { name: '김민규', school: '백석예술대학', major: '드럼' },
+      { name: '권아연', school: '백석예술대학', major: '보컬' },
+      { name: '조주현', school: '백석예술대학', major: '뮤직테크놀로지' },
+      { name: '김예진', school: '백석예술대학', major: '교회실용음악 피아노' },
+      { name: '임나은', school: '국제예술대학', major: '보컬' },
+      { name: '육정근', school: '백제예술대학', major: '작곡' },
+      { name: '임나은', school: '한양여자대학', major: '보컬' },
+      { name: '육정근', school: '강동대학교', major: '작곡' },
+      { name: '박하은', school: '강동대학교', major: '싱어송라이터' },
+      { name: '임나은', school: '정화예술대학', major: '보컬' },
+      { name: '박원', school: '정화예술대학', major: '작곡' },
+    ],
   },
-  {
-    id: 220,
-    title: '서울공연예술고 실용음악과 보컬전공',
-    name: '최지혜',
-    youtubeId: 'kot7OFU_21c',
-    year: '2024',
-    university: '서울공연예술고등학교',
-    major: '보컬',
+  '2018': {
+    summary: '서울예대 외 26명',
+    students: [
+      { name: '장진우', school: '서울예술대학교', major: '보컬' },
+      { name: '신동규', school: '동아방송예술대학교', major: '기타' },
+      { name: '장진우', school: '동아방송예술대학교', major: '보컬' },
+      { name: '장진우', school: '한양대학교', major: '보컬' },
+      { name: '김영찬', school: '경희대학교', major: '포스트모던음악 작곡' },
+      { name: '유정은', school: '백석예술대학', major: '보컬' },
+      { name: '윤동현', school: '백석예술대학', major: '보컬' },
+      { name: '오동훈', school: '백석예술대학', major: '기타' },
+      { name: '박세웅', school: '백석예술대학', major: '베이스' },
+      { name: '한지훈', school: '백제예술대학', major: '기타' },
+      { name: '김홍빈', school: '서울신학대학', major: '보컬' },
+      { name: '서정훈', school: '호서대학교', major: '기타' },
+      { name: '정승철', school: '중부대학교', major: '기타' },
+      { name: '서정훈', school: '평택대학교', major: '기타' },
+      { name: '김혜진', school: '백석문화대학', major: '미디' },
+      { name: '윤동현', school: '정화예술대학', major: '보컬' },
+      { name: '서정훈', school: '신안산대학교', major: '기타' },
+      { name: '이상현', school: '추계예술대학', major: '보컬' },
+    ],
   },
-  {
-    id: 219,
-    title: '동아방송예술대학교 실용음악과 작곡전공',
-    name: '이은비',
-    youtubeId: 'K34t03QNEgw',
-    year: '2024',
-    university: '동아방송예술대학교',
-    major: '작곡',
+  '2017': {
+    summary: '서울예대 외 30명',
+    students: [
+      { name: '김태인', school: '서울예술대학', major: '기타 (18살 조기입학)' },
+      { name: '설다혜', school: '서울예술대학', major: '재즈 바이올린' },
+      { name: '유재은', school: '서울예술대학', major: '작곡' },
+      { name: '유정은', school: '한양대학교', major: '보컬' },
+      { name: '김홍비', school: '동아방송예술대학', major: '베이스' },
+      { name: '정지석', school: '동아방송예술대학', major: '싱어송라이팅' },
+      { name: '최연정', school: '동아방송예술대학', major: '보컬' },
+      { name: '이종훈', school: '호원대학교', major: '베이스' },
+      { name: '김홍비', school: '동덕여자대학교', major: '베이스' },
+      { name: '박은총', school: '동덕여자대학교', major: '피아노' },
+      { name: '유호정', school: '단국대학교', major: '재즈바이올린' },
+      { name: '설다혜', school: '경희대학교', major: '포스트모던음악 재즈바이올린' },
+      { name: '설다혜', school: '성신여자대학교', major: '현대실용음악 재즈바이올린' },
+      { name: '정종현', school: '여주대학교', major: '기타' },
+      { name: '정지석', school: '백석예술대학', major: '싱어송라이팅' },
+      { name: '설다혜', school: '백석예술대학', major: '재즈바이올린' },
+      { name: '김민주', school: '백석예술대학', major: '피아노' },
+      { name: '박세웅', school: '백석예술대학', major: '베이스' },
+      { name: '박찬영', school: '백석예술대학', major: '드럼' },
+      { name: '유호정', school: '백석대학교', major: '재즈바이올린' },
+      { name: '유재은', school: '수원여자대학', major: '작곡' },
+      { name: '최연정', school: '수원여자대학', major: '보컬' },
+      { name: '신승원', school: '청운대학교', major: '드럼' },
+      { name: '신승원', school: '백석문화대학', major: '드럼' },
+      { name: '박찬영', school: '국제예술대학', major: '드럼' },
+      { name: '최연정', school: '서경대 콘서바토리', major: '보컬' },
+    ],
   },
-  // 2023학년도
-  {
-    id: 211,
-    title: '호원대학교 실용음악과 베이스전공',
-    name: '김휘성',
-    youtubeId: '6OYMnDDyf_M',
-    year: '2023',
-    university: '호원대학교',
-    major: '베이스',
+  '2016': {
+    summary: '서울예대 외 35명',
+    students: [
+      { name: '김치호', school: '서울예술대학', major: '드럼' },
+      { name: '유승균', school: '서울예술대학', major: '작곡' },
+      { name: '김동현', school: '호원대학교', major: '작곡' },
+      { name: '유승균', school: '동아방송예술대학', major: '작곡' },
+      { name: '김치호', school: '경희대학교', major: '포스트모던음악 드럼' },
+      { name: '이동현', school: '백석예술대학', major: '작곡' },
+      { name: '정철규', school: '백석예술대학', major: '보컬' },
+      { name: '장진우', school: '백석예술대학', major: '싱어송라이터' },
+      { name: '김치호', school: '백석예술대학', major: '드럼' },
+      { name: '박은총', school: '백석예술대학', major: '피아노' },
+      { name: '설다빛', school: '백석예술대학', major: '피아노' },
+      { name: '유상아', school: '수원여자대학', major: '작곡' },
+      { name: '신예원', school: '국제예술대학', major: '작곡' },
+      { name: '차윤서', school: '명지대학교', major: '실용무용' },
+    ],
   },
-  {
-    id: 210,
-    title: '서울공연예술고 실용음악과 기타전공',
-    name: '이용환',
-    youtubeId: '-oHA9e6qHpA',
-    year: '2023',
-    university: '서울공연예술고등학교',
-    major: '기타',
+  '2015': {
+    summary: '서울예대 외 40명',
+    students: [
+      { name: '이도현', school: '동아방송예술대학', major: '싱어송라이터' },
+      { name: '유승균', school: '동아방송예술대학', major: '작곡' },
+      { name: '김치호', school: '동아방송예술대학', major: '드럼' },
+      { name: '김성호', school: '동아방송예술대학', major: '작곡' },
+      { name: '이성우', school: '경희대학교', major: '포스트모던음악 드럼' },
+      { name: '김성호', school: '한양대학교', major: '작곡' },
+      { name: '김홍비', school: '한양여자대학교', major: '베이스' },
+      { name: '최한나', school: '한양여자대학교', major: '작곡' },
+      { name: '이도현', school: '서경대학교', major: '작곡' },
+      { name: '이다미', school: 'Conservatorium Van Amsterdam', major: 'Jazz Vocal' },
+      { name: '이도현', school: '백석예술대학교', major: '싱어송라이터' },
+      { name: '김지윤', school: '백석예술대학교', major: '작곡' },
+      { name: '김지윤', school: '경기대학교', major: '전자디지털음악 작곡' },
+      { name: '윤희상', school: '목원대학교', major: '작곡재즈 드럼' },
+      { name: '김지윤', school: '재능대학교', major: '작곡' },
+    ],
   },
-  // 2022학년도
-  {
-    id: 201,
-    title: '서울실용음악고/서서울생활과학고 베이스전공',
-    name: '곽재민',
-    youtubeId: 'EuQ7K3q6Kpg',
-    year: '2022',
-    university: '서울실용음악고등학교',
-    major: '베이스',
-    additionalInfo: '서서울생활과학고등학교 중복합격',
+  '2014': {
+    summary: '서울예대 외 45명',
+    students: [
+      { name: '정혜원', school: '서울예술대학교', major: 'Trombone' },
+      { name: '문지원', school: '동아방송예술대학교', major: 'Piano' },
+      { name: '김성호', school: '동아방송예술대학교', major: 'Composing' },
+      { name: '이나영', school: '경희대학교', major: '포스트모던음악 Piano' },
+      { name: '강병극', school: '경희대학교', major: '포스트모던음악 Piano' },
+      { name: '김영석', school: '경희대학교', major: '포스트모던음악 Drums' },
+      { name: '문지원', school: '한양대학교', major: 'Piano' },
+      { name: '김민찬', school: '한양대학교', major: 'Vocal' },
+      { name: '유지혜', school: '단국대학교', major: 'Vocal' },
+      { name: '정혜원', school: '단국대학교', major: 'Trombone' },
+      { name: '이진주', school: '백석예술대학교', major: 'Composing' },
+      { name: '김예림', school: '백석예술대학교', major: '교회실용음악 Vocal' },
+      { name: '오민석', school: '국제예술대학', major: 'Vocal' },
+      { name: '김성호', school: '국제예술대학', major: 'Composing' },
+      { name: '김영석', school: '장안대학교', major: 'Drums' },
+      { name: '이성훈', school: '추계예술대학교', major: 'Vocal' },
+      { name: '조연주', school: '추계예술대학교', major: 'Composing' },
+      { name: '손미래', school: '추계예술대학교', major: 'Vocal' },
+      { name: '한다운', school: '추계예술대학교', major: 'Vocal' },
+      { name: '김건우', school: '서울공연예술고등학교', major: 'Drums' },
+      { name: '강승완', school: '서울공연예술고등학교', major: 'Vocal' },
+    ],
   },
-  {
-    id: 197,
-    title: '호원대학교 실용음악과 재즈피아노전공',
-    name: '이예린',
-    youtubeId: 'fZK5iW8Krzo',
-    year: '2022',
-    university: '호원대학교',
-    major: '재즈피아노',
-    additionalInfo: '수시합격',
+  '2013': {
+    summary: '서울예대 외 38명',
+    students: [
+      { name: '이은총', school: '호원대학교', major: 'Guitar' },
+      { name: '박태민', school: '동아방송예술대학', major: 'Guitar' },
+      { name: '문용환', school: '경희대학교', major: '포스트모던음악 Drums' },
+      { name: '김영석', school: '경희대학교', major: '포스트모던음악 Drums' },
+      { name: '박태민', school: '경희대학교', major: '포스트모던음악 Guitar' },
+      { name: '이석원', school: '단국대학교', major: 'Piano' },
+      { name: '문용환', school: '단국대학교', major: 'Drums' },
+      { name: '고아라', school: '명지전문대학', major: 'Vocal' },
+      { name: '최석진', school: '백석예술대학', major: 'Vocal' },
+      { name: '김홍빈', school: '백석예술대학', major: 'Vocal' },
+      { name: '박태민', school: '백석예술대학', major: 'Guitar' },
+      { name: '이석원', school: '백석예술대학', major: 'Piano' },
+      { name: '이상혁', school: '백석예술대학', major: 'Bass' },
+      { name: '남예진', school: '백제예술대학', major: 'Composition' },
+      { name: '홍라원', school: '백제예술대학', major: 'Composition' },
+      { name: '장혜련', school: '경기대학교', major: '전자디지털음악 Composition' },
+      { name: '조은지', school: '국제예술대학', major: 'Vocal' },
+      { name: '박태민', school: '국제예술대학', major: 'Guitar' },
+      { name: '박슬비', school: '국제예술대학', major: 'Piano' },
+      { name: '한주희', school: '재능대학교', major: 'Piano' },
+      { name: '이상혁', school: '서경대학교', major: '재즈 Bass' },
+      { name: '박미옥', school: '서울신학대학교', major: 'Vocal' },
+      { name: '최유리', school: '서울신학대학교', major: 'Vocal' },
+      { name: '박민', school: '서울신학대학교', major: 'Vocal' },
+    ],
   },
-  {
-    id: 196,
-    title: '호원대학교 실용음악과 작곡전공',
-    name: '이유진',
-    youtubeId: 'ru0dE2_K4oE',
-    year: '2022',
-    university: '호원대학교',
-    major: '작곡',
-    additionalInfo: '수시합격',
+  '2012': {
+    summary: '서울예대 외 42명',
+    students: [
+      { name: '허민희', school: '서울예술대학', major: 'Vocal' },
+      { name: '박지원', school: '서울예술대학', major: 'Bass' },
+      { name: '한진실', school: '서울예술대학', major: 'Composition' },
+      { name: '한진실', school: '동아방송예술대학', major: 'Composition' },
+      { name: '조효영', school: '동아방송예술대학', major: 'Songwriting' },
+      { name: '신이삭', school: '동아방송예술대학', major: 'Drums' },
+      { name: '박지원', school: '경희대학교', major: '포스트모던음악 Bass' },
+      { name: '이한범', school: '경희대학교', major: '포스트모던음악 Bass' },
+      { name: '명누리', school: '한양대학교', major: 'Vocal' },
+      { name: '고영호', school: '단국대학교', major: 'Drums' },
+      { name: '이석영', school: '단국대학교', major: 'Vocal' },
+      { name: '조인호', school: '백석대학교', major: 'Guitar' },
+      { name: '박미옥', school: '백석대학교', major: 'Composition' },
+      { name: '양서영', school: '호서대학교', major: 'Composition' },
+      { name: '신민경', school: '경기대학교', major: '전자디지털음악 Composition' },
+      { name: '문선화', school: '백제예술대학', major: 'Composition' },
+      { name: '이유진', school: '백제예술대학', major: 'Composition' },
+      { name: '조인호', school: '백제예술대학', major: 'Guitar' },
+      { name: '김희애', school: '백제예술대학', major: 'Piano' },
+      { name: '이석영', school: '백제예술대학', major: 'Vocal' },
+      { name: '고은혜', school: '나사렛대학교', major: 'Vocal' },
+      { name: '김희애', school: '재능대학교', major: 'Piano 차석' },
+      { name: '강모든', school: '재능대학교', major: 'Composition' },
+      { name: '이유진', school: '재능대학교', major: 'Composition' },
+      { name: '이석영', school: '추계예술대학교', major: 'Vocal' },
+      { name: '박현우', school: '추계예술대학교', major: 'Vocal' },
+      { name: '류신혜', school: '추계예술대학교', major: 'Vocal' },
+    ],
   },
-  {
-    id: 195,
-    title: '서울공연예술고 실용음악과 피아노전공',
-    name: '강은지',
-    youtubeId: 'VO1wviLxa5o',
-    year: '2022',
-    university: '서울공연예술고등학교',
-    major: '피아노',
+  '2011': {
+    summary: '서울예대 외 40명',
+    students: [
+      { name: '조수진', school: '동아예술방송대학', major: 'SongWriting' },
+      { name: '서인혜', school: '동아예술방송대학', major: 'Piano' },
+      { name: '최진원', school: '경희대학교', major: '포스트모던음악 Guitar' },
+      { name: '이한범', school: '경희대학교', major: '포스트모던음악 Bass' },
+      { name: '이우미', school: '경희대학교', major: '포스트모던음악 Vocal' },
+      { name: '박경락', school: '서경대학교', major: 'Vocal' },
+      { name: '임아람', school: '명지전문대학', major: 'Vocal' },
+      { name: '김형도', school: '백석예술대학', major: 'Vocal' },
+      { name: '최주희', school: '백석예술대학', major: 'Bass' },
+      { name: '이한범', school: '백석예술대학', major: 'Bass' },
+      { name: '이한범', school: '여주대학', major: 'Bass' },
+      { name: '최주희', school: '여주대학', major: 'Bass' },
+      { name: '임윤정', school: '여주대학', major: 'Musical Vocal' },
+      { name: '이선애', school: '여주대학', major: 'Musical Vocal' },
+      { name: '정윤희', school: '여주대학', major: 'Musical Vocal' },
+      { name: '이정환', school: '경기대학교', major: '전자디지털음악 Composition' },
+      { name: '정교연', school: '경기대학교', major: '전자디지털음악 Composition' },
+      { name: '정교연', school: '호서대학교', major: 'SongWriting' },
+      { name: '박지원', school: '호서대학교', major: 'Composition' },
+      { name: '소민섭', school: '백제예술대학', major: 'Composition' },
+      { name: '서인혜', school: '백제예술대학', major: 'Piano' },
+      { name: '이한범', school: '백석대학교', major: 'Bass' },
+      { name: '이현화', school: '청운대학교', major: 'Vocal' },
+      { name: '지한솔', school: '백석문화대학', major: 'Midi' },
+      { name: '손일호', school: '백석문화대학', major: 'Midi' },
+      { name: '소민섭', school: '백석문화대학', major: 'Composition' },
+      { name: '이수현', school: '재능대학', major: 'Piano' },
+      { name: '최주희', school: '재능대학', major: 'Bass' },
+      { name: '황수민', school: '재능대학', major: 'Composition' },
+      { name: '이다솜', school: '칼빈대학교', major: 'Vocal' },
+      { name: '정윤희', school: '중부대학교', major: 'Vocal' },
+      { name: '박경락', school: '서경대학교', major: 'Vocal' },
+      { name: '박지원', school: '추계예술대학', major: 'Piano' },
+      { name: '유지혜', school: '서울공연예술고등학교', major: 'Vocal' },
+    ],
   },
-  // 2020학년도
-  {
-    id: 185,
-    title: '호원대 실용음악과 재즈피아노전공',
-    name: '김선경',
-    youtubeId: 'dKhpy_hJQwg',
-    year: '2020',
-    university: '호원대학교',
-    major: '재즈피아노',
-    additionalInfo: '정시합격',
+  '2010': {
+    summary: '서울예대 외 35명',
+    students: [
+      { name: '정다미', school: '서울예술대학', major: 'Composition' },
+      { name: '한규태', school: '서울예술대학', major: 'Vocal' },
+      { name: '최규식', school: '동아방송예술대학', major: 'Bass' },
+      { name: '양소영', school: '경희대학교', major: '포스트모던음악 Composition' },
+      { name: '박설아', school: '경희대학교', major: '포스트모던음악 Composition' },
+      { name: '김지원', school: '경희대학교', major: '포스트모던음악 Piano' },
+      { name: '박슬아', school: '경희대학교', major: '포스트모던음악 Piano' },
+      { name: '최지선', school: '동덕여자대학교', major: 'Trumpet' },
+      { name: '박설아', school: '한양여자대학', major: 'Piano' },
+      { name: '김유진', school: '명지대학교', major: 'Piano' },
+      { name: '정다미', school: '호서대학교', major: 'Composition' },
+      { name: '김영주', school: '호서대학교', major: 'Composition' },
+      { name: '이용경', school: '호서대학교', major: 'Composition' },
+      { name: '이용경', school: '경기대학교', major: '전자디지털음악 Composition' },
+      { name: '김동관', school: '백제예술대학', major: 'Bass' },
+      { name: '이나라', school: '백제예술대학', major: 'Piano' },
+      { name: '정다미', school: '백제예술대학', major: 'Composition' },
+      { name: '이용경', school: '백제예술대학', major: 'Composition' },
+      { name: '박설아', school: '백제예술대학', major: 'Piano' },
+      { name: '최규식', school: '백제예술대학', major: 'Bass' },
+      { name: '김윤수', school: '백석대학교', major: 'Drums' },
+      { name: '이소라', school: '백석문화대학', major: 'MIDI' },
+      { name: '조재근', school: '평택대학교', major: 'Vocal' },
+      { name: '윤예진', school: '평택대학교', major: 'Vocal' },
+      { name: '김윤수', school: '재능대학', major: 'Drums' },
+      { name: '민규원', school: '재능대학', major: 'Drums' },
+      { name: '이나라', school: '재능대학', major: 'Piano' },
+      { name: '이용경', school: '재능대학', major: 'Composition' },
+      { name: '김영주', school: '재능대학', major: 'Composition' },
+      { name: '이다미', school: '추계예술대학', major: 'Vocal' },
+      { name: '김의영', school: '추계예술대학', major: 'Composition' },
+      { name: '장은지', school: '추계예술대학', major: 'Composition' },
+    ],
   },
-  // 2018학년도
-  {
-    id: 165,
-    title: '경희대학교 포스트모던음악과 작곡전공',
-    name: '김영찬',
-    youtubeId: 'X5aTWYYtspI',
-    year: '2018',
-    university: '경희대학교',
-    major: '작곡',
-    additionalInfo: '수시합격',
+  '2009': {
+    summary: '서울예대 외 30명',
+    students: [
+      { name: '김남윤', school: '서울예술대학', major: 'Vocal' },
+      { name: '강보라', school: '동아방송예술대학', major: 'Piano' },
+      { name: '강보라', school: '경희대학교', major: '포스트모던음악 Piano' },
+      { name: '정지은', school: '경희대학교', major: '포스트모던음악 Piano' },
+      { name: '신동희', school: '명지전문대학', major: 'Vocal' },
+      { name: '박설아', school: '호서대학교', major: 'Composition' },
+      { name: '최지선', school: '호서대학교', major: 'Composition' },
+      { name: '박설아', school: '백제예술대학', major: 'Composition' },
+      { name: '양소영', school: '백제예술대학', major: 'Composition' },
+      { name: '신성혜', school: '백제예술대학', major: 'Piano' },
+      { name: '이행석', school: '백제예술대학', major: 'Vocal' },
+      { name: '장혜연', school: '백제예술대학', major: '교회음악 Vocal' },
+      { name: '김영주', school: '여주대학', major: 'Piano' },
+      { name: '박헌구', school: '여주대학', major: 'Vocal' },
+      { name: '유세희', school: '수원여자대학교', major: 'Vocal' },
+      { name: '김영', school: '청운대학교', major: 'Piano' },
+      { name: '한규만', school: '청운대학교', major: 'Guitar' },
+      { name: '노유경', school: '한서대학교', major: 'Vocal' },
+      { name: '오병준', school: '백석문화대학', major: 'Vocal' },
+      { name: '이소연', school: '백석문화대학', major: 'Vocal' },
+      { name: '남재숙', school: '숭실대학교', major: 'Vocal' },
+      { name: '남재숙', school: '추계예술대학교', major: 'Vocal' },
+      { name: '한은지', school: '추계예술대학교', major: 'Vocal' },
+      { name: '조보경', school: '추계예술대학교', major: 'Vocal' },
+      { name: '김현석', school: '공주영상대학', major: 'Vocal' },
+      { name: '신성혜', school: '재능대학', major: 'Piano' },
+      { name: '최지인', school: '김포대학', major: 'Guitar' },
+      { name: '노유경', school: '경복대학', major: 'Vocal' },
+    ],
   },
-];
-
-// 연도별 그룹핑
-const videosByYear = successVideos.reduce((acc, video) => {
-  if (!acc[video.year]) {
-    acc[video.year] = [];
-  }
-  acc[video.year].push(video);
-  return acc;
-}, {} as Record<string, typeof successVideos>);
-
-const videoYears = Object.keys(videosByYear).sort((a, b) => Number(b) - Number(a));
-
-// 합격자 데이터 (khmusic.co.kr 참조 - 실제 데이터)
-const admissionsData = {
-  '2025': [
-    { name: '김OO', university: '서울대학교', department: '음악대학 작곡과', type: '수시' },
-    { name: '이OO', university: '한양대학교', department: '실용음악학과', type: '수시' },
-    { name: '박OO', university: '경희대학교', department: '포스트모던음악학과', type: '수시' },
-    { name: '최OO', university: '동덕여자대학교', department: '실용음악학과', type: '수시' },
-  ],
-  '2024': [
-    { name: '정OO', university: '서울예술대학교', department: '실용음악과', type: '수시' },
-    { name: '강OO', university: '호원대학교', department: '실용음악학부', type: '정시' },
-    { name: '조OO', university: '백제예술대학교', department: '실용음악과', type: '수시' },
-    { name: '윤OO', university: '경희대학교', department: '포스트모던음악학과', type: '수시' },
-    { name: '장OO', university: '단국대학교', department: '뮤지컬학과', type: '정시' },
-    { name: '임OO', university: '동아방송예술대학교', department: '방송보컬과', type: '수시' },
-    { name: '한OO', university: '명지대학교', department: '뮤지컬공연학과', type: '수시' },
-    { name: '서OO', university: '계명대학교', department: '뮤직프로덕션학과', type: '정시' },
-  ],
-  '2023': [
-    { name: '김OO', university: '한양대학교', department: '실용음악학과', type: '수시' },
-    { name: '이OO', university: '경희대학교', department: '포스트모던음악학과', type: '정시' },
-    { name: '박OO', university: '서울예술대학교', department: '실용음악과', type: '수시' },
-    { name: '최OO', university: '호원대학교', department: '실용음악학부', type: '수시' },
-    { name: '정OO', university: '백제예술대학교', department: '실용음악과', type: '정시' },
-    { name: '강OO', university: '동덕여자대학교', department: '실용음악학과', type: '수시' },
-  ],
-  '2022': [
-    { name: '조OO', university: '경희대학교', department: '포스트모던음악학과', type: '수시' },
-    { name: '윤OO', university: '서울예술대학교', department: '실용음악과', type: '수시' },
-    { name: '장OO', university: '한양대학교', department: '실용음악학과', type: '정시' },
-    { name: '임OO', university: '호원대학교', department: '실용음악학부', type: '수시' },
-    { name: '한OO', university: '동아방송예술대학교', department: '방송보컬과', type: '수시' },
-  ],
+  '2008': {
+    summary: '서울예대 외 25명',
+    students: [
+      { name: '박다나', school: '서울예술대학', major: '국악 판소리' },
+      { name: '이서혜', school: '서울예술대학', major: 'Vocal' },
+      { name: '김지윤', school: '서울예술대학', major: 'Composition' },
+      { name: '김지윤', school: '동아방송예술대학', major: 'Composition' },
+      { name: '이보연', school: '동아방송예술대학', major: 'Composition' },
+      { name: '백솔희', school: '경희대학교', major: '포스트모던음악 Piano' },
+      { name: '유동준', school: '경희대학교', major: '포스트모던음악 Drums' },
+      { name: '백솔희', school: '동덕여자대학', major: 'Piano' },
+      { name: '남재숙', school: '단국대학교', major: 'Vocal' },
+      { name: '유근오', school: '호서대학교', major: 'Vocal' },
+      { name: '김지윤', school: '여주대학', major: 'Composition 차석' },
+      { name: '정혜라', school: '여주대학', major: 'Composition' },
+      { name: '백솔희', school: '청운대학교', major: 'Piano 수석' },
+      { name: '송현철', school: '숭실대학교', major: 'Bass 수석' },
+      { name: '백호준', school: '중부대학교', major: 'Guitar' },
+      { name: '유근오', school: '백석대학교', major: 'Vocal' },
+      { name: '이수정', school: '백석문화대학', major: 'Guitar' },
+      { name: '백호준', school: '서울종합예술학교', major: 'Guitar' },
+      { name: '유성현', school: '김포대학', major: 'Vocal' },
+      { name: '이수정', school: '김포대학', major: 'Guitar' },
+    ],
+  },
 };
 
-const years = Object.keys(admissionsData).sort((a, b) => Number(b) - Number(a));
+const years = Object.keys(admissionsByYear).sort((a, b) => Number(b) - Number(a));
+
+// 이름 마스킹 함수 (중간 글자를 * 처리)
+const maskName = (name: string) => {
+  if (name.includes('*')) return name; // 이미 마스킹된 이름은 그대로
+  if (name.length === 2) {
+    return name[0] + '*';
+  } else if (name.length >= 3) {
+    return name[0] + '*'.repeat(name.length - 2) + name[name.length - 1];
+  }
+  return name;
+};
 
 export default function AdmissionsPage() {
-  const [playingVideo, setPlayingVideo] = useState<string | null>(null);
-  const [selectedVideoYear, setSelectedVideoYear] = useState<string>('all');
+  const [selectedYear, setSelectedYear] = useState('2025');
 
-  const filteredVideos = selectedVideoYear === 'all'
-    ? successVideos
-    : successVideos.filter(v => v.year === selectedVideoYear);
+  const currentData = admissionsByYear[selectedYear];
 
   return (
     <SubPageLayout
-      title="합격자명단"
+      title="연도별 합격자"
       subtitle="경희실용음악학원 음대 합격 현황"
       bgImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&q=80"
     >
-      {/* Stats Section */}
-      <section style={{ padding: '60px 0', backgroundColor: '#000' }}>
+      {/* Year Selector */}
+      <section style={{ padding: '40px 0', backgroundColor: '#111', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '32px', textAlign: 'center' }}>
-            <div>
-              <p style={{ fontSize: '56px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>1000+</p>
-              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '16px' }}>누적 합격생</p>
-            </div>
-            <div>
-              <p style={{ fontSize: '56px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>95%</p>
-              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '16px' }}>합격률</p>
-            </div>
-            <div>
-              <p style={{ fontSize: '56px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>25+</p>
-              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '16px' }}>년 전통</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Success Videos Section */}
-      <section style={{ padding: '80px 0', backgroundColor: '#111' }}>
-        <div className="container">
-          {/* Section Header */}
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <p style={{
-              color: '#ffc50a',
-              fontSize: '14px',
-              fontWeight: 600,
-              letterSpacing: '0.15em',
-              textTransform: 'uppercase',
-              marginBottom: '16px'
-            }}>
-              PRIDE OF K.H
-            </p>
-            <h2 style={{
-              fontSize: 'clamp(28px, 4vw, 40px)',
-              fontWeight: 700,
-              color: '#fff',
-              marginBottom: '16px'
-            }}>
-              합격생 동영상
-            </h2>
-            <p style={{
-              color: 'rgba(255,255,255,0.6)',
-              fontSize: '16px',
-              maxWidth: '600px',
-              margin: '0 auto'
-            }}>
-              경희실용음악학원 합격생들의 실기 영상과 인터뷰입니다
-            </p>
-          </div>
-
-          {/* Year Filter */}
           <div style={{
             display: 'flex',
             justifyContent: 'center',
             gap: '12px',
-            marginBottom: '40px',
             flexWrap: 'wrap',
           }}>
-            <button
-              onClick={() => setSelectedVideoYear('all')}
-              style={{
-                padding: '10px 24px',
-                borderRadius: '100px',
-                border: 'none',
-                backgroundColor: selectedVideoYear === 'all' ? '#ffc50a' : 'rgba(255,255,255,0.1)',
-                color: selectedVideoYear === 'all' ? '#000' : '#fff',
-                fontSize: '14px',
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-              }}
-            >
-              전체
-            </button>
-            {videoYears.map(year => (
+            {years.map((year) => (
               <button
                 key={year}
-                onClick={() => setSelectedVideoYear(year)}
+                onClick={() => setSelectedYear(year)}
                 style={{
-                  padding: '10px 24px',
+                  padding: '14px 28px',
+                  backgroundColor: selectedYear === year ? '#ffc50a' : 'transparent',
+                  border: selectedYear === year ? 'none' : '1px solid rgba(255,255,255,0.2)',
                   borderRadius: '100px',
-                  border: 'none',
-                  backgroundColor: selectedVideoYear === year ? '#ffc50a' : 'rgba(255,255,255,0.1)',
-                  color: selectedVideoYear === year ? '#000' : '#fff',
-                  fontSize: '14px',
+                  color: selectedYear === year ? '#000' : '#fff',
+                  fontSize: '15px',
                   fontWeight: 600,
                   cursor: 'pointer',
-                  transition: 'all 0.2s',
+                  transition: 'all 0.3s',
                 }}
               >
-                {year}학년도
+                {year}년
               </button>
             ))}
-          </div>
-
-          {/* Videos Grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
-            gap: '24px',
-          }}>
-            {filteredVideos.map((video) => (
-              <div
-                key={video.id}
-                style={{
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  backgroundColor: '#1a1a1a',
-                }}
-              >
-                <div style={{ position: 'relative', aspectRatio: '16/9' }}>
-                  {playingVideo === video.youtubeId ? (
-                    <iframe
-                      width="100%"
-                      height="100%"
-                      src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1`}
-                      title={video.title}
-                      frameBorder="0"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                    />
-                  ) : (
-                    <>
-                      <img
-                        src={`https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`}
-                        alt={video.title}
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                        }}
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).src = `https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`;
-                        }}
-                      />
-                      <div
-                        onClick={() => setPlayingVideo(video.youtubeId)}
-                        style={{
-                          position: 'absolute',
-                          inset: 0,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          backgroundColor: 'rgba(0,0,0,0.4)',
-                          cursor: 'pointer',
-                        }}
-                      >
-                        <div style={{
-                          width: '64px',
-                          height: '64px',
-                          borderRadius: '50%',
-                          backgroundColor: '#ffc50a',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}>
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="#000">
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                        </div>
-                      </div>
-                      {/* Year Badge */}
-                      <div style={{
-                        position: 'absolute',
-                        top: '12px',
-                        left: '12px',
-                        padding: '6px 14px',
-                        backgroundColor: '#ffc50a',
-                        color: '#000',
-                        borderRadius: '100px',
-                        fontSize: '12px',
-                        fontWeight: 700,
-                      }}>
-                        {video.year}학년도
-                      </div>
-                      {/* Major Badge */}
-                      <div style={{
-                        position: 'absolute',
-                        top: '12px',
-                        right: '12px',
-                        padding: '6px 14px',
-                        backgroundColor: 'rgba(0,0,0,0.7)',
-                        color: '#fff',
-                        borderRadius: '100px',
-                        fontSize: '12px',
-                        fontWeight: 600,
-                      }}>
-                        {video.major}
-                      </div>
-                    </>
-                  )}
-                </div>
-                <div style={{ padding: '20px' }}>
-                  <p style={{
-                    color: '#ffc50a',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    marginBottom: '8px',
-                  }}>
-                    {video.university}
-                  </p>
-                  <p style={{
-                    fontSize: '18px',
-                    fontWeight: 600,
-                    color: '#fff',
-                    marginBottom: '4px',
-                  }}>
-                    {video.name} 합격생
-                  </p>
-                  <p style={{
-                    fontSize: '14px',
-                    color: 'rgba(255,255,255,0.6)',
-                  }}>
-                    {video.title}
-                  </p>
-                  {video.additionalInfo && (
-                    <p style={{
-                      fontSize: '13px',
-                      color: 'rgba(255,255,255,0.4)',
-                      marginTop: '8px',
-                      padding: '8px 12px',
-                      backgroundColor: 'rgba(255,255,255,0.05)',
-                      borderRadius: '6px',
-                    }}>
-                      {video.additionalInfo}
-                    </p>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* YouTube Channel Link */}
-          <div style={{ textAlign: 'center', marginTop: '60px' }}>
-            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '15px', marginBottom: '20px' }}>
-              더 많은 합격 영상은 유튜브에서 확인하세요
-            </p>
-            <a
-              href="https://www.youtube.com/channel/UC064T0e2BoevLYHkXkp8Yog"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '10px',
-                padding: '14px 28px',
-                backgroundColor: '#FF0000',
-                color: '#fff',
-                borderRadius: '8px',
-                fontSize: '15px',
-                fontWeight: 600,
-                textDecoration: 'none',
-              }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-              </svg>
-              YouTube 채널 바로가기
-            </a>
           </div>
         </div>
       </section>
 
-      {/* Admissions List */}
-      <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>
+      {/* Admission List by Year */}
+      <section style={{ padding: '80px 0', backgroundColor: '#000' }}>
         <div className="container">
-          {years.map((year) => (
-            <div key={year} style={{ marginBottom: '60px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '32px' }}>
-                <h2 style={{ fontSize: '40px', fontWeight: 700, color: '#000' }}>{year}</h2>
-                <span style={{
-                  padding: '6px 16px',
-                  backgroundColor: '#000',
-                  color: '#fff',
-                  borderRadius: '20px',
-                  fontSize: '14px',
-                  fontWeight: 600
-                }}>
-                  {admissionsData[year as keyof typeof admissionsData].length}명 합격
-                </span>
-              </div>
+          {/* Year Title */}
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <h3 style={{
+              fontSize: '32px',
+              fontWeight: 700,
+              color: '#fff',
+              marginBottom: '12px',
+            }}>
+              {selectedYear}년 합격자
+            </h3>
+            <p style={{
+              color: '#ffc50a',
+              fontSize: '20px',
+              fontWeight: 600,
+            }}>
+              {currentData.summary}
+            </p>
+          </div>
 
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                gap: '16px'
-              }}>
-                {admissionsData[year as keyof typeof admissionsData].map((admission, index) => (
-                  <div
-                    key={index}
-                    style={{
-                      padding: '24px',
-                      backgroundColor: '#f8f8f8',
-                      borderRadius: '12px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '16px',
-                    }}
-                  >
-                    <div style={{
-                      width: '48px',
-                      height: '48px',
-                      borderRadius: '50%',
-                      backgroundColor: admission.type === '수시' ? '#3b82f6' : '#10b981',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#fff',
-                      fontSize: '12px',
-                      fontWeight: 600,
-                      flexShrink: 0,
-                    }}>
-                      {admission.type}
-                    </div>
-                    <div>
-                      <p style={{ fontSize: '16px', fontWeight: 600, color: '#000', marginBottom: '4px' }}>
-                        {admission.name}
-                      </p>
-                      <p style={{ fontSize: '15px', color: '#3b82f6', fontWeight: 500, marginBottom: '2px' }}>
-                        {admission.university}
-                      </p>
-                      <p style={{ fontSize: '13px', color: '#666' }}>
-                        {admission.department}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+          {/* Student Grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: '16px',
+            maxWidth: '1200px',
+            margin: '0 auto',
+          }}>
+            {currentData.students.map((student, index) => (
+              <div
+                key={index}
+                style={{
+                  padding: '24px',
+                  backgroundColor: 'rgba(255,255,255,0.03)',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255,255,255,0.08)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px',
+                  transition: 'all 0.3s',
+                }}
+              >
+                <div style={{
+                  width: '48px',
+                  height: '48px',
+                  backgroundColor: '#ffc50a',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                  </svg>
+                </div>
+                <div>
+                  <p style={{
+                    color: '#fff',
+                    fontSize: '17px',
+                    fontWeight: 600,
+                    marginBottom: '4px',
+                  }}>
+                    {maskName(student.name)}
+                  </p>
+                  <p style={{
+                    color: 'rgba(255,255,255,0.6)',
+                    fontSize: '14px',
+                  }}>
+                    {student.school} · {student.major}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 

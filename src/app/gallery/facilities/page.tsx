@@ -20,12 +20,20 @@ const facilities = [
   { title: '복도', image: '/images/facilities/facility12.jpg' },
 ];
 
+const ITEMS_PER_PAGE = 16;
+
 export default function FacilitiesGalleryPage() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(facilities.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const currentItems = facilities.slice(startIndex, endIndex);
 
   const openLightbox = (index: number) => {
-    setCurrentIndex(index);
+    setCurrentIndex(startIndex + index);
     setLightboxOpen(true);
   };
 
@@ -35,6 +43,11 @@ export default function FacilitiesGalleryPage() {
 
   const goToNext = () => {
     setCurrentIndex((prev) => (prev + 1) % facilities.length);
+  };
+
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -55,7 +68,7 @@ export default function FacilitiesGalleryPage() {
               }}
               className="gallery-grid"
             >
-              {facilities.map((item, index) => (
+              {currentItems.map((item, index) => (
                 <div
                   key={index}
                   onClick={() => openLightbox(index)}
@@ -110,6 +123,93 @@ export default function FacilitiesGalleryPage() {
                 </div>
               ))}
             </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  gap: '8px',
+                  marginTop: '48px',
+                }}
+              >
+                {/* Previous Button */}
+                <button
+                  onClick={() => goToPage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  style={{
+                    padding: '10px 16px',
+                    border: '1px solid #ddd',
+                    borderRadius: '8px',
+                    backgroundColor: currentPage === 1 ? '#f5f5f5' : '#fff',
+                    color: currentPage === 1 ? '#999' : '#333',
+                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  이전
+                </button>
+
+                {/* Page Numbers */}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    onClick={() => goToPage(page)}
+                    style={{
+                      width: '40px',
+                      height: '40px',
+                      border: page === currentPage ? '2px solid #ffc50a' : '1px solid #ddd',
+                      borderRadius: '8px',
+                      backgroundColor: page === currentPage ? '#ffc50a' : '#fff',
+                      color: page === currentPage ? '#000' : '#333',
+                      cursor: 'pointer',
+                      fontSize: '14px',
+                      fontWeight: page === currentPage ? 700 : 500,
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    {page}
+                  </button>
+                ))}
+
+                {/* Next Button */}
+                <button
+                  onClick={() => goToPage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  style={{
+                    padding: '10px 16px',
+                    border: '1px solid #ddd',
+                    borderRadius: '8px',
+                    backgroundColor: currentPage === totalPages ? '#f5f5f5' : '#fff',
+                    color: currentPage === totalPages ? '#999' : '#333',
+                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  다음
+                </button>
+              </div>
+            )}
+
+            {/* Page Info */}
+            {totalPages > 1 && (
+              <p
+                style={{
+                  textAlign: 'center',
+                  marginTop: '16px',
+                  fontSize: '14px',
+                  color: '#999',
+                }}
+              >
+                {facilities.length}개의 사진 중 {startIndex + 1}-{Math.min(endIndex, facilities.length)}
+              </p>
+            )}
           </div>
         </section>
 
