@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 interface Subject {
   id: string;
@@ -19,6 +20,183 @@ interface Instructor {
   career: string | null;
   isActive: boolean;
   order: number;
+}
+
+function DraggableGrid({
+  items,
+  onReorder,
+  onEdit,
+  onDelete,
+}: {
+  items: Instructor[];
+  onReorder: (items: Instructor[]) => void;
+  onEdit: (instructor: Instructor) => void;
+  onDelete: (id: string) => void;
+}) {
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === index) return;
+    setDragOverIndex(index);
+  };
+
+  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === dropIndex) return;
+
+    const newItems = [...items];
+    const [draggedItem] = newItems.splice(draggedIndex, 1);
+    newItems.splice(dropIndex, 0, draggedItem);
+
+    const reorderedItems = newItems.map((item, idx) => ({
+      ...item,
+      order: idx,
+    }));
+
+    onReorder(reorderedItems);
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+        gap: '16px',
+      }}
+    >
+      {items.map((instructor, index) => (
+        <div
+          key={instructor.id}
+          draggable
+          onDragStart={(e) => handleDragStart(e, index)}
+          onDragOver={(e) => handleDragOver(e, index)}
+          onDrop={(e) => handleDrop(e, index)}
+          onDragEnd={handleDragEnd}
+          style={{
+            backgroundColor: '#fff',
+            borderRadius: '12px',
+            overflow: 'hidden',
+            boxShadow: dragOverIndex === index ? '0 4px 12px rgba(59, 130, 246, 0.3)' : '0 1px 3px rgba(0,0,0,0.1)',
+            opacity: draggedIndex === index ? 0.5 : 1,
+            cursor: 'grab',
+            transition: 'box-shadow 0.2s, transform 0.2s',
+            transform: dragOverIndex === index ? 'scale(1.02)' : 'scale(1)',
+            border: dragOverIndex === index ? '2px solid #3b82f6' : '2px solid transparent',
+          }}
+        >
+          <div style={{ position: 'relative', aspectRatio: '3/4', backgroundColor: '#f5f5f5' }}>
+            {instructor.image ? (
+              <Image
+                src={instructor.image}
+                alt={instructor.name}
+                fill
+                style={{ objectFit: 'cover' }}
+              />
+            ) : (
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#999',
+                  fontSize: '48px',
+                }}
+              >
+                👤
+              </div>
+            )}
+            {!instructor.isActive && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '8px',
+                  right: '8px',
+                  backgroundColor: '#ef4444',
+                  color: '#fff',
+                  padding: '4px 8px',
+                  borderRadius: '4px',
+                  fontSize: '11px',
+                }}
+              >
+                비활성
+              </div>
+            )}
+            <div
+              style={{
+                position: 'absolute',
+                top: '8px',
+                left: '8px',
+                backgroundColor: 'rgba(0,0,0,0.6)',
+                color: '#fff',
+                padding: '4px 8px',
+                borderRadius: '4px',
+                fontSize: '11px',
+              }}
+            >
+              ⋮⋮
+            </div>
+          </div>
+          <div style={{ padding: '16px' }}>
+            <p style={{ fontSize: '16px', fontWeight: 600, marginBottom: '8px' }}>
+              {instructor.name}
+            </p>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit(instructor);
+                }}
+                style={{
+                  flex: 1,
+                  padding: '8px',
+                  backgroundColor: '#f5f5f5',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontSize: '13px',
+                  cursor: 'pointer',
+                }}
+              >
+                수정
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete(instructor.id);
+                }}
+                style={{
+                  padding: '8px 12px',
+                  backgroundColor: '#fef2f2',
+                  color: '#dc2626',
+                  border: 'none',
+                  borderRadius: '6px',
+                  fontSize: '13px',
+                  cursor: 'pointer',
+                }}
+              >
+                삭제
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default function InstructorsPage() {
@@ -111,6 +289,25 @@ export default function InstructorsPage() {
     fetchData();
   };
 
+  const handleReorder = async (subjectName: string, reorderedItems: Instructor[]) => {
+    // Update local state
+    const newInstructors = instructors.map((instructor) => {
+      const updated = reorderedItems.find((item) => item.id === instructor.id);
+      return updated || instructor;
+    });
+    setInstructors(newInstructors);
+
+    // Save to server
+    await fetch('/api/admin/reorder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'instructors',
+        items: reorderedItems.map((item) => ({ id: item.id, order: item.order })),
+      }),
+    });
+  };
+
   const groupedInstructors = instructors.reduce((acc, instructor) => {
     const subjectName = instructor.subject.nameKo;
     if (!acc[subjectName]) {
@@ -147,98 +344,20 @@ export default function InstructorsPage() {
 
       {Object.entries(groupedInstructors).map(([subjectName, subjectInstructors]) => (
         <div key={subjectName} style={{ marginBottom: '40px' }}>
-          <h2 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '16px', color: '#333' }}>
-            {subjectName}
-          </h2>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
-            gap: '16px',
-          }}>
-            {subjectInstructors.map((instructor) => (
-              <div
-                key={instructor.id}
-                style={{
-                  backgroundColor: '#fff',
-                  borderRadius: '12px',
-                  overflow: 'hidden',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-                }}
-              >
-                <div style={{ position: 'relative', aspectRatio: '3/4', backgroundColor: '#f5f5f5' }}>
-                  {instructor.image ? (
-                    <Image
-                      src={instructor.image}
-                      alt={instructor.name}
-                      fill
-                      style={{ objectFit: 'cover' }}
-                    />
-                  ) : (
-                    <div style={{
-                      position: 'absolute',
-                      inset: 0,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      color: '#999',
-                      fontSize: '48px',
-                    }}>
-                      👤
-                    </div>
-                  )}
-                  {!instructor.isActive && (
-                    <div style={{
-                      position: 'absolute',
-                      top: '8px',
-                      right: '8px',
-                      backgroundColor: '#ef4444',
-                      color: '#fff',
-                      padding: '4px 8px',
-                      borderRadius: '4px',
-                      fontSize: '11px',
-                    }}>
-                      비활성
-                    </div>
-                  )}
-                </div>
-                <div style={{ padding: '16px' }}>
-                  <p style={{ fontSize: '16px', fontWeight: 600, marginBottom: '8px' }}>
-                    {instructor.name}
-                  </p>
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <button
-                      onClick={() => openModal(instructor)}
-                      style={{
-                        flex: 1,
-                        padding: '8px',
-                        backgroundColor: '#f5f5f5',
-                        border: 'none',
-                        borderRadius: '6px',
-                        fontSize: '13px',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      수정
-                    </button>
-                    <button
-                      onClick={() => handleDelete(instructor.id)}
-                      style={{
-                        padding: '8px 12px',
-                        backgroundColor: '#fef2f2',
-                        color: '#dc2626',
-                        border: 'none',
-                        borderRadius: '6px',
-                        fontSize: '13px',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      삭제
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+            <h2 style={{ fontSize: '20px', fontWeight: 600, color: '#333' }}>
+              {subjectName}
+            </h2>
+            <span style={{ fontSize: '12px', color: '#999' }}>
+              (드래그하여 순서 변경)
+            </span>
           </div>
+          <DraggableGrid
+            items={subjectInstructors.sort((a, b) => a.order - b.order)}
+            onReorder={(items) => handleReorder(subjectName, items)}
+            onEdit={openModal}
+            onDelete={handleDelete}
+          />
         </div>
       ))}
 
@@ -339,21 +458,14 @@ export default function InstructorsPage() {
 
               <div style={{ marginBottom: '16px' }}>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
-                  프로필 이미지 URL
+                  프로필 이미지
                 </label>
-                <input
-                  type="text"
+                <ImageUpload
                   value={formData.image}
-                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-                  placeholder="/images/lecturers/example.jpg"
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #ddd',
-                    borderRadius: '8px',
-                    fontSize: '14px',
-                    boxSizing: 'border-box',
-                  }}
+                  onChange={(url) => setFormData({ ...formData, image: url })}
+                  folder="instructors"
+                  aspectRatio="3/4"
+                  placeholder="강사 사진 업로드"
                 />
               </div>
 

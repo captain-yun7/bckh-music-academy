@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 interface Video {
   id: string;
@@ -115,6 +116,56 @@ export default function VideosPage() {
     fetchVideos();
   };
 
+  const handleReorder = async (reorderedItems: Video[]) => {
+    setVideos(reorderedItems);
+
+    await fetch('/api/admin/reorder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'videos',
+        items: reorderedItems.map((item) => ({ id: item.id, order: item.order })),
+      }),
+    });
+  };
+
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
+  const handleDragStart = (index: number) => {
+    setDraggedIndex(index);
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === index) return;
+    setDragOverIndex(index);
+  };
+
+  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === dropIndex) return;
+
+    const sortedVideos = [...videos].sort((a, b) => a.order - b.order);
+    const newItems = [...sortedVideos];
+    const [draggedItem] = newItems.splice(draggedIndex, 1);
+    newItems.splice(dropIndex, 0, draggedItem);
+
+    const reorderedItems = newItems.map((item, idx) => ({
+      ...item,
+      order: idx,
+    }));
+
+    handleReorder(reorderedItems);
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
   if (isLoading) {
     return <div style={{ textAlign: 'center', padding: '60px' }}>로딩중...</div>;
   }
@@ -141,7 +192,8 @@ export default function VideosPage() {
       </div>
 
       {/* Category Filter */}
-      <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
+        <span style={{ fontSize: '12px', color: '#999' }}>(드래그하여 순서 변경)</span>
         <button
           onClick={() => setSelectedCategory('')}
           style={{
@@ -181,14 +233,24 @@ export default function VideosPage() {
         gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
         gap: '20px',
       }}>
-        {videos.map((video) => (
+        {[...videos].sort((a, b) => a.order - b.order).map((video, index) => (
           <div
             key={video.id}
+            draggable
+            onDragStart={() => handleDragStart(index)}
+            onDragOver={(e) => handleDragOver(e, index)}
+            onDrop={(e) => handleDrop(e, index)}
+            onDragEnd={handleDragEnd}
             style={{
               backgroundColor: '#fff',
               borderRadius: '12px',
               overflow: 'hidden',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+              boxShadow: dragOverIndex === index ? '0 4px 12px rgba(59, 130, 246, 0.3)' : '0 1px 3px rgba(0,0,0,0.1)',
+              opacity: draggedIndex === index ? 0.5 : 1,
+              cursor: 'grab',
+              transition: 'box-shadow 0.2s, transform 0.2s',
+              transform: dragOverIndex === index ? 'scale(1.02)' : 'scale(1)',
+              border: dragOverIndex === index ? '2px solid #3b82f6' : '2px solid transparent',
             }}
           >
             <div style={{ position: 'relative', aspectRatio: '16/9', backgroundColor: '#000' }}>
@@ -223,6 +285,18 @@ export default function VideosPage() {
                 fontSize: '11px',
               }}>
                 {categoryLabels[video.category]}
+              </div>
+              <div style={{
+                position: 'absolute',
+                top: '36px',
+                left: '8px',
+                backgroundColor: 'rgba(0,0,0,0.6)',
+                color: '#fff',
+                padding: '4px 8px',
+                borderRadius: '4px',
+                fontSize: '11px',
+              }}>
+                ⋮⋮
               </div>
               <div style={{
                 position: 'absolute',
@@ -442,21 +516,14 @@ export default function VideosPage() {
 
               <div style={{ marginBottom: '16px' }}>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
-                  썸네일 URL (선택)
+                  커스텀 썸네일 (선택)
                 </label>
-                <input
-                  type="text"
+                <ImageUpload
                   value={formData.thumbnailUrl}
-                  onChange={(e) => setFormData({ ...formData, thumbnailUrl: e.target.value })}
+                  onChange={(url) => setFormData({ ...formData, thumbnailUrl: url })}
+                  folder="videos"
+                  aspectRatio="16/9"
                   placeholder="비워두면 YouTube 썸네일 자동 사용"
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #ddd',
-                    borderRadius: '8px',
-                    fontSize: '14px',
-                    boxSizing: 'border-box',
-                  }}
                 />
               </div>
 

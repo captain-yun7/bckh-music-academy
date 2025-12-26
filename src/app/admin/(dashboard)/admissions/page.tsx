@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 interface Admission {
   id: string;
@@ -367,6 +368,19 @@ export default function AdmissionsPage() {
                     fontSize: '14px',
                     boxSizing: 'border-box',
                   }}
+                />
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                  사진
+                </label>
+                <ImageUpload
+                  value={formData.photoUrl}
+                  onChange={(url) => setFormData({ ...formData, photoUrl: url })}
+                  folder="admissions"
+                  aspectRatio="1/1"
+                  placeholder="합격자 사진 업로드"
                 />
               </div>
 

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 interface GalleryImage {
   id: string;
@@ -105,6 +106,56 @@ export default function GalleryPage() {
     fetchImages();
   };
 
+  const handleReorder = async (reorderedItems: GalleryImage[]) => {
+    setImages(reorderedItems);
+
+    await fetch('/api/admin/reorder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'gallery',
+        items: reorderedItems.map((item) => ({ id: item.id, order: item.order })),
+      }),
+    });
+  };
+
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
+  const handleDragStart = (index: number) => {
+    setDraggedIndex(index);
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === index) return;
+    setDragOverIndex(index);
+  };
+
+  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === dropIndex) return;
+
+    const sortedImages = [...images].sort((a, b) => a.order - b.order);
+    const newItems = [...sortedImages];
+    const [draggedItem] = newItems.splice(draggedIndex, 1);
+    newItems.splice(dropIndex, 0, draggedItem);
+
+    const reorderedItems = newItems.map((item, idx) => ({
+      ...item,
+      order: idx,
+    }));
+
+    handleReorder(reorderedItems);
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
   if (isLoading) {
     return <div style={{ textAlign: 'center', padding: '60px' }}>로딩중...</div>;
   }
@@ -131,7 +182,8 @@ export default function GalleryPage() {
       </div>
 
       {/* Category Filter */}
-      <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', flexWrap: 'wrap' }}>
+        <span style={{ fontSize: '12px', color: '#999' }}>(드래그하여 순서 변경)</span>
         <button
           onClick={() => setSelectedCategory('')}
           style={{
@@ -171,14 +223,24 @@ export default function GalleryPage() {
         gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
         gap: '20px',
       }}>
-        {images.map((image) => (
+        {[...images].sort((a, b) => a.order - b.order).map((image, index) => (
           <div
             key={image.id}
+            draggable
+            onDragStart={() => handleDragStart(index)}
+            onDragOver={(e) => handleDragOver(e, index)}
+            onDrop={(e) => handleDrop(e, index)}
+            onDragEnd={handleDragEnd}
             style={{
               backgroundColor: '#fff',
               borderRadius: '12px',
               overflow: 'hidden',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+              boxShadow: dragOverIndex === index ? '0 4px 12px rgba(59, 130, 246, 0.3)' : '0 1px 3px rgba(0,0,0,0.1)',
+              opacity: draggedIndex === index ? 0.5 : 1,
+              cursor: 'grab',
+              transition: 'box-shadow 0.2s, transform 0.2s',
+              transform: dragOverIndex === index ? 'scale(1.02)' : 'scale(1)',
+              border: dragOverIndex === index ? '2px solid #3b82f6' : '2px solid transparent',
             }}
           >
             <div style={{ position: 'relative', aspectRatio: '16/10', backgroundColor: '#f5f5f5' }}>
@@ -214,6 +276,18 @@ export default function GalleryPage() {
               }}>
                 {categoryLabels[image.category]}
               </div>
+              <div style={{
+                position: 'absolute',
+                top: '36px',
+                left: '8px',
+                backgroundColor: 'rgba(0,0,0,0.6)',
+                color: '#fff',
+                padding: '4px 8px',
+                borderRadius: '4px',
+                fontSize: '11px',
+              }}>
+                ⋮⋮
+              </div>
             </div>
             <div style={{ padding: '16px' }}>
               <p style={{ fontSize: '15px', fontWeight: 600, marginBottom: '4px' }}>
@@ -226,7 +300,10 @@ export default function GalleryPage() {
               )}
               <div style={{ display: 'flex', gap: '8px' }}>
                 <button
-                  onClick={() => openModal(image)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openModal(image);
+                  }}
                   style={{
                     flex: 1,
                     padding: '8px',
@@ -240,7 +317,10 @@ export default function GalleryPage() {
                   수정
                 </button>
                 <button
-                  onClick={() => handleDelete(image.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(image.id);
+                  }}
                   style={{
                     padding: '8px 12px',
                     backgroundColor: '#fef2f2',
@@ -333,22 +413,14 @@ export default function GalleryPage() {
 
               <div style={{ marginBottom: '16px' }}>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
-                  이미지 URL *
+                  이미지 *
                 </label>
-                <input
-                  type="text"
+                <ImageUpload
                   value={formData.imageUrl}
-                  onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                  required
-                  placeholder="https://..."
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #ddd',
-                    borderRadius: '8px',
-                    fontSize: '14px',
-                    boxSizing: 'border-box',
-                  }}
+                  onChange={(url) => setFormData({ ...formData, imageUrl: url })}
+                  folder="gallery"
+                  aspectRatio="16/10"
+                  placeholder="갤러리 사진 업로드"
                 />
               </div>
 
