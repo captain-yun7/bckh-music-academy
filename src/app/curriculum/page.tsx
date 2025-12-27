@@ -10,7 +10,7 @@ const courses = [
     description: '실용음악 대학 진학을 목표로 하는 체계적인 입시 준비 과정',
     features: ['1:1 맞춤 레슨', '실기/이론 병행', '모의고사 진행', '입시 컨설팅'],
     image: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800',
-    color: '#3b82f6',
+    color: '#f59e0b',
   },
   {
     id: 'audition',
@@ -19,7 +19,7 @@ const courses = [
     description: '기획사 오디션, 방송 오디션 등 프로 데뷔를 위한 집중 과정',
     features: ['오디션 곡 선정', '무대 퍼포먼스', '카메라 테스트', '멘탈 관리'],
     image: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800',
-    color: '#10b981',
+    color: '#f59e0b',
   },
   {
     id: 'professional',
@@ -37,7 +37,7 @@ const courses = [
     description: '음악을 취미로 즐기고 싶은 분들을 위한 편안한 레슨',
     features: ['자유로운 시간', '원하는 곡 레슨', '스트레스 해소', '소규모 발표회'],
     image: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800',
-    color: '#8b5cf6',
+    color: '#f59e0b',
   },
 ];
 
