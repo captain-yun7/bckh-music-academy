@@ -63,10 +63,10 @@ const navLinks: NavLink[] = [
     name: '입시요강',
     href: '/admission-guide',
     children: [
-      { name: '4년제대학', href: '/admission-guide/university-4yr' },
-      { name: '2,3년제대학', href: '/admission-guide/university-2yr' },
-      { name: '예술고등학교', href: '/admission-guide/art-highschool' },
-      { name: '대학원/편입', href: '/admission-guide/graduate' },
+      { name: '4년제대학', href: '/admission-guide?category=UNIVERSITY_4YR' },
+      { name: '2,3년제대학', href: '/admission-guide?category=UNIVERSITY_2YR' },
+      { name: '예고/예중', href: '/admission-guide?category=ART_HIGHSCHOOL' },
+      { name: '대학원/편입', href: '/admission-guide?category=GRADUATE' },
     ],
   },
   {
