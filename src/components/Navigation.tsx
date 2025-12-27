@@ -135,7 +135,7 @@ export default function Navigation() {
         <div
           style={{
             width: '100%',
-            padding: '0 20px',
+            padding: '0 40px',
             display: 'flex',
             alignItems: 'center',
             height: '64px',

@@ -7,7 +7,7 @@ const musicians = [
     generation: '4기',
     role: '마마무 멤버',
     achievement: '마마무 활동중',
-    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&h=300&fit=crop',
+    image: '/images/musicians/moonbyul.jpg',
     bio: '대한민국 대표 걸그룹 마마무의 멤버로 활동 중인 실력파 보컬리스트',
   },
   {
@@ -15,7 +15,7 @@ const musicians = [
     generation: '3기',
     role: '래퍼 / 방송인',
     achievement: '와썹, 쇼미더머니3, 언프리티랩스타, 골때녀',
-    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop',
+    image: '/images/musicians/nada.jpg',
     bio: '다양한 방송 프로그램에서 활약하며 대중에게 친숙한 래퍼',
   },
   {
@@ -23,7 +23,7 @@ const musicians = [
     generation: '1기',
     role: '소리얼 멤버',
     achievement: '소리얼 활동',
-    image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&h=300&fit=crop',
+    image: '/images/musicians/soreal.jpg',
     bio: '경희실용음악학원 1기 출신으로 소리얼에서 활동',
   },
   {
@@ -31,7 +31,7 @@ const musicians = [
     generation: '1기',
     role: '솔로 아티스트',
     achievement: 'LEESA 활동',
-    image: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=400&h=300&fit=crop',
+    image: '/images/musicians/risa.jpg',
     bio: '1기 출신으로 LEESA라는 이름으로 솔로 활동 중',
   },
   {
@@ -39,7 +39,7 @@ const musicians = [
     generation: '3기',
     role: '웰던포테이토',
     achievement: '웰던포테이토 활동',
-    image: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&h=300&fit=crop',
+    image: '/images/musicians/weldonpotato.jpg',
     bio: '독특한 음악 색깔로 주목받는 아티스트',
   },
   {
@@ -47,7 +47,7 @@ const musicians = [
     generation: '5기',
     role: '세션 드러머',
     achievement: '소울딜리버리, 악뮤/에픽하이/잔나비 세션',
-    image: 'https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?w=400&h=300&fit=crop',
+    image: '/images/musicians/aftermoon.jpg',
     bio: '국내 정상급 아티스트들의 세션으로 활약하는 실력파 드러머',
   },
   {
@@ -55,7 +55,7 @@ const musicians = [
     generation: '10기',
     role: '슈퍼밴드 출연',
     achievement: '슈퍼밴드, 케빈오와 애프터문',
-    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&h=300&fit=crop',
+    image: '/images/musicians/aftermoon.jpg',
     bio: 'JTBC 슈퍼밴드 출연으로 주목받은 뮤지션',
   },
   {
@@ -63,7 +63,7 @@ const musicians = [
     generation: '10기',
     role: '지소쿠리클럽',
     achievement: '지소쿠리클럽, 헬로루키 대상',
-    image: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=300&fit=crop',
+    image: '/images/musicians/weldonpotato.jpg',
     bio: '헬로루키 대상 수상으로 실력을 인정받은 듀오',
   },
   {
@@ -71,7 +71,7 @@ const musicians = [
     generation: '10기',
     role: '밴드 멤버',
     achievement: '조매력, 어노잉박스 밴드',
-    image: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&h=300&fit=crop',
+    image: '/images/musicians/aftermoon.jpg',
     bio: '조매력, 어노잉박스 밴드에서 활동 중',
   },
   {
@@ -79,7 +79,7 @@ const musicians = [
     generation: '10기',
     role: '재즈 뮤지션',
     achievement: '태인재즈맨 활동',
-    image: 'https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=400&h=300&fit=crop',
+    image: '/images/musicians/soreal.jpg',
     bio: '재즈 신에서 활발히 활동하는 재즈 뮤지션',
   },
   {
@@ -87,7 +87,7 @@ const musicians = [
     generation: '12기',
     role: '세션 뮤지션',
     achievement: '서정밴드, 뎁트 세션',
-    image: 'https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=400&h=300&fit=crop',
+    image: '/images/musicians/aftermoon.jpg',
     bio: '서정밴드와 뎁트의 세션으로 활동 중',
   },
   {
@@ -95,7 +95,7 @@ const musicians = [
     generation: '13기',
     role: 'KPOP 작곡가',
     achievement: '화사, 로시 등 곡 작업',
-    image: 'https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=400&h=300&fit=crop',
+    image: '/images/musicians/weldonpotato.jpg',
     bio: '화사, 로시 등 유명 아티스트의 곡을 작업한 작곡가',
   },
   {
@@ -103,7 +103,7 @@ const musicians = [
     generation: '14기',
     role: '래퍼',
     achievement: '고등랩퍼, 언더나인틴, 쇼미더머니',
-    image: 'https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=400&h=300&fit=crop',
+    image: '/images/musicians/nada.jpg',
     bio: '고등랩퍼, 쇼미더머니 등 다수 오디션 프로그램 출연',
   },
 ];
