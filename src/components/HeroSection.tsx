@@ -16,31 +16,31 @@ interface Slide {
 const defaultSlides: Slide[] = [
   {
     id: '1',
-    imageUrl: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1920&q=80',
+    imageUrl: '/images/main/main1.jpg',
     title: '',
     subtitle: null,
   },
   {
     id: '2',
-    imageUrl: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1920&q=80',
+    imageUrl: '/images/main/main2.jpg',
     title: '',
     subtitle: null,
   },
   {
     id: '3',
-    imageUrl: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1920&q=80',
+    imageUrl: '/images/main/main3.jpg',
     title: '',
     subtitle: null,
   },
   {
     id: '4',
-    imageUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1920&q=80',
+    imageUrl: '/images/main/main4.jpg',
     title: '',
     subtitle: null,
   },
   {
     id: '5',
-    imageUrl: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1920&q=80',
+    imageUrl: '/images/main/main5.jpg',
     title: '',
     subtitle: null,
   },
