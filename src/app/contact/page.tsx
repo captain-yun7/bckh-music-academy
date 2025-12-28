@@ -1,4 +1,14 @@
+'use client';
+
+import Script from 'next/script';
 import SubPageLayout from '@/components/SubPageLayout';
+import NaverMap from '@/components/NaverMap';
+
+// 경희실용음악학원 좌표 (경기도 부천시 부천로 43)
+const ACADEMY_LOCATION = {
+  latitude: 37.4847,
+  longitude: 126.7830,
+};
 
 export default function ContactPage() {
   return (
@@ -6,19 +16,21 @@ export default function ContactPage() {
       title="오시는길"
       subtitle="경희실용음악학원 위치 안내"
     >
+      {/* Naver Maps API Script */}
+      <Script
+        src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`}
+        strategy="beforeInteractive"
+      />
+
       {/* Naver Map Section */}
       <section style={{ padding: '0' }}>
-        <div style={{ width: '100%', height: '450px', backgroundColor: '#e5e5e5' }}>
-          <iframe
-            src="https://map.naver.com/p/search/%EA%B2%BD%EA%B8%B0%EB%8F%84%20%EB%B6%80%EC%B2%9C%EC%8B%9C%20%EC%9B%90%EB%AF%B8%EA%B5%AC%20%EC%A4%91%EB%8F%99%201141-2?c=15.00,0,0,0,dh"
-            width="100%"
-            height="100%"
-            style={{ border: 0 }}
-            allowFullScreen
-            loading="lazy"
-            title="경희실용음악학원 네이버 지도"
-          />
-        </div>
+        <NaverMap
+          latitude={ACADEMY_LOCATION.latitude}
+          longitude={ACADEMY_LOCATION.longitude}
+          zoom={17}
+          height="450px"
+          markerTitle="경희실용음악학원"
+        />
       </section>
 
       {/* Contact Info */}
