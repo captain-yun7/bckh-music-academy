@@ -19,7 +19,7 @@ export default function ContactPage() {
       {/* Naver Maps API Script */}
       <Script
         src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}`}
-        strategy="beforeInteractive"
+        strategy="afterInteractive"
       />
 
       {/* Naver Map Section */}
