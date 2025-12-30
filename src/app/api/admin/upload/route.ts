@@ -1,22 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
-import { existsSync } from 'fs';
+import { getSession } from '@/lib/auth';
+import { uploadImage } from '@/lib/cloudinary';
 
 export async function POST(request: NextRequest) {
+  const session = await getSession();
+  if (!session) {
+    return NextResponse.json({ error: '인증이 필요합니다.' }, { status: 401 });
+  }
+
   try {
     const formData = await request.formData();
-    const file = formData.get('file') as File;
-    const folder = formData.get('folder') as string || 'uploads';
+    const file = formData.get('file') as File | null;
+    const folder = (formData.get('folder') as string) || 'general';
 
     if (!file) {
-      return NextResponse.json(
-        { error: '파일이 없습니다.' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: '파일이 없습니다.' }, { status: 400 });
     }
 
-    // 파일 확장자 확인
+    // 파일 타입 검증
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json(
@@ -25,43 +26,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 파일 크기 제한 (5MB)
-    if (file.size > 5 * 1024 * 1024) {
+    // 파일 크기 제한 (10MB)
+    if (file.size > 10 * 1024 * 1024) {
       return NextResponse.json(
-        { error: '파일 크기는 5MB 이하만 가능합니다.' },
+        { error: '파일 크기는 10MB 이하여야 합니다.' },
         { status: 400 }
       );
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    // Cloudinary 업로드
+    const result = await uploadImage(file, `bckh-music-academy/${folder}`);
 
-    // 파일명 생성 (타임스탬프 + 랜덤 문자열)
-    const timestamp = Date.now();
-    const randomStr = Math.random().toString(36).substring(2, 8);
-    const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
-    const fileName = `${timestamp}-${randomStr}.${ext}`;
-
-    // 업로드 폴더 경로
-    const uploadDir = path.join(process.cwd(), 'public', 'uploads', folder);
-
-    // 폴더가 없으면 생성
-    if (!existsSync(uploadDir)) {
-      await mkdir(uploadDir, { recursive: true });
-    }
-
-    // 파일 저장
-    const filePath = path.join(uploadDir, fileName);
-    await writeFile(filePath, buffer);
-
-    // URL 반환
-    const url = `/uploads/${folder}/${fileName}`;
-
-    return NextResponse.json({ url, fileName });
+    return NextResponse.json({
+      url: result.url,
+      publicId: result.publicId,
+    });
   } catch (error) {
     console.error('Upload error:', error);
     return NextResponse.json(
-      { error: '파일 업로드에 실패했습니다.' },
+      { error: '이미지 업로드에 실패했습니다.' },
       { status: 500 }
     );
   }

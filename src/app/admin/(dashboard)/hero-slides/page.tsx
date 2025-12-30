@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import ImageUpload from '@/components/admin/ImageUpload';
 
 interface HeroSlide {
   id: string;
@@ -397,41 +398,16 @@ export default function HeroSlidesPage() {
 
               <div style={{ marginBottom: '16px' }}>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
-                  이미지 URL *
+                  슬라이드 이미지 *
                 </label>
-                <input
-                  type="text"
+                <ImageUpload
                   value={formData.imageUrl}
-                  onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                  required
-                  placeholder="https://..."
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #ddd',
-                    borderRadius: '8px',
-                    fontSize: '14px',
-                    boxSizing: 'border-box',
-                  }}
+                  onChange={(url) => setFormData({ ...formData, imageUrl: url })}
+                  folder="hero-slides"
+                  aspectRatio="16/9"
+                  placeholder="슬라이드 이미지 업로드 (1920x1080 권장)"
                 />
-                <p style={{ fontSize: '12px', color: '#999', marginTop: '6px' }}>
-                  권장 사이즈: 1920x1080 (16:9 비율)
-                </p>
               </div>
-
-              {formData.imageUrl && (
-                <div style={{ marginBottom: '16px' }}>
-                  <p style={{ fontSize: '12px', color: '#666', marginBottom: '8px' }}>미리보기:</p>
-                  <div style={{ position: 'relative', aspectRatio: '16/9', backgroundColor: '#f5f5f5', borderRadius: '8px', overflow: 'hidden' }}>
-                    <Image
-                      src={formData.imageUrl}
-                      alt="Preview"
-                      fill
-                      style={{ objectFit: 'cover' }}
-                    />
-                  </div>
-                </div>
-              )}
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
                 <div>
