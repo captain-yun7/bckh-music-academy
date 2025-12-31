@@ -1,114 +1,38 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import SubPageLayout from '@/components/SubPageLayout';
 import Image from 'next/image';
 
-const musicians = [
-  {
-    name: '문별',
-    generation: '4기',
-    role: '마마무 멤버',
-    achievement: '마마무 활동중',
-    image: '/images/musicians/moonbyul.jpg',
-    bio: '대한민국 대표 걸그룹 마마무의 멤버로 활동 중인 실력파 보컬리스트',
-  },
-  {
-    name: '나다',
-    generation: '3기',
-    role: '래퍼 / 방송인',
-    achievement: '와썹, 쇼미더머니3, 언프리티랩스타, 골때녀',
-    image: '/images/musicians/nada.jpg',
-    bio: '다양한 방송 프로그램에서 활약하며 대중에게 친숙한 래퍼',
-  },
-  {
-    name: '주대건',
-    generation: '1기',
-    role: '소리얼 멤버',
-    achievement: '소리얼 활동',
-    image: '/images/musicians/soreal.jpg',
-    bio: '경희실용음악학원 1기 출신으로 소리얼에서 활동',
-  },
-  {
-    name: '이승아 (LEESA)',
-    generation: '1기',
-    role: '솔로 아티스트',
-    achievement: 'LEESA 활동',
-    image: '/images/musicians/risa.jpg',
-    bio: '1기 출신으로 LEESA라는 이름으로 솔로 활동 중',
-  },
-  {
-    name: '김남윤',
-    generation: '3기',
-    role: '웰던포테이토',
-    achievement: '웰던포테이토 활동',
-    image: '/images/musicians/weldonpotato.jpg',
-    bio: '독특한 음악 색깔로 주목받는 아티스트',
-  },
-  {
-    name: '신이삭 (신드럼)',
-    generation: '5기',
-    role: '세션 드러머',
-    achievement: '소울딜리버리, 악뮤/에픽하이/잔나비 세션',
-    image: '/images/musicians/aftermoon.jpg',
-    bio: '국내 정상급 아티스트들의 세션으로 활약하는 실력파 드러머',
-  },
-  {
-    name: '이종훈',
-    generation: '10기',
-    role: '슈퍼밴드 출연',
-    achievement: '슈퍼밴드, 케빈오와 애프터문',
-    image: '/images/musicians/aftermoon.jpg',
-    bio: 'JTBC 슈퍼밴드 출연으로 주목받은 뮤지션',
-  },
-  {
-    name: '정지석 & 김홍비',
-    generation: '10기',
-    role: '지소쿠리클럽',
-    achievement: '지소쿠리클럽, 헬로루키 대상',
-    image: '/images/musicians/weldonpotato.jpg',
-    bio: '헬로루키 대상 수상으로 실력을 인정받은 듀오',
-  },
-  {
-    name: '김치호',
-    generation: '10기',
-    role: '밴드 멤버',
-    achievement: '조매력, 어노잉박스 밴드',
-    image: '/images/musicians/aftermoon.jpg',
-    bio: '조매력, 어노잉박스 밴드에서 활동 중',
-  },
-  {
-    name: '김태인',
-    generation: '10기',
-    role: '재즈 뮤지션',
-    achievement: '태인재즈맨 활동',
-    image: '/images/musicians/soreal.jpg',
-    bio: '재즈 신에서 활발히 활동하는 재즈 뮤지션',
-  },
-  {
-    name: '김민규',
-    generation: '12기',
-    role: '세션 뮤지션',
-    achievement: '서정밴드, 뎁트 세션',
-    image: '/images/musicians/aftermoon.jpg',
-    bio: '서정밴드와 뎁트의 세션으로 활동 중',
-  },
-  {
-    name: '고석우',
-    generation: '13기',
-    role: 'KPOP 작곡가',
-    achievement: '화사, 로시 등 곡 작업',
-    image: '/images/musicians/weldonpotato.jpg',
-    bio: '화사, 로시 등 유명 아티스트의 곡을 작업한 작곡가',
-  },
-  {
-    name: '박진오',
-    generation: '14기',
-    role: '래퍼',
-    achievement: '고등랩퍼, 언더나인틴, 쇼미더머니',
-    image: '/images/musicians/nada.jpg',
-    bio: '고등랩퍼, 쇼미더머니 등 다수 오디션 프로그램 출연',
-  },
-];
+interface Musician {
+  id: string;
+  name: string;
+  role: string;
+  achievement: string;
+  image: string | null;
+  snsUrl: string | null;
+  order: number;
+}
 
 export default function MusiciansPage() {
+  const [musicians, setMusicians] = useState<Musician[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMusicians = async () => {
+      try {
+        const res = await fetch('/api/musicians');
+        const data = await res.json();
+        setMusicians(data);
+      } catch (error) {
+        console.error('Failed to fetch musicians:', error);
+      }
+      setIsLoading(false);
+    };
+
+    fetchMusicians();
+  }, []);
+
   return (
     <SubPageLayout
       title="배출 뮤지션"
@@ -130,63 +54,97 @@ export default function MusiciansPage() {
 
       <section style={{ padding: '80px 0', backgroundColor: '#000' }}>
         <div className="container">
-          {/* Musicians Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
-            {musicians.map((musician, index) => (
-              <div
-                key={index}
-                style={{
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  backgroundColor: '#111',
-                  transition: 'transform 0.3s ease',
-                }}
-              >
-                <div style={{ position: 'relative', aspectRatio: '4/3' }}>
-                  <Image
-                    src={musician.image}
-                    alt={musician.name}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                  <div style={{
-                    position: 'absolute',
-                    top: '16px',
-                    left: '16px',
-                    backgroundColor: '#ffc50a',
-                    color: '#000',
-                    padding: '6px 14px',
-                    borderRadius: '20px',
-                    fontSize: '13px',
-                    fontWeight: 700,
-                  }}>
-                    {musician.generation}
+          {isLoading ? (
+            <div style={{ textAlign: 'center', padding: '60px', color: '#999' }}>
+              로딩중...
+            </div>
+          ) : musicians.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '60px', color: '#999' }}>
+              등록된 뮤지션이 없습니다.
+            </div>
+          ) : (
+            <>
+              {/* Musicians Grid */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+                {musicians.map((musician) => (
+                  <div
+                    key={musician.id}
+                    style={{
+                      borderRadius: '16px',
+                      overflow: 'hidden',
+                      backgroundColor: '#111',
+                      transition: 'transform 0.3s ease',
+                    }}
+                  >
+                    <div style={{ position: 'relative', aspectRatio: '4/3', backgroundColor: '#222' }}>
+                      {musician.image ? (
+                        <Image
+                          src={musician.image}
+                          alt={musician.name}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                        />
+                      ) : (
+                        <div style={{
+                          width: '100%',
+                          height: '100%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: '#666',
+                        }}>
+                          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                            <circle cx="12" cy="8" r="4" />
+                            <path d="M20 21a8 8 0 0 0-16 0" />
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ padding: '24px' }}>
+                      <p style={{ fontSize: '22px', fontWeight: 700, color: '#fff', marginBottom: '6px' }}>
+                        {musician.name}
+                      </p>
+                      <p style={{ fontSize: '14px', color: '#ffc50a', fontWeight: 600, marginBottom: '12px' }}>
+                        {musician.role}
+                      </p>
+                      <p style={{
+                        fontSize: '13px',
+                        color: 'rgba(255,255,255,0.6)',
+                        borderTop: '1px solid rgba(255,255,255,0.1)',
+                        paddingTop: '12px',
+                        marginTop: '12px',
+                        lineHeight: 1.6,
+                      }}>
+                        {musician.achievement}
+                      </p>
+                      {musician.snsUrl && (
+                        <a
+                          href={musician.snsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            marginTop: '12px',
+                            color: '#3b82f6',
+                            fontSize: '13px',
+                            textDecoration: 'none',
+                          }}
+                        >
+                          SNS 바로가기
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
+                          </svg>
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div style={{ padding: '24px' }}>
-                  <p style={{ fontSize: '22px', fontWeight: 700, color: '#fff', marginBottom: '6px' }}>
-                    {musician.name}
-                  </p>
-                  <p style={{ fontSize: '14px', color: '#ffc50a', fontWeight: 600, marginBottom: '12px' }}>
-                    {musician.role}
-                  </p>
-                  <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '10px', lineHeight: 1.6 }}>
-                    {musician.bio}
-                  </p>
-                  <p style={{
-                    fontSize: '13px',
-                    color: 'rgba(255,255,255,0.4)',
-                    borderTop: '1px solid rgba(255,255,255,0.1)',
-                    paddingTop: '12px',
-                    marginTop: '12px',
-                  }}>
-                    {musician.achievement}
-                  </p>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </>
+          )}
 
           {/* Stats */}
           <div style={{

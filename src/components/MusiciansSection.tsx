@@ -1,62 +1,19 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ImageLightbox from './ImageLightbox';
 
-// 배출 뮤지션 데이터 (khmusic.co.kr 실제 데이터)
-const musicians = [
-  {
-    name: '문별',
-    group: '마마무',
-    role: '래퍼 / 싱어송라이터',
-    achievement: '마마무 멤버, 솔로 활동',
-    description: '대한민국 대표 걸그룹 마마무의 래퍼이자 서브보컬. 작사, 작곡에도 참여하며 솔로 아티스트로도 활발히 활동 중',
-    image: '/images/musicians/moonbyul.jpg',
-  },
-  {
-    name: '나다',
-    realName: '윤예진',
-    group: '와썹',
-    role: '래퍼 / 방송인',
-    achievement: '쇼미더머니3, 언프리티랩스타',
-    description: '걸그룹 와썹 출신 래퍼. Mnet 쇼미더머니3, 언프리티랩스타 출연으로 주목받았으며 현재 방송인으로도 활동',
-    image: '/images/musicians/nada.jpg',
-  },
-  {
-    name: '이종훈',
-    group: '애프터문',
-    role: '보컬 / 기타리스트',
-    achievement: '슈퍼밴드, 케빈오와 애프터문',
-    description: 'JTBC 슈퍼밴드 출연, 케빈오와 애프터문 멤버로 활동하며 독보적인 음악 세계를 구축',
-    image: '/images/musicians/aftermoon.jpg',
-  },
-  {
-    name: '웰던포테이토',
-    group: '밴드',
-    role: '인디밴드',
-    achievement: '인디씬 활동',
-    description: '감각적인 사운드와 독특한 음악 색깔로 인디음악 씬에서 주목받는 밴드',
-    image: '/images/musicians/weldonpotato.jpg',
-  },
-  {
-    name: '리싸',
-    group: '솔로',
-    role: 'R&B 아티스트',
-    achievement: '솔로 활동',
-    description: '감성적인 R&B 보컬로 주목받는 솔로 아티스트',
-    image: '/images/musicians/risa.jpg',
-  },
-  {
-    name: '주대건',
-    group: '소리얼',
-    role: '보컬',
-    achievement: '소리얼 멤버',
-    description: '혼성 보컬 그룹 소리얼의 멤버로 활동',
-    image: '/images/musicians/soreal.jpg',
-  },
-];
+interface Musician {
+  id: string;
+  name: string;
+  role: string;
+  achievement: string;
+  image: string | null;
+  snsUrl: string | null;
+  order: number;
+}
 
 export default function MusiciansSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -64,6 +21,23 @@ export default function MusiciansSection() {
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [musicians, setMusicians] = useState<Musician[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMusicians = async () => {
+      try {
+        const res = await fetch('/api/musicians');
+        const data = await res.json();
+        setMusicians(data);
+      } catch (error) {
+        console.error('Failed to fetch musicians:', error);
+      }
+      setIsLoading(false);
+    };
+
+    fetchMusicians();
+  }, []);
 
   const checkScroll = () => {
     if (scrollRef.current) {
@@ -96,6 +70,20 @@ export default function MusiciansSection() {
   const goToNext = () => {
     setCurrentIndex((prev) => (prev + 1) % musicians.length);
   };
+
+  if (isLoading) {
+    return (
+      <section id="musicians" style={{ padding: '100px 0', backgroundColor: '#fff' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', color: '#999' }}>로딩중...</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (musicians.length === 0) {
+    return null;
+  }
 
   return (
     <>
@@ -179,7 +167,7 @@ export default function MusiciansSection() {
           >
             {musicians.map((musician, index) => (
               <div
-                key={index}
+                key={musician.id}
                 onClick={() => openLightbox(index)}
                 style={{
                   flex: '0 0 300px',
@@ -193,13 +181,30 @@ export default function MusiciansSection() {
                 className="musician-item"
               >
                 <div style={{ position: 'relative', aspectRatio: '3/4' }}>
-                  <Image
-                    src={musician.image}
-                    alt={musician.name}
-                    fill
-                    style={{ objectFit: 'cover', transition: 'transform 0.3s ease' }}
-                    sizes="300px"
-                  />
+                  {musician.image ? (
+                    <Image
+                      src={musician.image}
+                      alt={musician.name}
+                      fill
+                      style={{ objectFit: 'cover', transition: 'transform 0.3s ease' }}
+                      sizes="300px"
+                    />
+                  ) : (
+                    <div style={{
+                      width: '100%',
+                      height: '100%',
+                      backgroundColor: '#222',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#666',
+                    }}>
+                      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M20 21a8 8 0 0 0-16 0" />
+                      </svg>
+                    </div>
+                  )}
                   {/* Gradient Overlay */}
                   <div style={{
                     position: 'absolute',
@@ -317,7 +322,7 @@ export default function MusiciansSection() {
         imageSrc={musicians[currentIndex]?.image || ''}
         imageAlt={musicians[currentIndex]?.name || ''}
         title={musicians[currentIndex]?.name}
-        description={musicians[currentIndex]?.description}
+        description={musicians[currentIndex]?.achievement}
         onPrev={goToPrev}
         onNext={goToNext}
         showNavigation={true}

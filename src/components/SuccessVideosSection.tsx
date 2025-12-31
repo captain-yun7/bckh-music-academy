@@ -1,70 +1,56 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-// 합격생 동영상 데이터 (khmusic.co.kr 실제 데이터)
-const successVideos = [
-  {
-    id: 233,
-    title: '단국대학교 뉴뮤직학과 싱어송라이터전공',
-    name: '박은진',
-    youtubeId: 'uj73oS-QUi4',
-    year: '2025',
-    university: '단국대학교',
-    major: '싱어송라이터',
-    additionalInfo: '여주대, 남서울대 중복합격',
-  },
-  {
-    id: 232,
-    title: '동덕여자대학교 피아노전공',
-    name: '강은지',
-    youtubeId: 'fVqn5iH71ys',
-    year: '2025',
-    university: '동덕여자대학교',
-    major: '피아노',
-    additionalInfo: '서경대예비3, 홍익대1차, 백석예대 중복합격',
-  },
-  {
-    id: 231,
-    title: '호원대학교 K-POP학과',
-    name: '최영민',
-    youtubeId: 'N-0NNbqGWFg',
-    year: '2025',
-    university: '호원대학교',
-    major: 'K-POP',
-  },
-  {
-    id: 228,
-    title: '호원대학교 K-POP학과',
-    name: '차예서',
-    youtubeId: 'zhsj2Wie4IU',
-    year: '2024',
-    university: '호원대학교',
-    major: 'K-POP',
-  },
-  {
-    id: 225,
-    title: '서서울생활과학고 실용음악과 보컬전공',
-    name: '문은솔',
-    youtubeId: '9nprqjZXgvY',
-    year: '2024',
-    university: '서서울생활과학고등학교',
-    major: '보컬',
-  },
-  {
-    id: 220,
-    title: '서울공연예술고 실용음악과 보컬전공',
-    name: '최지혜',
-    youtubeId: 'kot7OFU_21c',
-    year: '2024',
-    university: '서울공연예술고등학교',
-    major: '보컬',
-  },
-];
+interface Video {
+  id: string;
+  title: string;
+  description: string | null;
+  youtubeUrl: string;
+  thumbnailUrl: string | null;
+  order: number;
+}
+
+// YouTube URL에서 Video ID 추출
+function extractYoutubeId(url: string): string {
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+  return match ? match[1] : '';
+}
 
 export default function SuccessVideosSection() {
   const [playingVideo, setPlayingVideo] = useState<string | null>(null);
+  const [videos, setVideos] = useState<Video[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const res = await fetch('/api/success-videos');
+        const data = await res.json();
+        setVideos(data.slice(0, 6)); // 메인에는 최대 6개만 표시
+      } catch (error) {
+        console.error('Failed to fetch videos:', error);
+      }
+      setIsLoading(false);
+    };
+
+    fetchVideos();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <section id="success-videos" style={{ padding: '100px 0', backgroundColor: '#000' }}>
+        <div className="container">
+          <div style={{ textAlign: 'center', color: '#999' }}>로딩중...</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (videos.length === 0) {
+    return null;
+  }
 
   return (
     <section id="success-videos" style={{ padding: '100px 0', backgroundColor: '#000' }}>
@@ -105,121 +91,104 @@ export default function SuccessVideosSection() {
           gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
           gap: '24px',
         }}>
-          {successVideos.map((video) => (
-            <div
-              key={video.id}
-              style={{
-                borderRadius: '16px',
-                overflow: 'hidden',
-                backgroundColor: '#111',
-                transition: 'transform 0.3s ease',
-              }}
-            >
-              <div style={{ position: 'relative', aspectRatio: '16/9' }}>
-                {playingVideo === video.youtubeId ? (
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1`}
-                    title={video.title}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                  />
-                ) : (
-                  <>
-                    <img
-                      src={`https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`}
-                      alt={video.title}
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                      }}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = `https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`;
-                      }}
+          {videos.map((video) => {
+            const youtubeId = extractYoutubeId(video.youtubeUrl);
+
+            return (
+              <div
+                key={video.id}
+                style={{
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  backgroundColor: '#111',
+                  transition: 'transform 0.3s ease',
+                }}
+              >
+                <div style={{ position: 'relative', aspectRatio: '16/9' }}>
+                  {playingVideo === youtubeId ? (
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1`}
+                      title={video.title}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
                     />
-                    <div
-                      onClick={() => setPlayingVideo(video.youtubeId)}
-                      style={{
-                        position: 'absolute',
-                        inset: 0,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        backgroundColor: 'rgba(0,0,0,0.4)',
-                        cursor: 'pointer',
-                        transition: 'background-color 0.3s ease',
-                      }}
-                    >
-                      <div style={{
-                        width: '72px',
-                        height: '72px',
-                        borderRadius: '50%',
-                        backgroundColor: '#ffc50a',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        transition: 'transform 0.3s ease',
-                      }}>
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="#000">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
+                  ) : (
+                    <>
+                      <img
+                        src={video.thumbnailUrl || `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`}
+                        alt={video.title}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                        }}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
+                        }}
+                      />
+                      <div
+                        onClick={() => setPlayingVideo(youtubeId)}
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backgroundColor: 'rgba(0,0,0,0.4)',
+                          cursor: 'pointer',
+                          transition: 'background-color 0.3s ease',
+                        }}
+                      >
+                        <div style={{
+                          width: '72px',
+                          height: '72px',
+                          borderRadius: '50%',
+                          backgroundColor: '#ffc50a',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          transition: 'transform 0.3s ease',
+                        }}>
+                          <svg width="28" height="28" viewBox="0 0 24 24" fill="#000">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </div>
                       </div>
-                    </div>
-                  </>
-                )}
-              </div>
-              <div style={{ padding: '20px' }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  marginBottom: '8px'
-                }}>
-                  <span style={{
-                    color: '#ffc50a',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                  }}>
-                    {video.university}
-                  </span>
-                  <span style={{ color: 'rgba(255,255,255,0.3)' }}>|</span>
-                  <span style={{
-                    color: 'rgba(255,255,255,0.6)',
-                    fontSize: '14px',
-                  }}>
-                    {video.major}
-                  </span>
+                    </>
+                  )}
                 </div>
-                <p style={{
-                  fontSize: '18px',
-                  fontWeight: 600,
-                  color: '#fff',
-                  marginBottom: '4px',
-                }}>
-                  {video.name} 합격생
-                </p>
-                {video.additionalInfo && (
+                <div style={{ padding: '20px' }}>
                   <p style={{
-                    fontSize: '13px',
-                    color: 'rgba(255,255,255,0.5)',
-                    marginTop: '8px',
+                    fontSize: '18px',
+                    fontWeight: 600,
+                    color: '#fff',
+                    marginBottom: '8px',
                   }}>
-                    {video.additionalInfo}
+                    {video.title}
                   </p>
-                )}
+                  {video.description && (
+                    <p style={{
+                      fontSize: '14px',
+                      color: 'rgba(255,255,255,0.6)',
+                      lineHeight: 1.5,
+                    }}>
+                      {video.description}
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* View All Link */}
         <div style={{ textAlign: 'center', marginTop: '60px' }}>
           <Link
-            href="/admissions"
+            href="/success-videos"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -235,7 +204,7 @@ export default function SuccessVideosSection() {
               transition: 'all 0.3s ease',
             }}
           >
-            전체 합격생 보기
+            전체 합격 영상 보기
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
