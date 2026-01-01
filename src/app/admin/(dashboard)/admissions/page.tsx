@@ -113,22 +113,24 @@ export default function AdmissionsPage() {
   };
 
   if (isLoading) {
-    return <div style={{ textAlign: 'center', padding: '60px' }}>로딩중...</div>;
+    return <div style={{ textAlign: 'center', padding: '60px', color: '#666' }}>로딩중...</div>;
   }
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: 700 }}>합격자 명단</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+        <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#111' }}>합격자 명단</h1>
         <div style={{ display: 'flex', gap: '12px' }}>
           <select
             value={selectedYear}
             onChange={(e) => setSelectedYear(e.target.value)}
             style={{
-              padding: '12px 16px',
-              border: '1px solid #ddd',
+              padding: '10px 16px',
+              border: '1px solid #e5e7eb',
               borderRadius: '8px',
               fontSize: '14px',
+              backgroundColor: '#fff',
+              cursor: 'pointer',
             }}
           >
             <option value="">전체 연도</option>
@@ -139,8 +141,8 @@ export default function AdmissionsPage() {
           <button
             onClick={() => openModal()}
             style={{
-              padding: '12px 24px',
-              backgroundColor: '#000',
+              padding: '10px 20px',
+              backgroundColor: '#111',
               color: '#fff',
               border: 'none',
               borderRadius: '8px',
@@ -154,88 +156,92 @@ export default function AdmissionsPage() {
         </div>
       </div>
 
-      <div style={{ backgroundColor: '#fff', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+      <div style={{ backgroundColor: '#fff', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e5e7eb' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ backgroundColor: '#f9fafb', borderBottom: '1px solid #eee' }}>
-              <th style={{ textAlign: 'left', padding: '16px', fontSize: '13px', fontWeight: 500, color: '#666' }}>이름</th>
-              <th style={{ textAlign: 'left', padding: '16px', fontSize: '13px', fontWeight: 500, color: '#666' }}>대학</th>
-              <th style={{ textAlign: 'left', padding: '16px', fontSize: '13px', fontWeight: 500, color: '#666' }}>학과</th>
-              <th style={{ textAlign: 'center', padding: '16px', fontSize: '13px', fontWeight: 500, color: '#666', width: '80px' }}>연도</th>
-              <th style={{ textAlign: 'center', padding: '16px', fontSize: '13px', fontWeight: 500, color: '#666', width: '80px' }}>전형</th>
-              <th style={{ textAlign: 'center', padding: '16px', fontSize: '13px', fontWeight: 500, color: '#666', width: '80px' }}>상태</th>
-              <th style={{ textAlign: 'center', padding: '16px', fontSize: '13px', fontWeight: 500, color: '#666', width: '120px' }}>관리</th>
+            <tr style={{ backgroundColor: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+              <th style={{ textAlign: 'left', padding: '14px 16px', fontSize: '13px', fontWeight: 600, color: '#374151' }}>이름</th>
+              <th style={{ textAlign: 'left', padding: '14px 16px', fontSize: '13px', fontWeight: 600, color: '#374151' }}>대학</th>
+              <th style={{ textAlign: 'left', padding: '14px 16px', fontSize: '13px', fontWeight: 600, color: '#374151' }}>학과</th>
+              <th style={{ textAlign: 'center', padding: '14px 16px', fontSize: '13px', fontWeight: 600, color: '#374151', width: '80px' }}>연도</th>
+              <th style={{ textAlign: 'center', padding: '14px 16px', fontSize: '13px', fontWeight: 600, color: '#374151', width: '80px' }}>전형</th>
+              <th style={{ textAlign: 'center', padding: '14px 16px', fontSize: '13px', fontWeight: 600, color: '#374151', width: '80px' }}>상태</th>
+              <th style={{ textAlign: 'center', padding: '14px 16px', fontSize: '13px', fontWeight: 600, color: '#374151', width: '160px' }}>관리</th>
             </tr>
           </thead>
           <tbody>
             {admissions.map((admission) => (
-              <tr key={admission.id} style={{ borderBottom: '1px solid #f5f5f5' }}>
-                <td style={{ padding: '16px', fontSize: '14px' }}>{admission.studentName}</td>
-                <td style={{ padding: '16px', fontSize: '14px' }}>{admission.university}</td>
-                <td style={{ padding: '16px', fontSize: '14px' }}>{admission.department}</td>
-                <td style={{ padding: '16px', textAlign: 'center', fontSize: '14px' }}>{admission.year}</td>
-                <td style={{ padding: '16px', textAlign: 'center' }}>
+              <tr key={admission.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
+                <td style={{ padding: '14px 16px', fontSize: '14px', color: '#111' }}>{admission.studentName}</td>
+                <td style={{ padding: '14px 16px', fontSize: '14px', color: '#374151' }}>{admission.university}</td>
+                <td style={{ padding: '14px 16px', fontSize: '14px', color: '#374151' }}>{admission.department}</td>
+                <td style={{ padding: '14px 16px', textAlign: 'center', fontSize: '14px', color: '#374151' }}>{admission.year}</td>
+                <td style={{ padding: '14px 16px', textAlign: 'center' }}>
                   <span style={{
                     display: 'inline-block',
-                    padding: '4px 8px',
+                    padding: '4px 10px',
                     borderRadius: '4px',
                     fontSize: '12px',
-                    fontWeight: 500,
-                    backgroundColor: admission.isEarlyAdmission ? '#dbeafe' : '#fef3c7',
-                    color: admission.isEarlyAdmission ? '#1d4ed8' : '#b45309',
+                    fontWeight: 600,
+                    backgroundColor: admission.isEarlyAdmission ? '#ffc50a' : '#111',
+                    color: admission.isEarlyAdmission ? '#111' : '#fff',
                   }}>
                     {admission.isEarlyAdmission ? '수시' : '정시'}
                   </span>
                 </td>
-                <td style={{ padding: '16px', textAlign: 'center' }}>
+                <td style={{ padding: '14px 16px', textAlign: 'center' }}>
                   <span style={{
                     display: 'inline-block',
-                    padding: '4px 8px',
+                    padding: '4px 10px',
                     borderRadius: '4px',
                     fontSize: '12px',
-                    fontWeight: 500,
-                    backgroundColor: admission.isPublished ? '#dcfce7' : '#f3f4f6',
-                    color: admission.isPublished ? '#16a34a' : '#6b7280',
+                    fontWeight: 600,
+                    backgroundColor: admission.isPublished ? '#111' : '#e5e7eb',
+                    color: admission.isPublished ? '#fff' : '#6b7280',
                   }}>
                     {admission.isPublished ? '공개' : '비공개'}
                   </span>
                 </td>
-                <td style={{ padding: '16px', textAlign: 'center' }}>
-                  <button
-                    onClick={() => openModal(admission)}
-                    style={{
-                      padding: '6px 12px',
-                      backgroundColor: '#f5f5f5',
-                      border: 'none',
-                      borderRadius: '4px',
-                      fontSize: '12px',
-                      cursor: 'pointer',
-                      marginRight: '8px',
-                    }}
-                  >
-                    수정
-                  </button>
-                  <button
-                    onClick={() => handleDelete(admission.id)}
-                    style={{
-                      padding: '6px 12px',
-                      backgroundColor: '#fef2f2',
-                      color: '#dc2626',
-                      border: 'none',
-                      borderRadius: '4px',
-                      fontSize: '12px',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    삭제
-                  </button>
+                <td style={{ padding: '14px 16px', textAlign: 'center' }}>
+                  <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', whiteSpace: 'nowrap' }}>
+                    <button
+                      onClick={() => openModal(admission)}
+                      style={{
+                        padding: '6px 12px',
+                        backgroundColor: '#fff',
+                        border: '1px solid #d1d5db',
+                        borderRadius: '6px',
+                        fontSize: '13px',
+                        fontWeight: 500,
+                        color: '#374151',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      수정
+                    </button>
+                    <button
+                      onClick={() => handleDelete(admission.id)}
+                      style={{
+                        padding: '6px 12px',
+                        backgroundColor: '#fff',
+                        color: '#dc2626',
+                        border: '1px solid #fecaca',
+                        borderRadius: '6px',
+                        fontSize: '13px',
+                        fontWeight: 500,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      삭제
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
         {admissions.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '60px', color: '#999' }}>
+          <div style={{ textAlign: 'center', padding: '60px', color: '#9ca3af' }}>
             등록된 합격자가 없습니다.
           </div>
         )}
@@ -261,13 +267,13 @@ export default function AdmissionsPage() {
             maxHeight: '90vh',
             overflow: 'auto',
           }}>
-            <h2 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '24px' }}>
+            <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '24px', color: '#111' }}>
               {editingAdmission ? '합격자 수정' : '합격자 추가'}
             </h2>
             <form onSubmit={handleSubmit}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                  <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#374151' }}>
                     학생 이름 *
                   </label>
                   <input
@@ -279,7 +285,7 @@ export default function AdmissionsPage() {
                     style={{
                       width: '100%',
                       padding: '12px',
-                      border: '1px solid #ddd',
+                      border: '1px solid #e5e7eb',
                       borderRadius: '8px',
                       fontSize: '14px',
                       boxSizing: 'border-box',
@@ -287,7 +293,7 @@ export default function AdmissionsPage() {
                   />
                 </div>
                 <div>
-                  <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                  <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#374151' }}>
                     합격 연도 *
                   </label>
                   <select
@@ -296,7 +302,7 @@ export default function AdmissionsPage() {
                     style={{
                       width: '100%',
                       padding: '12px',
-                      border: '1px solid #ddd',
+                      border: '1px solid #e5e7eb',
                       borderRadius: '8px',
                       fontSize: '14px',
                       boxSizing: 'border-box',
@@ -310,7 +316,7 @@ export default function AdmissionsPage() {
               </div>
 
               <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#374151' }}>
                   대학 *
                 </label>
                 <input
@@ -322,7 +328,7 @@ export default function AdmissionsPage() {
                   style={{
                     width: '100%',
                     padding: '12px',
-                    border: '1px solid #ddd',
+                    border: '1px solid #e5e7eb',
                     borderRadius: '8px',
                     fontSize: '14px',
                     boxSizing: 'border-box',
@@ -331,7 +337,7 @@ export default function AdmissionsPage() {
               </div>
 
               <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#374151' }}>
                   학과 *
                 </label>
                 <input
@@ -343,7 +349,7 @@ export default function AdmissionsPage() {
                   style={{
                     width: '100%',
                     padding: '12px',
-                    border: '1px solid #ddd',
+                    border: '1px solid #e5e7eb',
                     borderRadius: '8px',
                     fontSize: '14px',
                     boxSizing: 'border-box',
@@ -352,7 +358,7 @@ export default function AdmissionsPage() {
               </div>
 
               <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#374151' }}>
                   전공
                 </label>
                 <input
@@ -363,7 +369,7 @@ export default function AdmissionsPage() {
                   style={{
                     width: '100%',
                     padding: '12px',
-                    border: '1px solid #ddd',
+                    border: '1px solid #e5e7eb',
                     borderRadius: '8px',
                     fontSize: '14px',
                     boxSizing: 'border-box',
@@ -372,7 +378,7 @@ export default function AdmissionsPage() {
               </div>
 
               <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#374151' }}>
                   사진
                 </label>
                 <ImageUpload
@@ -385,7 +391,7 @@ export default function AdmissionsPage() {
               </div>
 
               <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#374151' }}>
                   합격 후기
                 </label>
                 <textarea
@@ -395,7 +401,7 @@ export default function AdmissionsPage() {
                   style={{
                     width: '100%',
                     padding: '12px',
-                    border: '1px solid #ddd',
+                    border: '1px solid #e5e7eb',
                     borderRadius: '8px',
                     fontSize: '14px',
                     resize: 'vertical',
@@ -410,16 +416,18 @@ export default function AdmissionsPage() {
                     type="checkbox"
                     checked={formData.isEarlyAdmission}
                     onChange={(e) => setFormData({ ...formData, isEarlyAdmission: e.target.checked })}
+                    style={{ width: '18px', height: '18px', accentColor: '#111' }}
                   />
-                  <span style={{ fontSize: '14px' }}>수시 전형</span>
+                  <span style={{ fontSize: '14px', color: '#374151' }}>수시 전형</span>
                 </label>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                   <input
                     type="checkbox"
                     checked={formData.isPublished}
                     onChange={(e) => setFormData({ ...formData, isPublished: e.target.checked })}
+                    style={{ width: '18px', height: '18px', accentColor: '#111' }}
                   />
-                  <span style={{ fontSize: '14px' }}>공개</span>
+                  <span style={{ fontSize: '14px', color: '#374151' }}>공개</span>
                 </label>
               </div>
 
@@ -430,10 +438,12 @@ export default function AdmissionsPage() {
                   style={{
                     flex: 1,
                     padding: '14px',
-                    backgroundColor: '#f5f5f5',
-                    border: 'none',
+                    backgroundColor: '#fff',
+                    border: '1px solid #d1d5db',
                     borderRadius: '8px',
                     fontSize: '14px',
+                    fontWeight: 600,
+                    color: '#374151',
                     cursor: 'pointer',
                   }}
                 >
@@ -444,7 +454,7 @@ export default function AdmissionsPage() {
                   style={{
                     flex: 1,
                     padding: '14px',
-                    backgroundColor: '#000',
+                    backgroundColor: '#111',
                     color: '#fff',
                     border: 'none',
                     borderRadius: '8px',

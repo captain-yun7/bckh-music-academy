@@ -458,6 +458,55 @@ async function main() {
   }
   console.log('✅ Admissions created');
 
+  // 8. 갤러리 이미지 데이터 생성
+  const facilityImages = [
+    { title: '레코딩 스튜디오', imageUrl: '/images/facilities/facility01.jpg', category: 'FACILITY' as const, order: 0 },
+    { title: '보컬 연습실', imageUrl: '/images/facilities/facility02.jpg', category: 'FACILITY' as const, order: 1 },
+    { title: '피아노실', imageUrl: '/images/facilities/facility03.jpg', category: 'FACILITY' as const, order: 2 },
+    { title: '기타 연습실', imageUrl: '/images/facilities/facility04.jpg', category: 'FACILITY' as const, order: 3 },
+    { title: '드럼 연습실', imageUrl: '/images/facilities/facility05.jpg', category: 'FACILITY' as const, order: 4 },
+    { title: '합주실', imageUrl: '/images/facilities/facility06.jpg', category: 'FACILITY' as const, order: 5 },
+    { title: '미디 작업실', imageUrl: '/images/facilities/facility07.jpg', category: 'FACILITY' as const, order: 6 },
+    { title: '댄스 연습실', imageUrl: '/images/facilities/facility08.jpg', category: 'FACILITY' as const, order: 7 },
+    { title: '상담실', imageUrl: '/images/facilities/facility09.jpg', category: 'FACILITY' as const, order: 8 },
+    { title: '휴게공간', imageUrl: '/images/facilities/facility10.jpg', category: 'FACILITY' as const, order: 9 },
+    { title: '로비', imageUrl: '/images/facilities/facility11.jpg', category: 'FACILITY' as const, order: 10 },
+    { title: '복도', imageUrl: '/images/facilities/facility12.jpg', category: 'FACILITY' as const, order: 11 },
+  ];
+
+  const performanceImages = [
+    { title: '공연 1', imageUrl: '/images/performances/performance01.jpg', category: 'PERFORMANCE' as const, order: 0 },
+    { title: '공연 2', imageUrl: '/images/performances/performance02.jpg', category: 'PERFORMANCE' as const, order: 1 },
+    { title: '공연 3', imageUrl: '/images/performances/performance03.jpg', category: 'PERFORMANCE' as const, order: 2 },
+    { title: '공연 4', imageUrl: '/images/performances/performance04.jpg', category: 'PERFORMANCE' as const, order: 3 },
+    { title: '공연 5', imageUrl: '/images/performances/performance05.jpg', category: 'PERFORMANCE' as const, order: 4 },
+    { title: '공연 6', imageUrl: '/images/performances/performance06.jpg', category: 'PERFORMANCE' as const, order: 5 },
+    { title: '공연 7', imageUrl: '/images/performances/performance07.jpg', category: 'PERFORMANCE' as const, order: 6 },
+    { title: '공연 8', imageUrl: '/images/performances/performance08.jpg', category: 'PERFORMANCE' as const, order: 7 },
+    { title: '공연 9', imageUrl: '/images/performances/performance09.jpg', category: 'PERFORMANCE' as const, order: 8 },
+    { title: '공연 10', imageUrl: '/images/performances/performance10.jpg', category: 'PERFORMANCE' as const, order: 9 },
+    { title: '공연 11', imageUrl: '/images/performances/performance11.jpg', category: 'PERFORMANCE' as const, order: 10 },
+    { title: '공연 12', imageUrl: '/images/performances/performance12.jpg', category: 'PERFORMANCE' as const, order: 11 },
+    { title: '공연 13', imageUrl: '/images/performances/performance13.jpg', category: 'PERFORMANCE' as const, order: 12 },
+    { title: '공연 14', imageUrl: '/images/performances/performance14.jpg', category: 'PERFORMANCE' as const, order: 13 },
+    { title: '공연 15', imageUrl: '/images/performances/performance15.jpg', category: 'PERFORMANCE' as const, order: 14 },
+  ];
+
+  const allGalleryImages = [...facilityImages, ...performanceImages];
+
+  for (const image of allGalleryImages) {
+    await prisma.galleryImage.create({
+      data: {
+        title: image.title,
+        imageUrl: image.imageUrl,
+        category: image.category,
+        order: image.order,
+        isPublished: true,
+      },
+    });
+  }
+  console.log('✅ Gallery images created');
+
   console.log('🎉 Seeding completed!');
 }
 

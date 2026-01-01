@@ -5,17 +5,16 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
 const menuItems = [
-  { name: '대시보드', href: '/admin', icon: '📊' },
-  { name: '히어로 슬라이드', href: '/admin/hero-slides', icon: '🎠' },
-  { name: '강사 관리', href: '/admin/instructors', icon: '👨‍🏫' },
-  { name: '공지사항', href: '/admin/notices', icon: '📢' },
-  { name: '합격자 명단', href: '/admin/admissions', icon: '🎓' },
-  { name: '배출 뮤지션', href: '/admin/musicians', icon: '🎤' },
-  { name: '상담 신청', href: '/admin/consultations', icon: '📞' },
-  { name: '갤러리', href: '/admin/gallery', icon: '🖼️' },
-  { name: '영상 관리', href: '/admin/videos', icon: '🎬' },
-  { name: '입시요강', href: '/admin/admission-guides', icon: '📋' },
-  { name: '설정', href: '/admin/settings', icon: '⚙️' },
+  { name: '대시보드', href: '/admin' },
+  { name: '히어로 슬라이드', href: '/admin/hero-slides' },
+  { name: '강사 관리', href: '/admin/instructors' },
+  { name: '공지사항', href: '/admin/notices' },
+  { name: '합격자 명단', href: '/admin/admissions' },
+  { name: '배출 뮤지션', href: '/admin/musicians' },
+  { name: '갤러리', href: '/admin/gallery' },
+  { name: '영상 관리', href: '/admin/videos' },
+  { name: '입시요강', href: '/admin/admission-guides' },
+  { name: '설정', href: '/admin/settings' },
 ];
 
 export default function AdminDashboardLayout({
@@ -45,27 +44,27 @@ export default function AdminDashboardLayout({
   };
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f8f9fa' }}>
       {/* Sidebar */}
       <aside
         style={{
-          width: isSidebarOpen ? '260px' : '0',
-          backgroundColor: '#1a1a1a',
+          width: isSidebarOpen ? '240px' : '0',
+          backgroundColor: '#111827',
           transition: 'width 0.3s',
           overflow: 'hidden',
           flexShrink: 0,
         }}
       >
-        <div style={{ padding: '24px', borderBottom: '1px solid #333' }}>
-          <h1 style={{ color: '#fff', fontSize: '18px', fontWeight: 700 }}>
+        <div style={{ padding: '20px 24px', borderBottom: '1px solid #1f2937' }}>
+          <h1 style={{ color: '#fff', fontSize: '16px', fontWeight: 600, letterSpacing: '-0.3px' }}>
             경희실용음악학원
           </h1>
-          <p style={{ color: '#888', fontSize: '13px', marginTop: '4px' }}>
+          <p style={{ color: '#6b7280', fontSize: '12px', marginTop: '4px' }}>
             관리자 시스템
           </p>
         </div>
 
-        <nav style={{ padding: '16px 0' }}>
+        <nav style={{ padding: '12px 0' }}>
           {menuItems.map((item) => {
             const isActive = pathname === item.href ||
               (item.href !== '/admin' && pathname.startsWith(item.href));
@@ -74,19 +73,18 @@ export default function AdminDashboardLayout({
                 key={item.href}
                 href={item.href}
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  padding: '12px 24px',
-                  color: isActive ? '#fff' : '#999',
-                  backgroundColor: isActive ? '#333' : 'transparent',
+                  display: 'block',
+                  padding: '10px 24px',
+                  color: isActive ? '#fff' : '#9ca3af',
+                  backgroundColor: isActive ? '#1f2937' : 'transparent',
                   textDecoration: 'none',
                   fontSize: '14px',
-                  borderLeft: isActive ? '3px solid #3b82f6' : '3px solid transparent',
+                  fontWeight: isActive ? 500 : 400,
+                  borderLeft: isActive ? '2px solid #3b82f6' : '2px solid transparent',
+                  transition: 'all 0.15s',
                 }}
               >
-                <span>{item.icon}</span>
-                <span>{item.name}</span>
+                {item.name}
               </Link>
             );
           })}
@@ -96,22 +94,21 @@ export default function AdminDashboardLayout({
           position: 'absolute',
           bottom: 0,
           left: 0,
-          width: '260px',
+          width: '240px',
           padding: '16px 24px',
-          borderTop: '1px solid #333',
+          borderTop: '1px solid #1f2937',
         }}>
           <Link
             href="/"
             target="_blank"
             style={{
               display: 'block',
-              color: '#888',
+              color: '#6b7280',
               fontSize: '13px',
               textDecoration: 'none',
-              marginBottom: '12px',
             }}
           >
-            🌐 사이트 보기
+            사이트 보기 →
           </Link>
         </div>
       </aside>
@@ -122,11 +119,11 @@ export default function AdminDashboardLayout({
         <header
           style={{
             backgroundColor: '#fff',
-            padding: '16px 32px',
+            padding: '12px 24px',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            borderBottom: '1px solid #eee',
+            borderBottom: '1px solid #e5e7eb',
           }}
         >
           <button
@@ -134,26 +131,34 @@ export default function AdminDashboardLayout({
             style={{
               background: 'none',
               border: 'none',
-              fontSize: '20px',
               cursor: 'pointer',
-              padding: '4px',
+              padding: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '6px',
             }}
           >
-            ☰
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="2">
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
           </button>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <span style={{ fontSize: '14px', color: '#666' }}>
+            <span style={{ fontSize: '14px', color: '#374151' }}>
               {adminName}님
             </span>
             <button
               onClick={handleLogout}
               style={{
-                padding: '8px 16px',
-                backgroundColor: '#f5f5f5',
-                border: 'none',
+                padding: '6px 14px',
+                backgroundColor: '#fff',
+                border: '1px solid #d1d5db',
                 borderRadius: '6px',
                 fontSize: '13px',
+                color: '#374151',
                 cursor: 'pointer',
               }}
             >
@@ -163,7 +168,7 @@ export default function AdminDashboardLayout({
         </header>
 
         {/* Page Content */}
-        <main style={{ flex: 1, padding: '32px', overflow: 'auto' }}>
+        <main style={{ flex: 1, padding: '24px', overflow: 'auto' }}>
           {children}
         </main>
       </div>

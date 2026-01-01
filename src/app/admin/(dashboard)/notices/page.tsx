@@ -20,11 +20,11 @@ const categoryLabels: Record<string, string> = {
   INSTRUCTOR: '강사 소식',
 };
 
-const categoryColors: Record<string, string> = {
-  GENERAL: '#6b7280',
-  ADMISSION: '#3b82f6',
-  EVENT: '#22c55e',
-  INSTRUCTOR: '#f59e0b',
+const categoryColors: Record<string, { bg: string; text: string }> = {
+  GENERAL: { bg: '#e5e7eb', text: '#374151' },
+  ADMISSION: { bg: '#111', text: '#fff' },
+  EVENT: { bg: '#ffc50a', text: '#111' },
+  INSTRUCTOR: { bg: '#ffc50a', text: '#111' },
 };
 
 export default function NoticesPage() {
@@ -105,18 +105,18 @@ export default function NoticesPage() {
   };
 
   if (isLoading) {
-    return <div style={{ textAlign: 'center', padding: '60px' }}>로딩중...</div>;
+    return <div style={{ textAlign: 'center', padding: '60px', color: '#666' }}>로딩중...</div>;
   }
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: 700 }}>공지사항 관리</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+        <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#111' }}>공지사항 관리</h1>
         <button
           onClick={() => openModal()}
           style={{
-            padding: '12px 24px',
-            backgroundColor: '#000',
+            padding: '10px 20px',
+            backgroundColor: '#111',
             color: '#fff',
             border: 'none',
             borderRadius: '8px',
@@ -129,95 +129,104 @@ export default function NoticesPage() {
         </button>
       </div>
 
-      <div style={{ backgroundColor: '#fff', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+      <div style={{ backgroundColor: '#fff', borderRadius: '12px', overflow: 'hidden', border: '1px solid #e5e7eb' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ backgroundColor: '#f9fafb', borderBottom: '1px solid #eee' }}>
-              <th style={{ textAlign: 'left', padding: '16px', fontSize: '13px', fontWeight: 500, color: '#666' }}>제목</th>
-              <th style={{ textAlign: 'left', padding: '16px', fontSize: '13px', fontWeight: 500, color: '#666', width: '100px' }}>카테고리</th>
-              <th style={{ textAlign: 'center', padding: '16px', fontSize: '13px', fontWeight: 500, color: '#666', width: '80px' }}>조회수</th>
-              <th style={{ textAlign: 'center', padding: '16px', fontSize: '13px', fontWeight: 500, color: '#666', width: '80px' }}>상태</th>
-              <th style={{ textAlign: 'center', padding: '16px', fontSize: '13px', fontWeight: 500, color: '#666', width: '120px' }}>작성일</th>
-              <th style={{ textAlign: 'center', padding: '16px', fontSize: '13px', fontWeight: 500, color: '#666', width: '120px' }}>관리</th>
+            <tr style={{ backgroundColor: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+              <th style={{ textAlign: 'left', padding: '14px 16px', fontSize: '13px', fontWeight: 600, color: '#374151' }}>제목</th>
+              <th style={{ textAlign: 'center', padding: '14px 16px', fontSize: '13px', fontWeight: 600, color: '#374151', width: '100px' }}>카테고리</th>
+              <th style={{ textAlign: 'center', padding: '14px 16px', fontSize: '13px', fontWeight: 600, color: '#374151', width: '80px' }}>조회수</th>
+              <th style={{ textAlign: 'center', padding: '14px 16px', fontSize: '13px', fontWeight: 600, color: '#374151', width: '80px' }}>상태</th>
+              <th style={{ textAlign: 'center', padding: '14px 16px', fontSize: '13px', fontWeight: 600, color: '#374151', width: '120px' }}>작성일</th>
+              <th style={{ textAlign: 'center', padding: '14px 16px', fontSize: '13px', fontWeight: 600, color: '#374151', width: '140px' }}>관리</th>
             </tr>
           </thead>
           <tbody>
             {notices.map((notice) => (
-              <tr key={notice.id} style={{ borderBottom: '1px solid #f5f5f5' }}>
-                <td style={{ padding: '16px' }}>
+              <tr key={notice.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
+                <td style={{ padding: '14px 16px', fontSize: '14px', color: '#111' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    {notice.isPinned && <span style={{ color: '#ef4444' }}>📌</span>}
-                    <span style={{ fontSize: '14px' }}>{notice.title}</span>
+                    {notice.isPinned && (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="#dc2626" stroke="#dc2626" strokeWidth="2">
+                        <path d="M12 2L12 12M12 12L8 8M12 12L16 8M12 22L12 12" transform="rotate(45 12 12)" />
+                        <circle cx="12" cy="5" r="3" />
+                      </svg>
+                    )}
+                    <span>{notice.title}</span>
                   </div>
                 </td>
-                <td style={{ padding: '16px' }}>
+                <td style={{ padding: '14px 16px', textAlign: 'center' }}>
                   <span style={{
                     display: 'inline-block',
-                    padding: '4px 8px',
+                    padding: '4px 10px',
                     borderRadius: '4px',
                     fontSize: '12px',
-                    fontWeight: 500,
-                    backgroundColor: `${categoryColors[notice.category]}20`,
-                    color: categoryColors[notice.category],
+                    fontWeight: 600,
+                    backgroundColor: categoryColors[notice.category]?.bg || '#e5e7eb',
+                    color: categoryColors[notice.category]?.text || '#374151',
                   }}>
                     {categoryLabels[notice.category]}
                   </span>
                 </td>
-                <td style={{ padding: '16px', textAlign: 'center', fontSize: '14px', color: '#666' }}>
+                <td style={{ padding: '14px 16px', textAlign: 'center', fontSize: '14px', color: '#374151' }}>
                   {notice.viewCount}
                 </td>
-                <td style={{ padding: '16px', textAlign: 'center' }}>
+                <td style={{ padding: '14px 16px', textAlign: 'center' }}>
                   <span style={{
                     display: 'inline-block',
-                    padding: '4px 8px',
+                    padding: '4px 10px',
                     borderRadius: '4px',
                     fontSize: '12px',
-                    fontWeight: 500,
-                    backgroundColor: notice.isPublished ? '#dcfce7' : '#f3f4f6',
-                    color: notice.isPublished ? '#16a34a' : '#6b7280',
+                    fontWeight: 600,
+                    backgroundColor: notice.isPublished ? '#111' : '#e5e7eb',
+                    color: notice.isPublished ? '#fff' : '#6b7280',
                   }}>
                     {notice.isPublished ? '공개' : '비공개'}
                   </span>
                 </td>
-                <td style={{ padding: '16px', textAlign: 'center', fontSize: '14px', color: '#666' }}>
+                <td style={{ padding: '14px 16px', textAlign: 'center', fontSize: '14px', color: '#374151', whiteSpace: 'nowrap' }}>
                   {new Date(notice.createdAt).toLocaleDateString('ko-KR')}
                 </td>
-                <td style={{ padding: '16px', textAlign: 'center' }}>
-                  <button
-                    onClick={() => openModal(notice)}
-                    style={{
-                      padding: '6px 12px',
-                      backgroundColor: '#f5f5f5',
-                      border: 'none',
-                      borderRadius: '4px',
-                      fontSize: '12px',
-                      cursor: 'pointer',
-                      marginRight: '8px',
-                    }}
-                  >
-                    수정
-                  </button>
-                  <button
-                    onClick={() => handleDelete(notice.id)}
-                    style={{
-                      padding: '6px 12px',
-                      backgroundColor: '#fef2f2',
-                      color: '#dc2626',
-                      border: 'none',
-                      borderRadius: '4px',
-                      fontSize: '12px',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    삭제
-                  </button>
+                <td style={{ padding: '14px 16px', textAlign: 'center' }}>
+                  <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', whiteSpace: 'nowrap' }}>
+                    <button
+                      onClick={() => openModal(notice)}
+                      style={{
+                        padding: '6px 12px',
+                        backgroundColor: '#fff',
+                        border: '1px solid #d1d5db',
+                        borderRadius: '6px',
+                        fontSize: '13px',
+                        fontWeight: 500,
+                        color: '#374151',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      수정
+                    </button>
+                    <button
+                      onClick={() => handleDelete(notice.id)}
+                      style={{
+                        padding: '6px 12px',
+                        backgroundColor: '#fff',
+                        color: '#dc2626',
+                        border: '1px solid #fecaca',
+                        borderRadius: '6px',
+                        fontSize: '13px',
+                        fontWeight: 500,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      삭제
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
         {notices.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '60px', color: '#999' }}>
+          <div style={{ textAlign: 'center', padding: '60px', color: '#9ca3af' }}>
             등록된 공지사항이 없습니다.
           </div>
         )}
@@ -243,12 +252,12 @@ export default function NoticesPage() {
             maxHeight: '90vh',
             overflow: 'auto',
           }}>
-            <h2 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '24px' }}>
+            <h2 style={{ fontSize: '20px', fontWeight: 700, marginBottom: '24px', color: '#111' }}>
               {editingNotice ? '공지사항 수정' : '공지사항 작성'}
             </h2>
             <form onSubmit={handleSubmit}>
               <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#374151' }}>
                   제목 *
                 </label>
                 <input
@@ -259,7 +268,7 @@ export default function NoticesPage() {
                   style={{
                     width: '100%',
                     padding: '12px',
-                    border: '1px solid #ddd',
+                    border: '1px solid #e5e7eb',
                     borderRadius: '8px',
                     fontSize: '14px',
                     boxSizing: 'border-box',
@@ -268,7 +277,7 @@ export default function NoticesPage() {
               </div>
 
               <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#374151' }}>
                   카테고리
                 </label>
                 <select
@@ -277,7 +286,7 @@ export default function NoticesPage() {
                   style={{
                     width: '100%',
                     padding: '12px',
-                    border: '1px solid #ddd',
+                    border: '1px solid #e5e7eb',
                     borderRadius: '8px',
                     fontSize: '14px',
                     boxSizing: 'border-box',
@@ -290,7 +299,7 @@ export default function NoticesPage() {
               </div>
 
               <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#374151' }}>
                   내용 *
                 </label>
                 <textarea
@@ -301,7 +310,7 @@ export default function NoticesPage() {
                   style={{
                     width: '100%',
                     padding: '12px',
-                    border: '1px solid #ddd',
+                    border: '1px solid #e5e7eb',
                     borderRadius: '8px',
                     fontSize: '14px',
                     resize: 'vertical',
@@ -316,16 +325,18 @@ export default function NoticesPage() {
                     type="checkbox"
                     checked={formData.isPinned}
                     onChange={(e) => setFormData({ ...formData, isPinned: e.target.checked })}
+                    style={{ width: '18px', height: '18px', accentColor: '#111' }}
                   />
-                  <span style={{ fontSize: '14px' }}>상단 고정</span>
+                  <span style={{ fontSize: '14px', color: '#374151' }}>상단 고정</span>
                 </label>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                   <input
                     type="checkbox"
                     checked={formData.isPublished}
                     onChange={(e) => setFormData({ ...formData, isPublished: e.target.checked })}
+                    style={{ width: '18px', height: '18px', accentColor: '#111' }}
                   />
-                  <span style={{ fontSize: '14px' }}>공개</span>
+                  <span style={{ fontSize: '14px', color: '#374151' }}>공개</span>
                 </label>
               </div>
 
@@ -336,10 +347,12 @@ export default function NoticesPage() {
                   style={{
                     flex: 1,
                     padding: '14px',
-                    backgroundColor: '#f5f5f5',
-                    border: 'none',
+                    backgroundColor: '#fff',
+                    border: '1px solid #d1d5db',
                     borderRadius: '8px',
                     fontSize: '14px',
+                    fontWeight: 600,
+                    color: '#374151',
                     cursor: 'pointer',
                   }}
                 >
@@ -350,7 +363,7 @@ export default function NoticesPage() {
                   style={{
                     flex: 1,
                     padding: '14px',
-                    backgroundColor: '#000',
+                    backgroundColor: '#111',
                     color: '#fff',
                     border: 'none',
                     borderRadius: '8px',
