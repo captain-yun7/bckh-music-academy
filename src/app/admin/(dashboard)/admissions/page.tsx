@@ -32,9 +32,14 @@ export default function AdmissionsPage() {
     isPublished: true,
   });
 
-  // 2008년부터 현재까지의 년도 목록
+  // 2008년부터 현재 +2년까지의 년도 목록 (미래 합격자 등록 가능)
   const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: currentYear - 2008 + 1 }, (_, i) => currentYear - i);
+  const futureYears = 2; // 현재 연도 +2년까지 표시
+  const startYear = 2008;
+  const years = Array.from(
+    { length: currentYear + futureYears - startYear + 1 },
+    (_, i) => currentYear + futureYears - i
+  );
 
   useEffect(() => {
     fetchAdmissions();
