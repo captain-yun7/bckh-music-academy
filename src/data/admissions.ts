@@ -1,5 +1,9 @@
 // 년도별 합격자 데이터 (khmusic.co.kr 실제 데이터)
 export const admissionsByYear: Record<string, { summary: string; students: { name: string; school: string; major: string }[] }> = {
+  '2026': {
+    summary: '합격자 준비중',
+    students: [],
+  },
   '2025': {
     summary: '서울예대 외 32명',
     students: [
@@ -525,4 +529,4 @@ export const admissionsByYear: Record<string, { summary: string; students: { nam
   },
 };
 
-export const years = ['2025', '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009', '2008'];
+export const years = ['2026', '2025', '2024', '2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009', '2008'];
