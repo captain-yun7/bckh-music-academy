@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import ImageUpload from '@/components/admin/ImageUpload';
 
 interface Admission {
   id: string;
@@ -30,12 +29,12 @@ export default function AdmissionsPage() {
     year: new Date().getFullYear(),
     major: '',
     isEarlyAdmission: false,
-    photoUrl: '',
-    testimonial: '',
     isPublished: true,
   });
 
-  const years = Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i);
+  // 2008년부터 현재까지의 년도 목록
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: currentYear - 2008 + 1 }, (_, i) => currentYear - i);
 
   useEffect(() => {
     fetchAdmissions();
@@ -62,8 +61,6 @@ export default function AdmissionsPage() {
         year: admission.year,
         major: admission.major || '',
         isEarlyAdmission: admission.isEarlyAdmission,
-        photoUrl: admission.photoUrl || '',
-        testimonial: admission.testimonial || '',
         isPublished: admission.isPublished,
       });
     } else {
@@ -75,8 +72,6 @@ export default function AdmissionsPage() {
         year: new Date().getFullYear(),
         major: '',
         isEarlyAdmission: false,
-        photoUrl: '',
-        testimonial: '',
         isPublished: true,
       });
     }
@@ -281,7 +276,7 @@ export default function AdmissionsPage() {
                     value={formData.studentName}
                     onChange={(e) => setFormData({ ...formData, studentName: e.target.value })}
                     required
-                    placeholder="김OO"
+                    placeholder="김지원 또는 김*원"
                     style={{
                       width: '100%',
                       padding: '12px',
@@ -291,6 +286,9 @@ export default function AdmissionsPage() {
                       boxSizing: 'border-box',
                     }}
                   />
+                  <p style={{ fontSize: '12px', color: '#6b7280', marginTop: '6px' }}>
+                    * 풀네임 입력 시 사용자 화면에서 자동 마스킹 (예: 김지원 → 김*원)
+                  </p>
                 </div>
                 <div>
                   <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#374151' }}>
@@ -372,39 +370,6 @@ export default function AdmissionsPage() {
                     border: '1px solid #e5e7eb',
                     borderRadius: '8px',
                     fontSize: '14px',
-                    boxSizing: 'border-box',
-                  }}
-                />
-              </div>
-
-              <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#374151' }}>
-                  사진
-                </label>
-                <ImageUpload
-                  value={formData.photoUrl}
-                  onChange={(url) => setFormData({ ...formData, photoUrl: url })}
-                  folder="admissions"
-                  aspectRatio="1/1"
-                  placeholder="합격자 사진 업로드"
-                />
-              </div>
-
-              <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#374151' }}>
-                  합격 후기
-                </label>
-                <textarea
-                  value={formData.testimonial}
-                  onChange={(e) => setFormData({ ...formData, testimonial: e.target.value })}
-                  rows={4}
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '8px',
-                    fontSize: '14px',
-                    resize: 'vertical',
                     boxSizing: 'border-box',
                   }}
                 />
