@@ -42,7 +42,8 @@ export default function AdmissionsPage() {
 
   const fetchAvailableYears = async () => {
     try {
-      const res = await fetch('/api/admin/admissions');
+      // 모든 연도를 가져오기 위해 limit을 크게 설정
+      const res = await fetch('/api/admin/admissions?limit=1000');
       const data = await res.json();
       const years = Array.from(new Set(data.admissions.map((a: Admission) => a.year)))
         .sort((a, b) => b - a) as number[];
