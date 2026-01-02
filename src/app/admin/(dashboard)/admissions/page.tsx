@@ -32,11 +32,11 @@ export default function AdmissionsPage() {
     isPublished: true,
   });
 
-  // 2008년부터 현재 +2년까지의 년도 목록 (미래 합격자 등록 가능)
+  // 필터용 년도 목록 (2008년부터 현재 +2년까지)
   const currentYear = new Date().getFullYear();
-  const futureYears = 2; // 현재 연도 +2년까지 표시
+  const futureYears = 2;
   const startYear = 2008;
-  const years = Array.from(
+  const filterYears = Array.from(
     { length: currentYear + futureYears - startYear + 1 },
     (_, i) => currentYear + futureYears - i
   );
@@ -134,7 +134,7 @@ export default function AdmissionsPage() {
             }}
           >
             <option value="">전체 연도</option>
-            {years.map((year) => (
+            {filterYears.map((year) => (
               <option key={year} value={year}>{year}년</option>
             ))}
           </select>
@@ -299,9 +299,14 @@ export default function AdmissionsPage() {
                   <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#374151' }}>
                     합격 연도 *
                   </label>
-                  <select
+                  <input
+                    type="number"
                     value={formData.year}
-                    onChange={(e) => setFormData({ ...formData, year: parseInt(e.target.value) })}
+                    onChange={(e) => setFormData({ ...formData, year: parseInt(e.target.value) || currentYear })}
+                    required
+                    min="2000"
+                    max="2099"
+                    placeholder="2026"
                     style={{
                       width: '100%',
                       padding: '12px',
@@ -310,11 +315,7 @@ export default function AdmissionsPage() {
                       fontSize: '14px',
                       boxSizing: 'border-box',
                     }}
-                  >
-                    {years.map((year) => (
-                      <option key={year} value={year}>{year}년</option>
-                    ))}
-                  </select>
+                  />
                 </div>
               </div>
 
