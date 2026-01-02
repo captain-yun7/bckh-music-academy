@@ -1,29 +1,83 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { admissionsByYear, years } from '@/data/admissions';
 
 // 메인 페이지에서는 연도별 최대 8명까지만 표시
 const PREVIEW_LIMIT = 8;
 
-// 메인 페이지용 데이터 (각 연도별 8명으로 제한)
-const previewAdmissionsByYear = Object.fromEntries(
-  Object.entries(admissionsByYear).map(([year, data]) => [
-    year,
-    {
-      ...data,
-      students: data.students.slice(0, PREVIEW_LIMIT),
-      hasMore: data.students.length > PREVIEW_LIMIT,
-    },
-  ])
-) as Record<string, { summary: string; students: { name: string; school: string; major: string }[]; hasMore: boolean }>;
+interface Student {
+  studentName: string;
+  university: string;
+  department: string;
+  major: string | null;
+}
+
+interface YearData {
+  students: Student[];
+  summary: string;
+  hasMore: boolean;
+}
 
 export default function ReviewsSection() {
   const [selectedYear, setSelectedYear] = useState('2025');
+  const [admissionsByYear, setAdmissionsByYear] = useState<Record<string, YearData>>({});
+  const [years, setYears] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const currentData = previewAdmissionsByYear[selectedYear];
+  useEffect(() => {
+    const fetchAdmissions = async () => {
+      try {
+        const res = await fetch('/api/admissions?groupByYear=true');
+        const data = await res.json();
+
+        // 연도 목록 생성 (내림차순)
+        const yearList = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
+        setYears(yearList);
+
+        // 연도별 데이터 가공 (8명 제한 + 요약)
+        const processedData: Record<string, YearData> = {};
+        yearList.forEach((year) => {
+          const admissions = data[year];
+          const totalCount = admissions.length;
+          const previewStudents = admissions.slice(0, PREVIEW_LIMIT);
+
+          // 요약 생성 (첫 번째 대학명 + 외 n명)
+          const firstUniversity = admissions[0]?.university || '';
+          const summary = totalCount > 0
+            ? `${firstUniversity} 외 ${totalCount}명`
+            : '합격자 준비중';
+
+          processedData[year] = {
+            students: previewStudents.map((a: any) => ({
+              studentName: a.studentName,
+              university: a.university,
+              department: a.department,
+              major: a.major || a.department,
+            })),
+            summary,
+            hasMore: totalCount > PREVIEW_LIMIT,
+          };
+        });
+
+        setAdmissionsByYear(processedData);
+
+        // 가장 최신 연도를 기본 선택
+        if (yearList.length > 0) {
+          setSelectedYear(yearList[0]);
+        }
+      } catch (error) {
+        console.error('Failed to fetch admissions:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAdmissions();
+  }, []);
+
+  const currentData = admissionsByYear[selectedYear] || { students: [], summary: '합격자 준비중', hasMore: false };
 
   // 이름 마스킹 함수 (중간 글자를 * 처리)
   const maskName = (name: string) => {
@@ -220,13 +274,13 @@ export default function ReviewsSection() {
                     fontWeight: 600,
                     marginBottom: '4px',
                   }}>
-                    {maskName(student.name)}
+                    {maskName(student.studentName)}
                   </p>
                   <p style={{
                     color: 'rgba(255,255,255,0.6)',
                     fontSize: '14px',
                   }}>
-                    {student.school} · {student.major}
+                    {student.university} · {student.major}
                   </p>
                 </div>
               </div>

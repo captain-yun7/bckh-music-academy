@@ -1,13 +1,76 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SubPageLayout from '@/components/SubPageLayout';
-import { admissionsByYear, years } from '@/data/admissions';
+
+interface Student {
+  studentName: string;
+  university: string;
+  department: string;
+  major: string | null;
+}
+
+interface YearData {
+  students: Student[];
+  summary: string;
+}
 
 export default function AdmissionsPage() {
   const [selectedYear, setSelectedYear] = useState('2025');
+  const [admissionsByYear, setAdmissionsByYear] = useState<Record<string, YearData>>({});
+  const [years, setYears] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const currentData = admissionsByYear[selectedYear];
+  useEffect(() => {
+    const fetchAdmissions = async () => {
+      try {
+        const res = await fetch('/api/admissions?groupByYear=true');
+        const data = await res.json();
+
+        // 연도 목록 생성 (내림차순)
+        const yearList = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
+        setYears(yearList);
+
+        // 연도별 데이터 가공
+        const processedData: Record<string, YearData> = {};
+        yearList.forEach((year) => {
+          const admissions = data[year];
+          const totalCount = admissions.length;
+
+          // 요약 생성
+          const firstUniversity = admissions[0]?.university || '';
+          const summary = totalCount > 0
+            ? `${firstUniversity} 외 ${totalCount}명`
+            : '합격자 준비중';
+
+          processedData[year] = {
+            students: admissions.map((a: any) => ({
+              studentName: a.studentName,
+              university: a.university,
+              department: a.department,
+              major: a.major || a.department,
+            })),
+            summary,
+          };
+        });
+
+        setAdmissionsByYear(processedData);
+
+        // 가장 최신 연도를 기본 선택
+        if (yearList.length > 0) {
+          setSelectedYear(yearList[0]);
+        }
+      } catch (error) {
+        console.error('Failed to fetch admissions:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchAdmissions();
+  }, []);
+
+  const currentData = admissionsByYear[selectedYear] || { students: [], summary: '합격자 준비중' };
 
   // 이름 마스킹 함수 (중간 글자를 * 처리)
   const maskName = (name: string) => {
@@ -18,6 +81,20 @@ export default function AdmissionsPage() {
     }
     return name;
   };
+
+  if (isLoading) {
+    return (
+      <SubPageLayout
+        title="연도별 합격자"
+        subtitle="경희실용음악학원 음대 합격 현황"
+        bgImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&q=80"
+      >
+        <section style={{ padding: '100px 0', backgroundColor: '#000', textAlign: 'center' }}>
+          <p style={{ color: '#ffc50a', fontSize: '18px' }}>로딩중...</p>
+        </section>
+      </SubPageLayout>
+    );
+  }
 
   return (
     <SubPageLayout
@@ -126,13 +203,13 @@ export default function AdmissionsPage() {
                     fontWeight: 600,
                     marginBottom: '4px',
                   }}>
-                    {maskName(student.name)}
+                    {maskName(student.studentName)}
                   </p>
                   <p style={{
                     color: 'rgba(255,255,255,0.6)',
                     fontSize: '14px',
                   }}>
-                    {student.school} · {student.major}
+                    {student.university} · {student.major}
                   </p>
                 </div>
               </div>
