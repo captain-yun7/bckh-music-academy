@@ -22,6 +22,7 @@ export default function AdmissionsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingAdmission, setEditingAdmission] = useState<Admission | null>(null);
   const [selectedYear, setSelectedYear] = useState<string>('');
+  const [availableYears, setAvailableYears] = useState<number[]>([]);
   const [formData, setFormData] = useState({
     studentName: '',
     university: '',
@@ -32,18 +33,24 @@ export default function AdmissionsPage() {
     isPublished: true,
   });
 
-  // 필터용 년도 목록 (2008년부터 현재 +2년까지)
   const currentYear = new Date().getFullYear();
-  const futureYears = 2;
-  const startYear = 2008;
-  const filterYears = Array.from(
-    { length: currentYear + futureYears - startYear + 1 },
-    (_, i) => currentYear + futureYears - i
-  );
 
   useEffect(() => {
     fetchAdmissions();
+    fetchAvailableYears();
   }, [selectedYear]);
+
+  const fetchAvailableYears = async () => {
+    try {
+      const res = await fetch('/api/admin/admissions');
+      const data = await res.json();
+      const years = Array.from(new Set(data.admissions.map((a: Admission) => a.year)))
+        .sort((a, b) => b - a) as number[];
+      setAvailableYears(years);
+    } catch (error) {
+      console.error('Failed to fetch available years:', error);
+    }
+  };
 
   const fetchAdmissions = async () => {
     setIsLoading(true);
@@ -104,12 +111,14 @@ export default function AdmissionsPage() {
 
     closeModal();
     fetchAdmissions();
+    fetchAvailableYears();
   };
 
   const handleDelete = async (id: string) => {
     if (!confirm('정말 삭제하시겠습니까?')) return;
     await fetch(`/api/admin/admissions/${id}`, { method: 'DELETE' });
     fetchAdmissions();
+    fetchAvailableYears();
   };
 
   if (isLoading) {
@@ -134,7 +143,7 @@ export default function AdmissionsPage() {
             }}
           >
             <option value="">전체 연도</option>
-            {filterYears.map((year) => (
+            {availableYears.map((year) => (
               <option key={year} value={year}>{year}년</option>
             ))}
           </select>
