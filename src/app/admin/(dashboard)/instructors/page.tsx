@@ -16,8 +16,12 @@ interface Instructor {
   subjectId: string;
   subject: Subject;
   image: string | null;
-  bio: string | null;
-  career: string | null;
+  intro: string | null;
+  profile: string | null;
+  curriculum: string | null;
+  musicGenres: string | null;
+  recommendedAlbums: string | null;
+  messageToStudents: string | null;
   isActive: boolean;
   order: number;
 }
@@ -209,8 +213,12 @@ export default function InstructorsPage() {
     name: '',
     subjectId: '',
     image: '',
-    bio: '',
-    career: '',
+    intro: '',
+    profile: '',
+    curriculum: '',
+    musicGenres: '',
+    recommendedAlbums: '',
+    messageToStudents: '',
     isActive: true,
     order: 0,
   });
@@ -239,8 +247,12 @@ export default function InstructorsPage() {
         name: instructor.name,
         subjectId: instructor.subjectId,
         image: instructor.image || '',
-        bio: instructor.bio || '',
-        career: instructor.career || '',
+        intro: instructor.intro || '',
+        profile: instructor.profile || '',
+        curriculum: instructor.curriculum || '',
+        musicGenres: instructor.musicGenres || '',
+        recommendedAlbums: instructor.recommendedAlbums || '',
+        messageToStudents: instructor.messageToStudents || '',
         isActive: instructor.isActive,
         order: instructor.order,
       });
@@ -250,8 +262,12 @@ export default function InstructorsPage() {
         name: '',
         subjectId: subjects[0]?.id || '',
         image: '',
-        bio: '',
-        career: '',
+        intro: '',
+        profile: '',
+        curriculum: '',
+        musicGenres: '',
+        recommendedAlbums: '',
+        messageToStudents: '',
         isActive: true,
         order: 0,
       });
@@ -471,12 +487,13 @@ export default function InstructorsPage() {
 
               <div style={{ marginBottom: '16px' }}>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
-                  약력
+                  자기소개
                 </label>
                 <textarea
-                  value={formData.bio}
-                  onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                  value={formData.intro}
+                  onChange={(e) => setFormData({ ...formData, intro: e.target.value })}
                   rows={3}
+                  placeholder="강사님의 자기소개를 입력하세요"
                   style={{
                     width: '100%',
                     padding: '12px',
@@ -491,13 +508,97 @@ export default function InstructorsPage() {
 
               <div style={{ marginBottom: '16px' }}>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
-                  경력
+                  프로필
                 </label>
                 <textarea
-                  value={formData.career}
-                  onChange={(e) => setFormData({ ...formData, career: e.target.value })}
+                  value={formData.profile}
+                  onChange={(e) => setFormData({ ...formData, profile: e.target.value })}
+                  rows={4}
+                  placeholder="학력, 경력 등 프로필 정보&#10;- 항목 1&#10;- 항목 2"
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #ddd',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    resize: 'vertical',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                  커리큘럼
+                </label>
+                <textarea
+                  value={formData.curriculum}
+                  onChange={(e) => setFormData({ ...formData, curriculum: e.target.value })}
+                  rows={4}
+                  placeholder="수업 커리큘럼 및 방식&#10;- 항목 1&#10;- 항목 2"
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #ddd',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    resize: 'vertical',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                  추구하는 음악장르
+                </label>
+                <textarea
+                  value={formData.musicGenres}
+                  onChange={(e) => setFormData({ ...formData, musicGenres: e.target.value })}
+                  rows={2}
+                  placeholder="뮤지컬, 가요, Pop, Jazz, R&B 등"
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #ddd',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    resize: 'vertical',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                  추천음반리스트
+                </label>
+                <textarea
+                  value={formData.recommendedAlbums}
+                  onChange={(e) => setFormData({ ...formData, recommendedAlbums: e.target.value })}
                   rows={3}
-                  placeholder="- 경력 1&#10;- 경력 2"
+                  placeholder="추천 음반 목록&#10;- 아티스트 - 앨범명&#10;- 아티스트 - 앨범명"
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #ddd',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    resize: 'vertical',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                  레슨생분들께 드리는 말씀
+                </label>
+                <textarea
+                  value={formData.messageToStudents}
+                  onChange={(e) => setFormData({ ...formData, messageToStudents: e.target.value })}
+                  rows={3}
+                  placeholder="레슨생에게 전하고 싶은 메시지"
                   style={{
                     width: '100%',
                     padding: '12px',

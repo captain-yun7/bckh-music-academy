@@ -19,8 +19,12 @@ interface Instructor {
   subjectId: string;
   subject: Subject;
   image: string | null;
-  bio: string | null;
-  career: string | null;
+  intro: string | null;
+  profile: string | null;
+  curriculum: string | null;
+  musicGenres: string | null;
+  recommendedAlbums: string | null;
+  messageToStudents: string | null;
   isActive: boolean;
   order: number;
 }
@@ -74,9 +78,6 @@ function InstructorModal({
   }, [instructor]);
 
   if (!instructor) return null;
-
-  // 경력을 줄바꿈으로 분리
-  const careerLines = instructor.career?.split('\n').filter(line => line.trim()) || [];
 
   return (
     <div
@@ -191,40 +192,44 @@ function InstructorModal({
 
         {/* Content */}
         <div style={{ padding: '32px' }}>
-          {/* 약력 */}
-          {instructor.bio && (
+          {/* 자기소개 */}
+          {instructor.intro && (
             <div style={{ marginBottom: '28px', paddingBottom: '28px', borderBottom: '1px solid #eee' }}>
               <h4 style={{
-                fontSize: '13px',
+                fontSize: '14px',
                 fontWeight: 600,
-                color: '#999',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
+                color: '#ffc50a',
                 marginBottom: '12px',
+                backgroundColor: '#fffbeb',
+                padding: '8px 12px',
+                borderRadius: '6px',
+                display: 'inline-block',
               }}>
-                · 소개
+                · 자기소개
               </h4>
               <p style={{ fontSize: '15px', color: '#333', lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>
-                {instructor.bio}
+                {instructor.intro}
               </p>
             </div>
           )}
 
-          {/* 경력 */}
-          {careerLines.length > 0 && (
-            <div style={{ marginBottom: '28px' }}>
+          {/* 프로필 */}
+          {instructor.profile && (
+            <div style={{ marginBottom: '28px', paddingBottom: '28px', borderBottom: '1px solid #eee' }}>
               <h4 style={{
-                fontSize: '13px',
+                fontSize: '14px',
                 fontWeight: 600,
-                color: '#999',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
+                color: '#ffc50a',
                 marginBottom: '12px',
+                backgroundColor: '#fffbeb',
+                padding: '8px 12px',
+                borderRadius: '6px',
+                display: 'inline-block',
               }}>
-                · 경력
+                · 프로필
               </h4>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                {careerLines.map((line, index) => (
+                {instructor.profile.split('\n').filter(line => line.trim()).map((line, index) => (
                   <li key={index} style={{
                     fontSize: '14px',
                     color: '#555',
@@ -241,40 +246,128 @@ function InstructorModal({
             </div>
           )}
 
-          {/* 메시지 */}
-          <div style={{
-            padding: '24px',
-            backgroundColor: '#111',
-            borderRadius: '16px',
-            position: 'relative',
-            overflow: 'hidden',
-          }}>
+          {/* 커리큘럼 */}
+          {instructor.curriculum && (
+            <div style={{ marginBottom: '28px', paddingBottom: '28px', borderBottom: '1px solid #eee' }}>
+              <h4 style={{
+                fontSize: '14px',
+                fontWeight: 600,
+                color: '#ffc50a',
+                marginBottom: '12px',
+                backgroundColor: '#fffbeb',
+                padding: '8px 12px',
+                borderRadius: '6px',
+                display: 'inline-block',
+              }}>
+                · 커리큘럼
+              </h4>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {instructor.curriculum.split('\n').filter(line => line.trim()).map((line, index) => (
+                  <li key={index} style={{
+                    fontSize: '14px',
+                    color: '#555',
+                    lineHeight: 2,
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px',
+                  }}>
+                    <span style={{ color: '#ffc50a', marginTop: '2px' }}>•</span>
+                    {line.replace(/^[-•]\s*/, '')}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* 추구하는 음악장르 */}
+          {instructor.musicGenres && (
+            <div style={{ marginBottom: '28px', paddingBottom: '28px', borderBottom: '1px solid #eee' }}>
+              <h4 style={{
+                fontSize: '14px',
+                fontWeight: 600,
+                color: '#ffc50a',
+                marginBottom: '12px',
+                backgroundColor: '#fffbeb',
+                padding: '8px 12px',
+                borderRadius: '6px',
+                display: 'inline-block',
+              }}>
+                · 추구하는 음악장르
+              </h4>
+              <p style={{ fontSize: '15px', color: '#333', lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>
+                {instructor.musicGenres}
+              </p>
+            </div>
+          )}
+
+          {/* 추천음반리스트 */}
+          {instructor.recommendedAlbums && (
+            <div style={{ marginBottom: '28px', paddingBottom: '28px', borderBottom: '1px solid #eee' }}>
+              <h4 style={{
+                fontSize: '14px',
+                fontWeight: 600,
+                color: '#ffc50a',
+                marginBottom: '12px',
+                backgroundColor: '#fffbeb',
+                padding: '8px 12px',
+                borderRadius: '6px',
+                display: 'inline-block',
+              }}>
+                · 추천음반리스트
+              </h4>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {instructor.recommendedAlbums.split('\n').filter(line => line.trim()).map((line, index) => (
+                  <li key={index} style={{
+                    fontSize: '14px',
+                    color: '#555',
+                    lineHeight: 2,
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px',
+                  }}>
+                    <span style={{ color: '#ffc50a', marginTop: '2px' }}>•</span>
+                    {line.replace(/^[-•]\s*/, '')}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* 레슨생분들께 드리는 말씀 */}
+          {instructor.messageToStudents && (
             <div style={{
-              position: 'absolute',
-              left: 0,
-              top: 0,
-              bottom: 0,
-              width: '4px',
-              backgroundColor: '#ffc50a',
-            }} />
-            <p style={{
-              fontSize: '11px',
-              fontWeight: 600,
-              color: '#ffc50a',
-              textTransform: 'uppercase',
-              letterSpacing: '0.15em',
-              marginBottom: '12px',
+              padding: '24px',
+              backgroundColor: '#111',
+              borderRadius: '16px',
+              position: 'relative',
+              overflow: 'hidden',
             }}>
-              {instructor.subject.nameKo} 전공
-            </p>
-            <p style={{
-              fontSize: '16px',
-              color: '#fff',
-              lineHeight: 1.6,
-            }}>
-              {instructor.name} 강사와 함께 음악의 꿈을 키워보세요.
-            </p>
-          </div>
+              <div style={{
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                bottom: 0,
+                width: '4px',
+                backgroundColor: '#ffc50a',
+              }} />
+              <p style={{
+                fontSize: '14px',
+                fontWeight: 600,
+                color: '#ffc50a',
+                marginBottom: '12px',
+              }}>
+                · 레슨생분들께 드리는 말씀
+              </p>
+              <p style={{
+                fontSize: '15px',
+                color: '#fff',
+                lineHeight: 1.8,
+                whiteSpace: 'pre-wrap',
+              }}>
+                {instructor.messageToStudents}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

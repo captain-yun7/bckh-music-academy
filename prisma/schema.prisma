@@ -35,17 +35,23 @@ model Subject {
 
 // 강사
 model Instructor {
-  id          String   @id @default(cuid())
-  name        String
-  subjectId   String
-  subject     Subject  @relation(fields: [subjectId], references: [id])
-  image       String?  // 프로필 이미지 URL
-  bio         String?  // 약력
-  career      String?  // 경력 (텍스트)
-  isActive    Boolean  @default(true)
-  order       Int      @default(0)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                String   @id @default(cuid())
+  name              String
+  subjectId         String
+  subject           Subject  @relation(fields: [subjectId], references: [id])
+  image             String?  // 프로필 이미지 URL
+  bio               String?  // 기존 약력 (deprecated)
+  career            String?  // 기존 경력 (deprecated)
+  intro             String?  @db.Text // 자기소개
+  profile           String?  @db.Text // 프로필
+  curriculum        String?  @db.Text // 커리큘럼
+  musicGenres       String?  @db.Text // 추구하는 음악장르
+  recommendedAlbums String?  @db.Text // 추천음반리스트
+  messageToStudents String?  @db.Text // 레슨생분들께 드리는 말씀
+  isActive          Boolean  @default(true)
+  order             Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   @@index([subjectId])
 }
