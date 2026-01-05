@@ -22,6 +22,8 @@ interface Instructor {
   musicGenres: string | null;
   recommendedAlbums: string | null;
   messageToStudents: string | null;
+  videoUrl1: string | null;
+  videoUrl2: string | null;
   isActive: boolean;
   order: number;
 }
@@ -219,6 +221,8 @@ export default function InstructorsPage() {
     musicGenres: '',
     recommendedAlbums: '',
     messageToStudents: '',
+    videoUrl1: '',
+    videoUrl2: '',
     isActive: true,
     order: 0,
   });
@@ -253,6 +257,8 @@ export default function InstructorsPage() {
         musicGenres: instructor.musicGenres || '',
         recommendedAlbums: instructor.recommendedAlbums || '',
         messageToStudents: instructor.messageToStudents || '',
+        videoUrl1: instructor.videoUrl1 || '',
+        videoUrl2: instructor.videoUrl2 || '',
         isActive: instructor.isActive,
         order: instructor.order,
       });
@@ -268,6 +274,8 @@ export default function InstructorsPage() {
         musicGenres: '',
         recommendedAlbums: '',
         messageToStudents: '',
+        videoUrl1: '',
+        videoUrl2: '',
         isActive: true,
         order: 0,
       });
@@ -606,6 +614,46 @@ export default function InstructorsPage() {
                     borderRadius: '8px',
                     fontSize: '14px',
                     resize: 'vertical',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                  영상 URL 1 (YouTube)
+                </label>
+                <input
+                  type="text"
+                  value={formData.videoUrl1}
+                  onChange={(e) => setFormData({ ...formData, videoUrl1: e.target.value })}
+                  placeholder="https://www.youtube.com/watch?v=..."
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #ddd',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                  영상 URL 2 (YouTube)
+                </label>
+                <input
+                  type="text"
+                  value={formData.videoUrl2}
+                  onChange={(e) => setFormData({ ...formData, videoUrl2: e.target.value })}
+                  placeholder="https://www.youtube.com/watch?v=..."
+                  style={{
+                    width: '100%',
+                    padding: '12px',
+                    border: '1px solid #ddd',
+                    borderRadius: '8px',
+                    fontSize: '14px',
                     boxSizing: 'border-box',
                   }}
                 />

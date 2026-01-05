@@ -48,6 +48,8 @@ model Instructor {
   musicGenres       String?  @db.Text // 추구하는 음악장르
   recommendedAlbums String?  @db.Text // 추천음반리스트
   messageToStudents String?  @db.Text // 레슨생분들께 드리는 말씀
+  videoUrl1         String?  // 영상 URL 1 (YouTube)
+  videoUrl2         String?  // 영상 URL 2 (YouTube)
   isActive          Boolean  @default(true)
   order             Int      @default(0)
   createdAt         DateTime @default(now())

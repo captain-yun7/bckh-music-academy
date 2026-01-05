@@ -25,8 +25,23 @@ interface Instructor {
   musicGenres: string | null;
   recommendedAlbums: string | null;
   messageToStudents: string | null;
+  videoUrl1: string | null;
+  videoUrl2: string | null;
   isActive: boolean;
   order: number;
+}
+
+// YouTube URL에서 비디오 ID 추출
+function getYouTubeVideoId(url: string): string | null {
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
+    /youtube\.com\/shorts\/([^&\n?#]+)/,
+  ];
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match) return match[1];
+  }
+  return null;
 }
 
 // Subject slug 매핑
@@ -341,6 +356,7 @@ function InstructorModal({
               borderRadius: '16px',
               position: 'relative',
               overflow: 'hidden',
+              marginBottom: (instructor.videoUrl1 || instructor.videoUrl2) ? '28px' : 0,
             }}>
               <div style={{
                 position: 'absolute',
@@ -366,6 +382,66 @@ function InstructorModal({
               }}>
                 {instructor.messageToStudents}
               </p>
+            </div>
+          )}
+
+          {/* 영상 섹션 */}
+          {(instructor.videoUrl1 || instructor.videoUrl2) && (
+            <div>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: instructor.videoUrl1 && instructor.videoUrl2 ? '1fr 1fr' : '1fr',
+                gap: '16px',
+              }}>
+                {instructor.videoUrl1 && getYouTubeVideoId(instructor.videoUrl1) && (
+                  <div style={{
+                    position: 'relative',
+                    paddingBottom: '56.25%',
+                    height: 0,
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    backgroundColor: '#000',
+                  }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${getYouTubeVideoId(instructor.videoUrl1)}`}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        border: 'none',
+                      }}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                )}
+                {instructor.videoUrl2 && getYouTubeVideoId(instructor.videoUrl2) && (
+                  <div style={{
+                    position: 'relative',
+                    paddingBottom: '56.25%',
+                    height: 0,
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    backgroundColor: '#000',
+                  }}>
+                    <iframe
+                      src={`https://www.youtube.com/embed/${getYouTubeVideoId(instructor.videoUrl2)}`}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        border: 'none',
+                      }}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>
