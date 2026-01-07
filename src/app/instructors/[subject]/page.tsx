@@ -208,41 +208,39 @@ function InstructorModal({
         {/* Content */}
         <div style={{ padding: '32px' }}>
           {/* 자기소개 */}
-          {instructor.intro && (
-            <div style={{ marginBottom: '28px', paddingBottom: '28px', borderBottom: '1px solid #eee' }}>
-              <h4 style={{
-                fontSize: '14px',
-                fontWeight: 600,
-                color: '#ffc50a',
-                marginBottom: '12px',
-                backgroundColor: '#fffbeb',
-                padding: '8px 12px',
-                borderRadius: '6px',
-                display: 'inline-block',
-              }}>
-                · 자기소개
-              </h4>
-              <p style={{ fontSize: '15px', color: '#333', lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>
-                {instructor.intro}
-              </p>
-            </div>
-          )}
+          <div style={{ marginBottom: '28px', paddingBottom: '28px', borderBottom: '1px solid #eee' }}>
+            <h4 style={{
+              fontSize: '14px',
+              fontWeight: 600,
+              color: '#ffc50a',
+              marginBottom: '12px',
+              backgroundColor: '#fffbeb',
+              padding: '8px 12px',
+              borderRadius: '6px',
+              display: 'inline-block',
+            }}>
+              · 자기소개
+            </h4>
+            <p style={{ fontSize: '15px', color: instructor.intro ? '#333' : '#999', lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>
+              {instructor.intro || '등록된 자기소개가 없습니다.'}
+            </p>
+          </div>
 
           {/* 프로필 */}
-          {instructor.profile && (
-            <div style={{ marginBottom: '28px', paddingBottom: '28px', borderBottom: '1px solid #eee' }}>
-              <h4 style={{
-                fontSize: '14px',
-                fontWeight: 600,
-                color: '#ffc50a',
-                marginBottom: '12px',
-                backgroundColor: '#fffbeb',
-                padding: '8px 12px',
-                borderRadius: '6px',
-                display: 'inline-block',
-              }}>
-                · 프로필
-              </h4>
+          <div style={{ marginBottom: '28px', paddingBottom: '28px', borderBottom: '1px solid #eee' }}>
+            <h4 style={{
+              fontSize: '14px',
+              fontWeight: 600,
+              color: '#ffc50a',
+              marginBottom: '12px',
+              backgroundColor: '#fffbeb',
+              padding: '8px 12px',
+              borderRadius: '6px',
+              display: 'inline-block',
+            }}>
+              · 프로필
+            </h4>
+            {instructor.profile ? (
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {instructor.profile.split('\n').filter(line => line.trim()).map((line, index) => (
                   <li key={index} style={{
@@ -258,24 +256,26 @@ function InstructorModal({
                   </li>
                 ))}
               </ul>
-            </div>
-          )}
+            ) : (
+              <p style={{ fontSize: '15px', color: '#999', lineHeight: 1.8 }}>등록된 프로필이 없습니다.</p>
+            )}
+          </div>
 
           {/* 커리큘럼 */}
-          {instructor.curriculum && (
-            <div style={{ marginBottom: '28px', paddingBottom: '28px', borderBottom: '1px solid #eee' }}>
-              <h4 style={{
-                fontSize: '14px',
-                fontWeight: 600,
-                color: '#ffc50a',
-                marginBottom: '12px',
-                backgroundColor: '#fffbeb',
-                padding: '8px 12px',
-                borderRadius: '6px',
-                display: 'inline-block',
-              }}>
-                · 커리큘럼
-              </h4>
+          <div style={{ marginBottom: '28px', paddingBottom: '28px', borderBottom: '1px solid #eee' }}>
+            <h4 style={{
+              fontSize: '14px',
+              fontWeight: 600,
+              color: '#ffc50a',
+              marginBottom: '12px',
+              backgroundColor: '#fffbeb',
+              padding: '8px 12px',
+              borderRadius: '6px',
+              display: 'inline-block',
+            }}>
+              · 커리큘럼
+            </h4>
+            {instructor.curriculum ? (
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {instructor.curriculum.split('\n').filter(line => line.trim()).map((line, index) => (
                   <li key={index} style={{
@@ -291,45 +291,45 @@ function InstructorModal({
                   </li>
                 ))}
               </ul>
-            </div>
-          )}
+            ) : (
+              <p style={{ fontSize: '15px', color: '#999', lineHeight: 1.8 }}>등록된 커리큘럼이 없습니다.</p>
+            )}
+          </div>
 
           {/* 추구하는 음악장르 */}
-          {instructor.musicGenres && (
-            <div style={{ marginBottom: '28px', paddingBottom: '28px', borderBottom: '1px solid #eee' }}>
-              <h4 style={{
-                fontSize: '14px',
-                fontWeight: 600,
-                color: '#ffc50a',
-                marginBottom: '12px',
-                backgroundColor: '#fffbeb',
-                padding: '8px 12px',
-                borderRadius: '6px',
-                display: 'inline-block',
-              }}>
-                · 추구하는 음악장르
-              </h4>
-              <p style={{ fontSize: '15px', color: '#333', lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>
-                {instructor.musicGenres}
-              </p>
-            </div>
-          )}
+          <div style={{ marginBottom: '28px', paddingBottom: '28px', borderBottom: '1px solid #eee' }}>
+            <h4 style={{
+              fontSize: '14px',
+              fontWeight: 600,
+              color: '#ffc50a',
+              marginBottom: '12px',
+              backgroundColor: '#fffbeb',
+              padding: '8px 12px',
+              borderRadius: '6px',
+              display: 'inline-block',
+            }}>
+              · 추구하는 음악장르
+            </h4>
+            <p style={{ fontSize: '15px', color: instructor.musicGenres ? '#333' : '#999', lineHeight: 1.8, whiteSpace: 'pre-wrap' }}>
+              {instructor.musicGenres || '등록된 음악장르가 없습니다.'}
+            </p>
+          </div>
 
           {/* 추천음반리스트 */}
-          {instructor.recommendedAlbums && (
-            <div style={{ marginBottom: '28px', paddingBottom: '28px', borderBottom: '1px solid #eee' }}>
-              <h4 style={{
-                fontSize: '14px',
-                fontWeight: 600,
-                color: '#ffc50a',
-                marginBottom: '12px',
-                backgroundColor: '#fffbeb',
-                padding: '8px 12px',
-                borderRadius: '6px',
-                display: 'inline-block',
-              }}>
-                · 추천음반리스트
-              </h4>
+          <div style={{ marginBottom: '28px', paddingBottom: '28px', borderBottom: '1px solid #eee' }}>
+            <h4 style={{
+              fontSize: '14px',
+              fontWeight: 600,
+              color: '#ffc50a',
+              marginBottom: '12px',
+              backgroundColor: '#fffbeb',
+              padding: '8px 12px',
+              borderRadius: '6px',
+              display: 'inline-block',
+            }}>
+              · 추천음반리스트
+            </h4>
+            {instructor.recommendedAlbums ? (
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 {instructor.recommendedAlbums.split('\n').filter(line => line.trim()).map((line, index) => (
                   <li key={index} style={{
@@ -345,45 +345,45 @@ function InstructorModal({
                   </li>
                 ))}
               </ul>
-            </div>
-          )}
+            ) : (
+              <p style={{ fontSize: '15px', color: '#999', lineHeight: 1.8 }}>등록된 추천음반이 없습니다.</p>
+            )}
+          </div>
 
           {/* 레슨생분들께 드리는 말씀 */}
-          {instructor.messageToStudents && (
+          <div style={{
+            padding: '24px',
+            backgroundColor: '#111',
+            borderRadius: '16px',
+            position: 'relative',
+            overflow: 'hidden',
+            marginBottom: (instructor.videoUrl1 || instructor.videoUrl2) ? '28px' : 0,
+          }}>
             <div style={{
-              padding: '24px',
-              backgroundColor: '#111',
-              borderRadius: '16px',
-              position: 'relative',
-              overflow: 'hidden',
-              marginBottom: (instructor.videoUrl1 || instructor.videoUrl2) ? '28px' : 0,
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              bottom: 0,
+              width: '4px',
+              backgroundColor: '#ffc50a',
+            }} />
+            <p style={{
+              fontSize: '14px',
+              fontWeight: 600,
+              color: '#ffc50a',
+              marginBottom: '12px',
             }}>
-              <div style={{
-                position: 'absolute',
-                left: 0,
-                top: 0,
-                bottom: 0,
-                width: '4px',
-                backgroundColor: '#ffc50a',
-              }} />
-              <p style={{
-                fontSize: '14px',
-                fontWeight: 600,
-                color: '#ffc50a',
-                marginBottom: '12px',
-              }}>
-                · 레슨생분들께 드리는 말씀
-              </p>
-              <p style={{
-                fontSize: '15px',
-                color: '#fff',
-                lineHeight: 1.8,
-                whiteSpace: 'pre-wrap',
-              }}>
-                {instructor.messageToStudents}
-              </p>
-            </div>
-          )}
+              · 레슨생분들께 드리는 말씀
+            </p>
+            <p style={{
+              fontSize: '15px',
+              color: instructor.messageToStudents ? '#fff' : '#666',
+              lineHeight: 1.8,
+              whiteSpace: 'pre-wrap',
+            }}>
+              {instructor.messageToStudents || '등록된 메시지가 없습니다.'}
+            </p>
+          </div>
 
           {/* 영상 섹션 */}
           {(instructor.videoUrl1 || instructor.videoUrl2) && (
