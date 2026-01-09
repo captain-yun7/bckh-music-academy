@@ -8,6 +8,7 @@ const menuItems = [
   { name: '대시보드', href: '/admin' },
   { name: '히어로 슬라이드', href: '/admin/hero-slides' },
   { name: '강사 관리', href: '/admin/instructors' },
+  { name: '커리큘럼 관리', href: '/admin/curriculum' },
   { name: '공지사항', href: '/admin/notices' },
   { name: '합격자 명단', href: '/admin/admissions' },
   { name: '배출 뮤지션', href: '/admin/musicians' },

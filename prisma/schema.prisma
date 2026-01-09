@@ -249,3 +249,40 @@ model SiteSetting {
   description String?
   updatedAt   DateTime @updatedAt
 }
+
+// ==================== 커리큘럼 관리 ====================
+
+// 커리큘럼 반 (입시반, 오디션반, 전문반, 취미반)
+model CurriculumClass {
+  id          String   @id @default(cuid())
+  slug        String   @unique // admission, audition, professional, hobby
+  title       String   // 입시반, 오디션반, 전문반, 취미반
+  subtitle    String?  // 부제목
+  intro       String?  @db.Text // 소개 텍스트
+  bgImage     String?  // 배경 이미지 URL
+  benefits    String?  @db.Text // 혜택 (JSON array)
+  universities String? @db.Text // 대학교 목록 (JSON array) - 입시반용
+  agencies    String?  @db.Text // 기획사 목록 (JSON array) - 오디션반용
+  order       Int      @default(0)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  majors      CurriculumMajor[]
+}
+
+// 커리큘럼 전공 (보컬, 작곡, 미디, 피아노 등)
+model CurriculumMajor {
+  id          String   @id @default(cuid())
+  classId     String
+  class       CurriculumClass @relation(fields: [classId], references: [id], onDelete: Cascade)
+  name        String   // 보컬, 작곡, 미디 등
+  icon        String?  // 아이콘 URL
+  description String?  @db.Text // 설명
+  curriculum  String?  @db.Text // 커리큘럼 트리 (JSON)
+  order       Int      @default(0)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([classId])
+}
