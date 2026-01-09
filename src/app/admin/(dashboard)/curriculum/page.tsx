@@ -121,6 +121,8 @@ const availableIcons = [
 
 interface CurriculumItem {
   title: string;
+  image?: string;
+  description?: string;
   items?: string[];
   children?: CurriculumItem[];
 }
@@ -397,190 +399,106 @@ export default function CurriculumAdminPage() {
   };
 
   // Curriculum tree editor functions
-  const addCurriculumNode = (parentPath: number[] = []) => {
-    const newNode: CurriculumItem = { title: '새 항목' };
-    const newData = JSON.parse(JSON.stringify(curriculumData));
+  const addCurriculumNode = () => {
+    const newNode: CurriculumItem = { title: '새 항목', image: '', description: '' };
+    setCurriculumData([...curriculumData, newNode]);
+  };
 
-    if (parentPath.length === 0) {
-      newData.push(newNode);
-    } else {
-      let current = newData;
-      for (let i = 0; i < parentPath.length - 1; i++) {
-        current = current[parentPath[i]].children || [];
-      }
-      const target = current[parentPath[parentPath.length - 1]];
-      if (!target.children) target.children = [];
-      target.children.push(newNode);
-    }
-
+  const updateCurriculumNode = (index: number, field: string, value: string) => {
+    const newData = [...curriculumData];
+    newData[index] = { ...newData[index], [field]: value };
     setCurriculumData(newData);
   };
 
-  const updateCurriculumNode = (path: number[], field: string, value: string | string[]) => {
-    const newData = JSON.parse(JSON.stringify(curriculumData));
-    let current = newData;
-
-    for (let i = 0; i < path.length - 1; i++) {
-      current = current[path[i]].children;
-    }
-
-    current[path[path.length - 1]][field] = value;
-    setCurriculumData(newData);
+  const deleteCurriculumNode = (index: number) => {
+    setCurriculumData(curriculumData.filter((_, i) => i !== index));
   };
 
-  const deleteCurriculumNode = (path: number[]) => {
-    const newData = JSON.parse(JSON.stringify(curriculumData));
+  // Curriculum card editor
+  const renderCurriculumEditor = () => {
+    return (
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gap: '16px',
+      }}>
+        {curriculumData.map((item, index) => (
+          <div
+            key={index}
+            style={{
+              backgroundColor: '#fff',
+              border: '1px solid #e5e7eb',
+              borderRadius: '12px',
+              overflow: 'hidden',
+            }}
+          >
+            {/* 이미지 업로드 영역 */}
+            <div style={{ padding: '12px', borderBottom: '1px solid #eee' }}>
+              <div style={{ height: '120px' }}>
+                <ImageUpload
+                  value={item.image || ''}
+                  onChange={(url) => updateCurriculumNode(index, 'image', url)}
+                  folder="curriculum"
+                  aspectRatio="16/10"
+                  placeholder="카드 이미지"
+                />
+              </div>
+            </div>
 
-    if (path.length === 1) {
-      newData.splice(path[0], 1);
-    } else {
-      let current = newData;
-      for (let i = 0; i < path.length - 2; i++) {
-        current = current[path[i]].children;
-      }
-      current[path[path.length - 2]].children.splice(path[path.length - 1], 1);
-    }
-
-    setCurriculumData(newData);
-  };
-
-  // Curriculum tree renderer for editor
-  const renderCurriculumEditor = (items: CurriculumItem[], path: number[] = []) => {
-    return items.map((item, index) => {
-      const currentPath = [...path, index];
-      const hasChildren = item.children && item.children.length > 0;
-      const hasItems = item.items && item.items.length > 0;
-
-      return (
-        <div key={index} style={{ marginLeft: path.length * 20, marginBottom: '8px' }}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '8px 12px',
-            backgroundColor: path.length === 0 ? '#f0f9ff' : '#fff',
-            border: '1px solid #e5e7eb',
-            borderRadius: '6px',
-          }}>
-            <input
-              type="text"
-              value={item.title}
-              onChange={(e) => updateCurriculumNode(currentPath, 'title', e.target.value)}
-              style={{
-                flex: 1,
-                padding: '6px 10px',
-                border: '1px solid #ddd',
-                borderRadius: '4px',
-                fontSize: '14px',
-              }}
-            />
-            <button
-              type="button"
-              onClick={() => addCurriculumNode(currentPath)}
-              style={{
-                padding: '4px 8px',
-                backgroundColor: '#3b82f6',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '4px',
-                fontSize: '12px',
-                cursor: 'pointer',
-              }}
-              title="하위 항목 추가"
-            >
-              +하위
-            </button>
-            <button
-              type="button"
-              onClick={() => deleteCurriculumNode(currentPath)}
-              style={{
-                padding: '4px 8px',
-                backgroundColor: '#ef4444',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '4px',
-                fontSize: '12px',
-                cursor: 'pointer',
-              }}
-            >
-              삭제
-            </button>
-          </div>
-
-          {/* Items (leaf tags) */}
-          <div style={{ marginLeft: '20px', marginTop: '4px' }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', alignItems: 'center' }}>
-              {(item.items || []).map((tag, tagIndex) => (
-                <span
-                  key={tagIndex}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '4px',
-                    padding: '4px 8px',
-                    backgroundColor: '#fef3c7',
-                    borderRadius: '12px',
-                    fontSize: '12px',
-                  }}
-                >
-                  <input
-                    type="text"
-                    value={tag}
-                    onChange={(e) => {
-                      const newItems = [...(item.items || [])];
-                      newItems[tagIndex] = e.target.value;
-                      updateCurriculumNode(currentPath, 'items', newItems);
-                    }}
-                    style={{
-                      border: 'none',
-                      background: 'transparent',
-                      fontSize: '12px',
-                      width: Math.max(60, tag.length * 10),
-                    }}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const newItems = (item.items || []).filter((_, i) => i !== tagIndex);
-                      updateCurriculumNode(currentPath, 'items', newItems);
-                    }}
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      color: '#d97706',
-                      cursor: 'pointer',
-                      fontSize: '12px',
-                    }}
-                  >
-                    ×
-                  </button>
-                </span>
-              ))}
+            {/* 제목 및 설명 */}
+            <div style={{ padding: '12px' }}>
+              <input
+                type="text"
+                value={item.title}
+                onChange={(e) => updateCurriculumNode(index, 'title', e.target.value)}
+                placeholder="제목"
+                style={{
+                  width: '100%',
+                  padding: '8px 10px',
+                  border: '1px solid #ddd',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  marginBottom: '8px',
+                  boxSizing: 'border-box',
+                }}
+              />
+              <textarea
+                value={item.description || ''}
+                onChange={(e) => updateCurriculumNode(index, 'description', e.target.value)}
+                placeholder="설명을 입력하세요"
+                rows={3}
+                style={{
+                  width: '100%',
+                  padding: '8px 10px',
+                  border: '1px solid #ddd',
+                  borderRadius: '6px',
+                  fontSize: '13px',
+                  resize: 'none',
+                  boxSizing: 'border-box',
+                }}
+              />
               <button
                 type="button"
-                onClick={() => {
-                  const newItems = [...(item.items || []), '새 태그'];
-                  updateCurriculumNode(currentPath, 'items', newItems);
-                }}
+                onClick={() => deleteCurriculumNode(index)}
                 style={{
-                  padding: '4px 8px',
-                  backgroundColor: '#f59e0b',
-                  color: '#fff',
+                  marginTop: '8px',
+                  padding: '6px 12px',
+                  backgroundColor: '#fef2f2',
+                  color: '#dc2626',
                   border: 'none',
-                  borderRadius: '12px',
-                  fontSize: '11px',
+                  borderRadius: '6px',
+                  fontSize: '12px',
                   cursor: 'pointer',
                 }}
               >
-                +태그
+                삭제
               </button>
             </div>
           </div>
-
-          {hasChildren && renderCurriculumEditor(item.children!, currentPath)}
-        </div>
-      );
-    });
+        ))}
+      </div>
+    );
   };
 
   // Initialize default classes if none exist
@@ -1436,7 +1354,7 @@ export default function CurriculumAdminPage() {
               커리큘럼 편집 - {selectedClass?.title} / {selectedMajor.name}
             </h2>
             <p style={{ fontSize: '13px', color: '#666', marginBottom: '24px' }}>
-              트리 구조로 커리큘럼을 편집합니다. 하위 항목을 추가하거나 태그를 추가할 수 있습니다.
+              카드형 커리큘럼을 편집합니다. 각 카드에 이미지, 제목, 설명을 입력하세요.
             </p>
 
             <div style={{ marginBottom: '16px' }}>
@@ -1453,7 +1371,7 @@ export default function CurriculumAdminPage() {
                   cursor: 'pointer',
                 }}
               >
-                + 최상위 항목 추가
+                + 카드 추가
               </button>
             </div>
 
@@ -1462,16 +1380,16 @@ export default function CurriculumAdminPage() {
               borderRadius: '8px',
               padding: '16px',
               minHeight: '200px',
-              maxHeight: '400px',
+              maxHeight: '500px',
               overflow: 'auto',
               backgroundColor: '#f9fafb',
             }}>
               {curriculumData.length === 0 ? (
                 <p style={{ color: '#999', textAlign: 'center', padding: '40px' }}>
-                  커리큘럼 항목이 없습니다. 위 버튼을 클릭하여 추가하세요.
+                  커리큘럼 카드가 없습니다. 위 버튼을 클릭하여 추가하세요.
                 </p>
               ) : (
-                renderCurriculumEditor(curriculumData)
+                renderCurriculumEditor()
               )}
             </div>
 

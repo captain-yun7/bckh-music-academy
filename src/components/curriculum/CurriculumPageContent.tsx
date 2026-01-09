@@ -164,6 +164,8 @@ const MajorIcon = ({ icon, name, size = 20 }: { icon: string | null; name: strin
 
 interface CurriculumItem {
   title: string;
+  image?: string;
+  description?: string;
   items?: string[];
   children?: CurriculumItem[];
 }
@@ -194,89 +196,69 @@ interface CurriculumClassData {
   majors: CurriculumMajor[];
 }
 
-function TreeNode({ item, depth = 0 }: { item: CurriculumItem; depth?: number }) {
-  const [isOpen, setIsOpen] = useState(depth < 2);
-  const hasChildren = item.children && item.children.length > 0;
-  const hasItems = item.items && item.items.length > 0;
-
+// 커리큘럼 카드 컴포넌트
+function CurriculumCard({ item }: { item: CurriculumItem }) {
   return (
-    <div style={{ marginLeft: depth > 0 ? '24px' : '0' }}>
-      <div
-        onClick={() => hasChildren && setIsOpen(!isOpen)}
-        style={{
+    <div style={{
+      backgroundColor: '#fff',
+      borderRadius: '12px',
+      overflow: 'hidden',
+      boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+    }}>
+      {/* 이미지 영역 */}
+      <div style={{
+        position: 'relative',
+        aspectRatio: '16/10',
+        backgroundColor: '#333',
+        overflow: 'hidden',
+      }}>
+        {item.image ? (
+          <Image
+            src={item.image}
+            alt={item.title}
+            fill
+            style={{ objectFit: 'cover' }}
+          />
+        ) : (
+          <div style={{
+            width: '100%',
+            height: '100%',
+            background: 'linear-gradient(135deg, #667 0%, #444 100%)',
+          }} />
+        )}
+        {/* 제목 오버레이 */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(transparent 40%, rgba(0,0,0,0.7) 100%)',
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
-          padding: '12px 16px',
-          backgroundColor: depth === 0 ? '#f8f9fa' : depth === 1 ? '#fff' : 'transparent',
-          borderRadius: '8px',
-          marginBottom: '4px',
-          cursor: hasChildren ? 'pointer' : 'default',
-          borderLeft: depth > 0 ? '2px solid #e5e7eb' : 'none',
-          transition: 'background-color 0.2s',
-        }}
-      >
-        {hasChildren && (
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#666"
-            strokeWidth="2"
-            style={{
-              transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)',
-              transition: 'transform 0.2s',
-              flexShrink: 0,
-            }}
-          >
-            <path d="M9 18l6-6-6-6" />
-          </svg>
-        )}
-        {!hasChildren && hasItems && (
-          <span style={{ width: '16px', height: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f59e0b', flexShrink: 0 }}>
-            ●
-          </span>
-        )}
-        <span style={{
-          fontSize: depth === 0 ? '16px' : '15px',
-          fontWeight: depth === 0 ? 700 : depth === 1 ? 600 : 500,
-          color: depth === 0 ? '#111' : depth === 1 ? '#333' : '#555',
+          justifyContent: 'center',
         }}>
-          {item.title}
-        </span>
+          <h4 style={{
+            fontSize: '18px',
+            fontWeight: 700,
+            color: '#fff',
+            textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+          }}>
+            {item.title}
+          </h4>
+        </div>
       </div>
 
-      {isOpen && hasChildren && (
-        <div>
-          {item.children!.map((child, i) => (
-            <TreeNode key={i} item={child} depth={depth + 1} />
-          ))}
-        </div>
-      )}
-
-      {hasItems && (
+      {/* 설명 영역 */}
+      {item.description && (
         <div style={{
-          marginLeft: '40px',
-          marginBottom: '8px',
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '8px',
+          padding: '16px',
+          textAlign: 'center',
         }}>
-          {item.items!.map((text, i) => (
-            <span
-              key={i}
-              style={{
-                padding: '6px 12px',
-                backgroundColor: '#fef3c7',
-                color: '#d97706',
-                borderRadius: '16px',
-                fontSize: '13px',
-              }}
-            >
-              {text}
-            </span>
-          ))}
+          <p style={{
+            fontSize: '14px',
+            color: '#666',
+            lineHeight: 1.6,
+          }}>
+            {item.description}
+          </p>
         </div>
       )}
     </div>
@@ -486,17 +468,21 @@ export default function CurriculumPageContent({ slug, fallbackTitle, fallbackSub
                   </div>
                 </div>
 
-                <div>
-                  {currentMajor.curriculum && currentMajor.curriculum.length > 0 ? (
-                    currentMajor.curriculum.map((item, i) => (
-                      <TreeNode key={i} item={item} depth={0} />
-                    ))
-                  ) : (
-                    <p style={{ color: '#999', textAlign: 'center', padding: '40px' }}>
-                      커리큘럼 정보가 아직 등록되지 않았습니다.
-                    </p>
-                  )}
-                </div>
+                {currentMajor.curriculum && currentMajor.curriculum.length > 0 ? (
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, 1fr)',
+                    gap: '24px',
+                  }}>
+                    {currentMajor.curriculum.map((item, i) => (
+                      <CurriculumCard key={i} item={item} />
+                    ))}
+                  </div>
+                ) : (
+                  <p style={{ color: '#999', textAlign: 'center', padding: '40px' }}>
+                    커리큘럼 정보가 아직 등록되지 않았습니다.
+                  </p>
+                )}
               </div>
             )}
           </div>
