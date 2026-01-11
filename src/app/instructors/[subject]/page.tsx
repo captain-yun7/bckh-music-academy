@@ -13,11 +13,16 @@ interface Subject {
   order: number;
 }
 
+interface InstructorSubject {
+  id: string;
+  subjectId: string;
+  subject: Subject;
+}
+
 interface Instructor {
   id: string;
   name: string;
-  subjectId: string;
-  subject: Subject;
+  subjects: InstructorSubject[];
   image: string | null;
   intro: string | null;
   profile: string | null;
@@ -187,18 +192,24 @@ function InstructorModal({
             )}
           </div>
           <div>
-            <span style={{
-              display: 'inline-block',
-              backgroundColor: '#ffc50a',
-              color: '#000',
-              padding: '4px 12px',
-              borderRadius: '100px',
-              fontSize: '12px',
-              fontWeight: 600,
-              marginBottom: '8px',
-            }}>
-              {subjectTitle} 전공
-            </span>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '8px' }}>
+              {instructor.subjects.map((s) => (
+                <span
+                  key={s.id}
+                  style={{
+                    display: 'inline-block',
+                    backgroundColor: '#ffc50a',
+                    color: '#000',
+                    padding: '4px 12px',
+                    borderRadius: '100px',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                  }}
+                >
+                  {s.subject.nameKo}
+                </span>
+              ))}
+            </div>
             <h3 style={{ fontSize: '28px', fontWeight: 700, color: '#000', marginBottom: '4px' }}>
               {instructor.name}
             </h3>
@@ -608,7 +619,7 @@ export default function InstructorSubjectPage() {
                       color: '#3b82f6',
                       fontWeight: 500,
                     }}>
-                      {subjectInfo.title} 전공
+                      {instructor.subjects.map(s => s.subject.nameKo).join(', ')}
                     </p>
                     <p style={{
                       fontSize: '13px',

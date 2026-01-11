@@ -28,7 +28,7 @@ model Subject {
   name        String       @unique  // Vocal, Piano, Guitar 등
   nameKo      String       // 보컬, 피아노, 기타 등
   order       Int          @default(0)
-  instructors Instructor[]
+  instructors InstructorSubject[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 }
@@ -37,11 +37,7 @@ model Subject {
 model Instructor {
   id                String   @id @default(cuid())
   name              String
-  subjectId         String
-  subject           Subject  @relation(fields: [subjectId], references: [id])
   image             String?  // 프로필 이미지 URL
-  bio               String?  // 기존 약력 (deprecated)
-  career            String?  // 기존 경력 (deprecated)
   intro             String?  @db.Text // 자기소개
   profile           String?  @db.Text // 프로필
   curriculum        String?  @db.Text // 커리큘럼
@@ -54,7 +50,21 @@ model Instructor {
   order             Int      @default(0)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
+  subjects          InstructorSubject[]
+}
 
+// 강사-전공 다대다 관계 (중간 테이블)
+model InstructorSubject {
+  id           String     @id @default(cuid())
+  instructorId String
+  subjectId    String
+  instructor   Instructor @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+  subject      Subject    @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  order        Int        @default(0) // 해당 전공 내 순서
+  createdAt    DateTime   @default(now())
+
+  @@unique([instructorId, subjectId])
+  @@index([instructorId])
   @@index([subjectId])
 }
 

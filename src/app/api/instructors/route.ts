@@ -7,18 +7,20 @@ export async function GET(request: NextRequest) {
 
   const where = {
     isActive: true,
-    ...(subjectSlug ? { subject: { name: subjectSlug } } : {}),
+    ...(subjectSlug ? { subjects: { some: { subject: { name: subjectSlug } } } } : {}),
   };
 
   const instructors = await prisma.instructor.findMany({
     where,
     include: {
-      subject: true,
+      subjects: {
+        include: {
+          subject: true,
+        },
+        orderBy: { subject: { order: 'asc' } },
+      },
     },
-    orderBy: [
-      { subject: { order: 'asc' } },
-      { order: 'asc' },
-    ],
+    orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
   });
 
   return NextResponse.json(instructors);

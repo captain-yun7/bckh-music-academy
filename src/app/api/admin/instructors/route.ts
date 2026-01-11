@@ -6,13 +6,20 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const subjectId = searchParams.get('subjectId');
 
-  const where = subjectId ? { subjectId } : {};
+  const where = subjectId
+    ? { subjects: { some: { subjectId } } }
+    : {};
 
   const instructors = await prisma.instructor.findMany({
     where,
-    orderBy: [{ subject: { order: 'asc' } }, { order: 'asc' }],
+    orderBy: [{ order: 'asc' }, { createdAt: 'desc' }],
     include: {
-      subject: true,
+      subjects: {
+        include: {
+          subject: true,
+        },
+        orderBy: { subject: { order: 'asc' } },
+      },
     },
   });
 
@@ -26,19 +33,35 @@ export async function POST(request: NextRequest) {
   }
 
   const data = await request.json();
+  const subjectIds: string[] = data.subjectIds || [];
 
   const instructor = await prisma.instructor.create({
     data: {
       name: data.name,
-      subjectId: data.subjectId,
       image: data.image,
-      bio: data.bio,
-      career: data.career,
+      intro: data.intro,
+      profile: data.profile,
+      curriculum: data.curriculum,
+      musicGenres: data.musicGenres,
+      recommendedAlbums: data.recommendedAlbums,
+      messageToStudents: data.messageToStudents,
+      videoUrl1: data.videoUrl1,
+      videoUrl2: data.videoUrl2,
       isActive: data.isActive ?? true,
       order: data.order || 0,
+      subjects: {
+        create: subjectIds.map((subjectId, index) => ({
+          subjectId,
+          order: index,
+        })),
+      },
     },
     include: {
-      subject: true,
+      subjects: {
+        include: {
+          subject: true,
+        },
+      },
     },
   });
 

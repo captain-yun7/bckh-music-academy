@@ -10,7 +10,14 @@ export async function GET(
 
   const instructor = await prisma.instructor.findUnique({
     where: { id },
-    include: { subject: true },
+    include: {
+      subjects: {
+        include: {
+          subject: true,
+        },
+        orderBy: { subject: { order: 'asc' } },
+      },
+    },
   });
 
   if (!instructor) {
@@ -31,19 +38,42 @@ export async function PATCH(
 
   const { id } = await params;
   const data = await request.json();
+  const subjectIds: string[] = data.subjectIds || [];
+
+  // 기존 전공 관계 삭제 후 새로 생성
+  await prisma.instructorSubject.deleteMany({
+    where: { instructorId: id },
+  });
 
   const instructor = await prisma.instructor.update({
     where: { id },
     data: {
       name: data.name,
-      subjectId: data.subjectId,
       image: data.image,
-      bio: data.bio,
-      career: data.career,
+      intro: data.intro,
+      profile: data.profile,
+      curriculum: data.curriculum,
+      musicGenres: data.musicGenres,
+      recommendedAlbums: data.recommendedAlbums,
+      messageToStudents: data.messageToStudents,
+      videoUrl1: data.videoUrl1,
+      videoUrl2: data.videoUrl2,
       isActive: data.isActive,
       order: data.order,
+      subjects: {
+        create: subjectIds.map((subjectId, index) => ({
+          subjectId,
+          order: index,
+        })),
+      },
     },
-    include: { subject: true },
+    include: {
+      subjects: {
+        include: {
+          subject: true,
+        },
+      },
+    },
   });
 
   return NextResponse.json(instructor);

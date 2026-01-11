@@ -8,13 +8,19 @@ interface Subject {
   id: string;
   name: string;
   nameKo: string;
+  order: number;
+}
+
+interface InstructorSubject {
+  id: string;
+  subjectId: string;
+  subject: Subject;
 }
 
 interface Instructor {
   id: string;
   name: string;
-  subjectId: string;
-  subject: Subject;
+  subjects: InstructorSubject[];
   image: string | null;
   intro: string | null;
   profile: string | null;
@@ -104,7 +110,13 @@ function DraggableGrid({
             border: dragOverIndex === index ? '2px solid #3b82f6' : '2px solid transparent',
           }}
         >
-          <div style={{ position: 'relative', aspectRatio: '3/4', backgroundColor: '#f5f5f5' }}>
+          <div
+            style={{ position: 'relative', aspectRatio: '3/4', backgroundColor: '#f5f5f5', cursor: 'pointer' }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit(instructor);
+            }}
+          >
             {instructor.image ? (
               <Image
                 src={instructor.image}
@@ -213,7 +225,7 @@ export default function InstructorsPage() {
   const [editingInstructor, setEditingInstructor] = useState<Instructor | null>(null);
   const [formData, setFormData] = useState({
     name: '',
-    subjectId: '',
+    subjectIds: [] as string[],
     image: '',
     intro: '',
     profile: '',
@@ -249,7 +261,7 @@ export default function InstructorsPage() {
       setEditingInstructor(instructor);
       setFormData({
         name: instructor.name,
-        subjectId: instructor.subjectId,
+        subjectIds: instructor.subjects.map(s => s.subjectId),
         image: instructor.image || '',
         intro: instructor.intro || '',
         profile: instructor.profile || '',
@@ -266,7 +278,7 @@ export default function InstructorsPage() {
       setEditingInstructor(null);
       setFormData({
         name: '',
-        subjectId: subjects[0]?.id || '',
+        subjectIds: [],
         image: '',
         intro: '',
         profile: '',
@@ -332,12 +344,14 @@ export default function InstructorsPage() {
     });
   };
 
-  const groupedInstructors = instructors.reduce((acc, instructor) => {
-    const subjectName = instructor.subject.nameKo;
-    if (!acc[subjectName]) {
-      acc[subjectName] = [];
+  // 강사를 전공별로 그룹화 (한 강사가 여러 전공에 나타날 수 있음)
+  const groupedInstructors = subjects.reduce((acc, subject) => {
+    const subjectInstructors = instructors.filter(instructor =>
+      instructor.subjects.some(s => s.subjectId === subject.id)
+    );
+    if (subjectInstructors.length > 0) {
+      acc[subject.nameKo] = subjectInstructors;
     }
-    acc[subjectName].push(instructor);
     return acc;
   }, {} as Record<string, Instructor[]>);
 
@@ -412,28 +426,77 @@ export default function InstructorsPage() {
 
       {/* Modal */}
       {isModalOpen && (
-        <div style={{
-          position: 'fixed',
-          inset: 0,
-          backgroundColor: 'rgba(0,0,0,0.5)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000,
-        }}>
-          <div style={{
-            backgroundColor: '#fff',
-            borderRadius: '16px',
-            padding: '32px',
-            width: '100%',
-            maxWidth: '500px',
-            maxHeight: '90vh',
-            overflow: 'auto',
-          }}>
-            <h2 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '24px' }}>
-              {editingInstructor ? '강사 수정' : '강사 추가'}
-            </h2>
-            <form onSubmit={handleSubmit}>
+        <div
+          onClick={closeModal}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0,0,0,0.6)',
+            backdropFilter: 'blur(4px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 1000,
+            padding: '20px',
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: '#fff',
+              borderRadius: '20px',
+              width: '100%',
+              maxWidth: '520px',
+              maxHeight: '90vh',
+              display: 'flex',
+              flexDirection: 'column',
+              boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)',
+              overflow: 'hidden',
+            }}
+          >
+            {/* 헤더 (고정) */}
+            <div style={{
+              padding: '24px 32px',
+              borderBottom: '1px solid #eee',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexShrink: 0,
+            }}>
+              <h2 style={{ fontSize: '20px', fontWeight: 700, margin: 0 }}>
+                {editingInstructor ? '강사 수정' : '강사 추가'}
+              </h2>
+              <button
+                type="button"
+                onClick={closeModal}
+                style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  backgroundColor: '#f5f5f5',
+                  border: 'none',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'background-color 0.2s',
+                }}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#e5e5e5'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#f5f5f5'}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* 스크롤 가능한 콘텐츠 영역 */}
+            <div style={{
+              flex: 1,
+              overflowY: 'auto',
+              padding: '24px 32px',
+            }}>
+            <form id="instructor-form" onSubmit={handleSubmit}>
               <div style={{ marginBottom: '16px' }}>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
                   이름 *
@@ -456,28 +519,58 @@ export default function InstructorsPage() {
 
               <div style={{ marginBottom: '16px' }}>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
-                  전공 *
+                  전공 * (복수 선택 가능)
                 </label>
-                <select
-                  value={formData.subjectId}
-                  onChange={(e) => setFormData({ ...formData, subjectId: e.target.value })}
-                  required
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #ddd',
-                    borderRadius: '8px',
-                    fontSize: '14px',
-                    boxSizing: 'border-box',
-                  }}
-                >
-                  <option value="">전공 선택</option>
-                  {subjects.map((subject) => (
-                    <option key={subject.id} value={subject.id}>
-                      {subject.nameKo}
-                    </option>
-                  ))}
-                </select>
+                <div style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '8px',
+                  padding: '12px',
+                  border: '1px solid #ddd',
+                  borderRadius: '8px',
+                  backgroundColor: '#fafafa',
+                }}>
+                  {subjects.map((subject) => {
+                    const isSelected = formData.subjectIds.includes(subject.id);
+                    return (
+                      <button
+                        key={subject.id}
+                        type="button"
+                        onClick={() => {
+                          if (isSelected) {
+                            setFormData({
+                              ...formData,
+                              subjectIds: formData.subjectIds.filter(id => id !== subject.id),
+                            });
+                          } else {
+                            setFormData({
+                              ...formData,
+                              subjectIds: [...formData.subjectIds, subject.id],
+                            });
+                          }
+                        }}
+                        style={{
+                          padding: '8px 16px',
+                          borderRadius: '20px',
+                          border: isSelected ? '2px solid #3b82f6' : '1px solid #ddd',
+                          backgroundColor: isSelected ? '#eff6ff' : '#fff',
+                          color: isSelected ? '#3b82f6' : '#666',
+                          fontSize: '13px',
+                          fontWeight: isSelected ? 600 : 400,
+                          cursor: 'pointer',
+                          transition: 'all 0.2s',
+                        }}
+                      >
+                        {isSelected && '✓ '}{subject.nameKo}
+                      </button>
+                    );
+                  })}
+                </div>
+                {formData.subjectIds.length === 0 && (
+                  <p style={{ fontSize: '12px', color: '#ef4444', marginTop: '4px' }}>
+                    최소 1개 이상의 전공을 선택해주세요
+                  </p>
+                )}
               </div>
 
               <div style={{ marginBottom: '16px' }}>
@@ -659,7 +752,7 @@ export default function InstructorsPage() {
                 />
               </div>
 
-              <div style={{ marginBottom: '24px' }}>
+              <div style={{ marginBottom: '8px' }}>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                   <input
                     type="checkbox"
@@ -669,41 +762,58 @@ export default function InstructorsPage() {
                   <span style={{ fontSize: '14px' }}>활성화 (사이트에 표시)</span>
                 </label>
               </div>
-
-              <div style={{ display: 'flex', gap: '12px' }}>
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  style={{
-                    flex: 1,
-                    padding: '14px',
-                    backgroundColor: '#f5f5f5',
-                    border: 'none',
-                    borderRadius: '8px',
-                    fontSize: '14px',
-                    cursor: 'pointer',
-                  }}
-                >
-                  취소
-                </button>
-                <button
-                  type="submit"
-                  style={{
-                    flex: 1,
-                    padding: '14px',
-                    backgroundColor: '#000',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '8px',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                  }}
-                >
-                  {editingInstructor ? '수정' : '등록'}
-                </button>
-              </div>
             </form>
+            </div>
+
+            {/* 푸터 (고정) */}
+            <div style={{
+              padding: '20px 32px',
+              borderTop: '1px solid #eee',
+              display: 'flex',
+              gap: '12px',
+              flexShrink: 0,
+              backgroundColor: '#fff',
+            }}>
+              <button
+                type="button"
+                onClick={closeModal}
+                style={{
+                  flex: 1,
+                  padding: '14px',
+                  backgroundColor: '#f5f5f5',
+                  border: 'none',
+                  borderRadius: '10px',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                  cursor: 'pointer',
+                  transition: 'background-color 0.2s',
+                }}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#e5e5e5'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#f5f5f5'}
+              >
+                취소
+              </button>
+              <button
+                type="submit"
+                form="instructor-form"
+                style={{
+                  flex: 1,
+                  padding: '14px',
+                  backgroundColor: '#000',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '10px',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'background-color 0.2s',
+                }}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#333'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#000'}
+              >
+                {editingInstructor ? '수정' : '등록'}
+              </button>
+            </div>
           </div>
         </div>
       )}
