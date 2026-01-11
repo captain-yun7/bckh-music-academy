@@ -38,14 +38,22 @@ interface Instructor {
 
 // YouTube URL에서 비디오 ID 추출
 function getYouTubeVideoId(url: string): string | null {
-  const patterns = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
-    /youtube\.com\/shorts\/([^&\n?#]+)/,
-  ];
-  for (const pattern of patterns) {
-    const match = url.match(pattern);
-    if (match) return match[1];
-  }
+  // v= 파라미터에서 직접 추출 (가장 일반적)
+  const vParam = url.match(/[?&]v=([^&\n?#]+)/);
+  if (vParam) return vParam[1];
+
+  // youtu.be 단축 URL
+  const shortUrl = url.match(/youtu\.be\/([^&\n?#]+)/);
+  if (shortUrl) return shortUrl[1];
+
+  // embed URL
+  const embedUrl = url.match(/youtube\.com\/embed\/([^&\n?#]+)/);
+  if (embedUrl) return embedUrl[1];
+
+  // shorts URL
+  const shortsUrl = url.match(/youtube\.com\/shorts\/([^&\n?#]+)/);
+  if (shortsUrl) return shortsUrl[1];
+
   return null;
 }
 
@@ -99,6 +107,10 @@ function InstructorModal({
 
   if (!instructor) return null;
 
+  const hasVideo1 = instructor.videoUrl1 && getYouTubeVideoId(instructor.videoUrl1);
+  const hasVideo2 = instructor.videoUrl2 && getYouTubeVideoId(instructor.videoUrl2);
+  const hasAnyVideo = hasVideo1 || hasVideo2;
+
   return (
     <div
       onClick={onClose}
@@ -108,11 +120,10 @@ function InstructorModal({
         backgroundColor: 'rgba(0,0,0,0.85)',
         backdropFilter: 'blur(8px)',
         display: 'flex',
-        alignItems: 'flex-start',
+        alignItems: 'center',
         justifyContent: 'center',
         zIndex: 9999,
         padding: '40px 20px',
-        overflowY: 'auto',
       }}
     >
       <div
@@ -124,6 +135,10 @@ function InstructorModal({
           width: '100%',
           position: 'relative',
           boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
+          maxHeight: '85vh',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
         }}
       >
         {/* Close Button */}
@@ -160,6 +175,7 @@ function InstructorModal({
           display: 'flex',
           alignItems: 'center',
           gap: '24px',
+          flexShrink: 0,
         }}>
           <div style={{
             width: '100px',
@@ -216,8 +232,8 @@ function InstructorModal({
           </div>
         </div>
 
-        {/* Content */}
-        <div style={{ padding: '32px' }}>
+        {/* Content - 스크롤 가능 영역 */}
+        <div style={{ padding: '32px', flex: 1, overflowY: 'auto' }}>
           {/* 자기소개 */}
           <div style={{ marginBottom: '28px', paddingBottom: '28px', borderBottom: '1px solid #eee' }}>
             <h4 style={{
@@ -368,7 +384,6 @@ function InstructorModal({
             borderRadius: '16px',
             position: 'relative',
             overflow: 'hidden',
-            marginBottom: (instructor.videoUrl1 || instructor.videoUrl2) ? '28px' : 0,
           }}>
             <div style={{
               position: 'absolute',
@@ -396,66 +411,66 @@ function InstructorModal({
             </p>
           </div>
 
-          {/* 영상 섹션 */}
-          {(instructor.videoUrl1 || instructor.videoUrl2) && (
-            <div>
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: instructor.videoUrl1 && instructor.videoUrl2 ? '1fr 1fr' : '1fr',
-                gap: '16px',
-              }}>
-                {instructor.videoUrl1 && getYouTubeVideoId(instructor.videoUrl1) && (
-                  <div style={{
-                    position: 'relative',
-                    paddingBottom: '56.25%',
-                    height: 0,
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                    backgroundColor: '#000',
-                  }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${getYouTubeVideoId(instructor.videoUrl1)}`}
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        border: 'none',
-                      }}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  </div>
-                )}
-                {instructor.videoUrl2 && getYouTubeVideoId(instructor.videoUrl2) && (
-                  <div style={{
-                    position: 'relative',
-                    paddingBottom: '56.25%',
-                    height: 0,
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                    backgroundColor: '#000',
-                  }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${getYouTubeVideoId(instructor.videoUrl2)}`}
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        border: 'none',
-                      }}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
         </div>
+
+        {/* 영상 섹션 - 하단 고정 */}
+        {hasAnyVideo && (
+          <div style={{
+            flexShrink: 0,
+            padding: '20px 32px',
+            backgroundColor: '#111',
+            borderTop: '1px solid #333',
+          }}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '16px',
+            }}>
+              {hasVideo1 && (
+                <div style={{
+                  width: '280px',
+                  height: '158px',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  backgroundColor: '#000',
+                  flexShrink: 0,
+                }}>
+                  <iframe
+                    src={`https://www.youtube.com/embed/${getYouTubeVideoId(instructor.videoUrl1!)}`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      border: 'none',
+                    }}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              )}
+              {hasVideo2 && (
+                <div style={{
+                  width: '280px',
+                  height: '158px',
+                  borderRadius: '12px',
+                  overflow: 'hidden',
+                  backgroundColor: '#000',
+                  flexShrink: 0,
+                }}>
+                  <iframe
+                    src={`https://www.youtube.com/embed/${getYouTubeVideoId(instructor.videoUrl2!)}`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      border: 'none',
+                    }}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
