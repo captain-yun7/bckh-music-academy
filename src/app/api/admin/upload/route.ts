@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth';
 import { uploadImage } from '@/lib/cloudinary';
 
+// Next.js App Router body 크기 제한 (10MB - Cloudinary 무료 플랜 최대)
+export const maxDuration = 60; // 업로드 타임아웃 60초
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   const session = await getSession();
   if (!session) {
@@ -43,8 +47,9 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Upload error:', error);
+    const errorMessage = error instanceof Error ? error.message : '알 수 없는 오류';
     return NextResponse.json(
-      { error: '이미지 업로드에 실패했습니다.' },
+      { error: `이미지 업로드에 실패했습니다: ${errorMessage}` },
       { status: 500 }
     );
   }

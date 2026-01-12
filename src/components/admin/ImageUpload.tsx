@@ -40,9 +40,10 @@ export default function ImageUpload({
       });
 
       const data = await res.json();
+      console.log('Upload response:', res.status, data);
 
       if (!res.ok) {
-        throw new Error(data.error || '업로드 실패');
+        throw new Error(data.error || `업로드 실패 (${res.status})`);
       }
 
       onChange(data.url);

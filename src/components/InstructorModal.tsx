@@ -38,14 +38,26 @@ export interface InstructorData {
 
 // YouTube URL에서 비디오 ID 추출
 function getYouTubeVideoId(url: string): string | null {
+  // v= 파라미터 (표준 형식)
   const vParam = url.match(/[?&]v=([^&\n?#]+)/);
   if (vParam) return vParam[1];
 
+  // youtu.be 단축 URL
   const shortUrl = url.match(/youtu\.be\/([^&\n?#]+)/);
   if (shortUrl) return shortUrl[1];
 
+  // embed URL
   const embedUrl = url.match(/embed\/([^&\n?#]+)/);
   if (embedUrl) return embedUrl[1];
+
+  // youtube.com/ 뒤에 바로 비디오 ID가 오는 경우 (잘못된 형식이지만 처리)
+  // 예: https://www.youtube.com/o13edZwv8pE
+  const directId = url.match(/youtube\.com\/([a-zA-Z0-9_-]{11})(?:[?&#]|$)/);
+  if (directId) return directId[1];
+
+  // URL 끝에 11자리 비디오 ID만 있는 경우
+  const lastSegment = url.match(/\/([a-zA-Z0-9_-]{11})(?:[?&#]|$)/);
+  if (lastSegment) return lastSegment[1];
 
   return null;
 }
