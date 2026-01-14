@@ -1,6 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+
+const RichTextEditor = dynamic(() => import('@/components/RichTextEditor'), {
+  ssr: false,
+  loading: () => <div style={{ padding: '20px', textAlign: 'center', color: '#999' }}>에디터 로딩중...</div>
+});
 
 interface Notice {
   id: string;
@@ -248,7 +254,7 @@ export default function NoticesPage() {
             borderRadius: '16px',
             padding: '32px',
             width: '100%',
-            maxWidth: '600px',
+            maxWidth: '900px',
             maxHeight: '90vh',
             overflow: 'auto',
           }}>
@@ -302,20 +308,10 @@ export default function NoticesPage() {
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '8px', color: '#374151' }}>
                   내용 *
                 </label>
-                <textarea
-                  value={formData.content}
-                  onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  required
-                  rows={10}
-                  style={{
-                    width: '100%',
-                    padding: '12px',
-                    border: '1px solid #e5e7eb',
-                    borderRadius: '8px',
-                    fontSize: '14px',
-                    resize: 'vertical',
-                    boxSizing: 'border-box',
-                  }}
+                <RichTextEditor
+                  content={formData.content}
+                  onChange={(content) => setFormData({ ...formData, content })}
+                  placeholder="공지사항 내용을 입력하세요..."
                 />
               </div>
 

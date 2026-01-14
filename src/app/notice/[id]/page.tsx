@@ -153,14 +153,70 @@ export default function NoticeDetailPage({ params }: { params: Promise<{ id: str
             minHeight: '300px',
             borderBottom: '1px solid #eee',
           }}>
-            <div style={{
-              fontSize: '16px',
-              lineHeight: 1.8,
-              color: '#333',
-              whiteSpace: 'pre-wrap',
-            }}>
-              {notice.content}
-            </div>
+            <div
+              className="notice-content"
+              style={{
+                fontSize: '16px',
+                lineHeight: 1.8,
+                color: '#333',
+              }}
+              dangerouslySetInnerHTML={{ __html: notice.content }}
+            />
+            <style jsx global>{`
+              .notice-content h2 {
+                font-size: 1.5em;
+                font-weight: 700;
+                margin: 1em 0 0.5em;
+              }
+              .notice-content h3 {
+                font-size: 1.25em;
+                font-weight: 600;
+                margin: 1em 0 0.5em;
+              }
+              .notice-content p {
+                margin: 0.5em 0;
+              }
+              .notice-content ul, .notice-content ol {
+                padding-left: 1.5em;
+                margin: 0.5em 0;
+              }
+              .notice-content li {
+                margin: 0.25em 0;
+              }
+              .notice-content blockquote {
+                border-left: 3px solid #d1d5db;
+                padding-left: 1em;
+                margin: 1em 0;
+                color: #6b7280;
+              }
+              .notice-content hr {
+                border: none;
+                border-top: 1px solid #e5e7eb;
+                margin: 1.5em 0;
+              }
+              .notice-content img {
+                max-width: 100%;
+                height: auto;
+                margin: 1em 0;
+                border-radius: 8px;
+              }
+              .notice-content a {
+                color: #3b82f6;
+                text-decoration: underline;
+              }
+              .notice-content strong {
+                font-weight: 700;
+              }
+              .notice-content em {
+                font-style: italic;
+              }
+              .notice-content u {
+                text-decoration: underline;
+              }
+              .notice-content s {
+                text-decoration: line-through;
+              }
+            `}</style>
           </div>
 
           {/* Actions */}
