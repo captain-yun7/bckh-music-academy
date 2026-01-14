@@ -27,6 +27,9 @@ export default function HomePage() {
         {/* Hero - 이미지 슬라이드 */}
         <HeroSection />
 
+        {/* 공지사항 - 띠 배너 */}
+        <NoticeSection />
+
         {/* 강사진 - 최상위 */}
         <InstructorsSection />
 
@@ -39,23 +42,20 @@ export default function HomePage() {
         {/* 커리큘럼 */}
         <CoursesSection />
 
-        {/* 특별프로그램 */}
-        <ProgramsSection />
-
-        {/* 장학제도 */}
-        <ScholarshipSection />
-
         {/* 시설사진 */}
         <FacilitiesSection />
 
         {/* 공연사진 */}
         <PerformancesSection />
 
-        {/* 공지사항 */}
-        <NoticeSection />
-
         {/* 합격 실적 */}
         <ReviewsSection />
+
+        {/* 특별프로그램 */}
+        <ProgramsSection />
+
+        {/* 장학제도 */}
+        <ScholarshipSection />
 
         {/* Contact - 오시는길 */}
         <ContactSection />
