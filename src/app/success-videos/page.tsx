@@ -74,7 +74,7 @@ export default function SuccessVideosPage() {
                     }}
                   >
                     <div style={{ position: 'relative', aspectRatio: '16/9' }}>
-                      {playingVideo === youtubeId ? (
+                      {playingVideo === video.id ? (
                         <iframe
                           width="100%"
                           height="100%"
@@ -100,7 +100,7 @@ export default function SuccessVideosPage() {
                             }}
                           />
                           <div
-                            onClick={() => setPlayingVideo(youtubeId)}
+                            onClick={() => setPlayingVideo(video.id)}
                             style={{
                               position: 'absolute',
                               inset: 0,

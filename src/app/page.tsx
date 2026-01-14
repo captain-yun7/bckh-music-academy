@@ -9,6 +9,9 @@ import CoursesSection from '@/components/CoursesSection';
 import ReviewsSection from '@/components/ReviewsSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
+import NoticeSection from '@/components/NoticeSection';
+import ProgramsSection from '@/components/ProgramsSection';
+import ScholarshipSection from '@/components/ScholarshipSection';
 
 export default function HomePage() {
   return (
@@ -36,11 +39,20 @@ export default function HomePage() {
         {/* 커리큘럼 */}
         <CoursesSection />
 
+        {/* 특별프로그램 */}
+        <ProgramsSection />
+
+        {/* 장학제도 */}
+        <ScholarshipSection />
+
         {/* 시설사진 */}
         <FacilitiesSection />
 
         {/* 공연사진 */}
         <PerformancesSection />
+
+        {/* 공지사항 */}
+        <NoticeSection />
 
         {/* 합격 실적 */}
         <ReviewsSection />

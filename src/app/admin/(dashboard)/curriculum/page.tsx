@@ -204,6 +204,18 @@ export default function CurriculumAdminPage() {
     fetchClasses();
   }, []);
 
+  // 모달이 열릴 때 body 스크롤 방지
+  useEffect(() => {
+    if (isClassModalOpen || isMajorModalOpen || isCurriculumModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isClassModalOpen, isMajorModalOpen, isCurriculumModalOpen]);
+
   const fetchClasses = async () => {
     setIsLoading(true);
     const res = await fetch('/api/admin/curriculum/classes');

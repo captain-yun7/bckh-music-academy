@@ -225,13 +225,15 @@ export default function CoursesSection() {
       {/* Tab Content */}
       <div style={{ padding: '0 0 80px' }}>
         <div className="container">
-          {/* 전공별 */}
+          {/* 전공별 - 3x3 그리드 */}
           {activeTab === 'subject' && (
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '24px',
-            }}>
+            }}
+            className="subject-grid"
+            >
               {subjectCourses.map((course) => (
                 <div
                   key={course.id}
@@ -429,8 +431,19 @@ export default function CoursesSection() {
         </div>
       </div>
 
-      <style jsx>{`
-        @media (max-width: 768px) {
+      <style jsx global>{`
+        .subject-grid {
+          grid-template-columns: repeat(3, 1fr) !important;
+        }
+        @media (max-width: 1024px) {
+          .subject-grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+          }
+        }
+        @media (max-width: 640px) {
+          .subject-grid {
+            grid-template-columns: 1fr !important;
+          }
           div[style*="text-align: right"] {
             text-align: left !important;
           }

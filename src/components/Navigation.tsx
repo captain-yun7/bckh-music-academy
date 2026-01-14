@@ -146,6 +146,12 @@ export default function Navigation() {
           {/* Logo */}
           <Link
             href="/"
+            onClick={(e) => {
+              if (pathname === '/') {
+                e.preventDefault();
+                window.location.reload();
+              }
+            }}
             style={{
               display: 'flex',
               alignItems: 'center',
