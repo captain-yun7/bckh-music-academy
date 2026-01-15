@@ -131,9 +131,13 @@ export default function InstructorsPage() {
         const instructorsData = await instructorsRes.json();
 
         const counts: Record<string, number> = {};
-        instructorsData.forEach((instructor: { subject: { name: string } }) => {
-          const subjectName = instructor.subject.name;
-          counts[subjectName] = (counts[subjectName] || 0) + 1;
+        instructorsData.forEach((instructor: { subjects?: { subject: { name: string } }[] }) => {
+          if (instructor.subjects && instructor.subjects.length > 0) {
+            instructor.subjects.forEach((s) => {
+              const subjectName = s.subject.name;
+              counts[subjectName] = (counts[subjectName] || 0) + 1;
+            });
+          }
         });
         setInstructorCounts(counts);
       } catch (error) {
