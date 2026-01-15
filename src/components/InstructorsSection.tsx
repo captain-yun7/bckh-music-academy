@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import InstructorModal, { InstructorData } from '@/components/InstructorModal';
+import { imagePresets } from '@/lib/image';
 
 export default function InstructorsSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -129,8 +130,41 @@ export default function InstructorsSection() {
 
           {/* Carousel */}
           {isLoading ? (
-            <div style={{ textAlign: 'center', padding: '60px' }}>
-              <p style={{ color: '#999' }}>강사 정보를 불러오는 중...</p>
+            <div style={{
+              display: 'flex',
+              gap: '20px',
+              overflowX: 'hidden',
+              paddingBottom: '20px',
+              marginBottom: '40px',
+            }}>
+              {/* 스켈레톤 로딩 UI */}
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div
+                  key={i}
+                  style={{
+                    flex: '0 0 180px',
+                    borderRadius: '16px',
+                    overflow: 'hidden',
+                    backgroundColor: '#f5f5f5',
+                  }}
+                >
+                  <div style={{
+                    aspectRatio: '3/4',
+                    backgroundColor: '#e5e5e5',
+                    animation: 'pulse 1.5s ease-in-out infinite',
+                  }} />
+                  <div style={{ padding: '16px', textAlign: 'center' }}>
+                    <div style={{
+                      height: '20px',
+                      backgroundColor: '#e5e5e5',
+                      borderRadius: '4px',
+                      width: '60%',
+                      margin: '0 auto',
+                      animation: 'pulse 1.5s ease-in-out infinite',
+                    }} />
+                  </div>
+                </div>
+              ))}
             </div>
           ) : instructors.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px' }}>
@@ -174,11 +208,13 @@ export default function InstructorsSection() {
                   <div style={{ position: 'relative', aspectRatio: '3/4' }}>
                     {instructor.image ? (
                       <Image
-                        src={instructor.image}
+                        src={imagePresets.instructorCard(instructor.image)}
                         alt={instructor.name}
                         fill
                         style={{ objectFit: 'cover', transition: 'transform 0.3s ease' }}
-                        sizes="180px"
+                        sizes="(max-width: 640px) 160px, 180px"
+                        loading="eager"
+                        quality={85}
                       />
                     ) : (
                       <div style={{
@@ -274,6 +310,12 @@ export default function InstructorsSection() {
           </div>
         </div>
 
+        <style jsx global>{`
+          @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+          }
+        `}</style>
         <style jsx>{`
           div::-webkit-scrollbar {
             display: none;

@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import Image from 'next/image';
+import { imagePresets } from '@/lib/image';
 
 interface Subject {
   id: string;
@@ -162,11 +163,12 @@ export default function InstructorModal({ instructor, onClose }: InstructorModal
           }}>
             {instructor.image ? (
               <Image
-                src={instructor.image}
+                src={imagePresets.instructorModal(instructor.image)}
                 alt={instructor.name}
-                width={100}
-                height={100}
+                width={200}
+                height={200}
                 style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                priority
               />
             ) : (
               <div style={{

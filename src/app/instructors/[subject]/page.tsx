@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import InstructorModal from '@/components/InstructorModal';
+import { imagePresets } from '@/lib/image';
 
 interface Subject {
   id: string;
@@ -123,8 +124,51 @@ export default function InstructorSubjectPage() {
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>
         <div className="container">
           {isLoading ? (
-            <div style={{ textAlign: 'center', padding: '60px', color: '#999' }}>
-              로딩중...
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+              gap: '32px',
+            }}>
+              {[1, 2, 3, 4].map((i) => (
+                <div
+                  key={i}
+                  style={{
+                    borderRadius: '16px',
+                    overflow: 'hidden',
+                    backgroundColor: '#f8f8f8',
+                  }}
+                >
+                  <div style={{
+                    aspectRatio: '1/1',
+                    backgroundColor: '#e5e5e5',
+                    animation: 'pulse 1.5s ease-in-out infinite',
+                  }} />
+                  <div style={{ padding: '24px', textAlign: 'center' }}>
+                    <div style={{
+                      height: '24px',
+                      backgroundColor: '#e5e5e5',
+                      borderRadius: '4px',
+                      width: '50%',
+                      margin: '0 auto 8px',
+                      animation: 'pulse 1.5s ease-in-out infinite',
+                    }} />
+                    <div style={{
+                      height: '16px',
+                      backgroundColor: '#e5e5e5',
+                      borderRadius: '4px',
+                      width: '30%',
+                      margin: '0 auto',
+                      animation: 'pulse 1.5s ease-in-out infinite',
+                    }} />
+                  </div>
+                </div>
+              ))}
+              <style jsx global>{`
+                @keyframes pulse {
+                  0%, 100% { opacity: 1; }
+                  50% { opacity: 0.5; }
+                }
+              `}</style>
             </div>
           ) : instructors.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px', color: '#999' }}>
@@ -160,9 +204,10 @@ export default function InstructorSubjectPage() {
                   <div style={{ position: 'relative', aspectRatio: '1/1', backgroundColor: '#eee' }}>
                     {instructor.image ? (
                       <Image
-                        src={instructor.image}
+                        src={imagePresets.instructorDetail(instructor.image)}
                         alt={instructor.name}
                         fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 280px"
                         style={{ objectFit: 'cover' }}
                       />
                     ) : (
