@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ImageLightbox from './ImageLightbox';
+import { imagePresets, getPlaceholderUrl } from '@/lib/image';
 
 interface Musician {
   id: string;
@@ -183,11 +184,13 @@ export default function MusiciansSection() {
                 <div style={{ position: 'relative', aspectRatio: '3/4' }}>
                   {musician.image ? (
                     <Image
-                      src={musician.image}
+                      src={imagePresets.musicianCard(musician.image)}
                       alt={musician.name}
                       fill
                       style={{ objectFit: 'cover', transition: 'transform 0.3s ease' }}
                       sizes="300px"
+                      placeholder="blur"
+                      blurDataURL={getPlaceholderUrl(musician.image)}
                     />
                   ) : (
                     <div style={{

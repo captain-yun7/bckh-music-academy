@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import Image from 'next/image';
-import { imagePresets } from '@/lib/image';
+import { imagePresets, getPlaceholderUrl } from '@/lib/image';
 
 interface Subject {
   id: string;
@@ -169,6 +169,8 @@ export default function InstructorModal({ instructor, onClose }: InstructorModal
                 height={200}
                 style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                 priority
+                placeholder="blur"
+                blurDataURL={getPlaceholderUrl(instructor.image)}
               />
             ) : (
               <div style={{

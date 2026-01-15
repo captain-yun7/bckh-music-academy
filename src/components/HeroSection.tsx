@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import Image from 'next/image';
+import { imagePresets, getPlaceholderUrl } from '@/lib/image';
 
 interface Slide {
   id: string;
@@ -113,11 +114,13 @@ export default function HeroSection() {
           }}
         >
           <Image
-            src={slide.imageUrl}
+            src={slide.imageUrl.includes('cloudinary.com') ? imagePresets.heroSlide(slide.imageUrl) : slide.imageUrl}
             alt={`슬라이드 ${index + 1}`}
             fill
             style={{ objectFit: 'cover' }}
             priority={index === 0}
+            placeholder={slide.imageUrl.includes('cloudinary.com') ? 'blur' : 'empty'}
+            blurDataURL={slide.imageUrl.includes('cloudinary.com') ? getPlaceholderUrl(slide.imageUrl) : undefined}
           />
           {/* Light Overlay for better visibility */}
           <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.2)' }} />

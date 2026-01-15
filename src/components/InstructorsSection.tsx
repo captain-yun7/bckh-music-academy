@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import InstructorModal, { InstructorData } from '@/components/InstructorModal';
-import { imagePresets } from '@/lib/image';
+import { imagePresets, getPlaceholderUrl } from '@/lib/image';
 
 export default function InstructorsSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -215,6 +215,8 @@ export default function InstructorsSection() {
                         sizes="(max-width: 640px) 160px, 180px"
                         loading="eager"
                         quality={85}
+                        placeholder="blur"
+                        blurDataURL={getPlaceholderUrl(instructor.image)}
                       />
                     ) : (
                       <div style={{
