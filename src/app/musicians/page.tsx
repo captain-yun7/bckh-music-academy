@@ -82,7 +82,7 @@ export default function MusiciansPage() {
                           src={musician.image}
                           alt={musician.name}
                           fill
-                          className="object-cover"
+                          style={{ objectFit: 'contain' }}
                           sizes="(max-width: 768px) 100vw, 33vw"
                         />
                       ) : (

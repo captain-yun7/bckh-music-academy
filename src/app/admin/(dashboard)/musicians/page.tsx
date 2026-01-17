@@ -201,13 +201,13 @@ export default function MusiciansPage() {
               border: dragOverIndex === index ? '2px solid #3b82f6' : '2px solid transparent',
             }}
           >
-            <div style={{ position: 'relative', aspectRatio: '4/3', backgroundColor: '#f5f5f5' }}>
+            <div style={{ position: 'relative', aspectRatio: '4/3', backgroundColor: '#f0f0f0' }}>
               {musician.image ? (
                 <Image
                   src={musician.image}
                   alt={musician.name}
                   fill
-                  style={{ objectFit: 'cover' }}
+                  style={{ objectFit: 'contain' }}
                 />
               ) : (
                 <div style={{

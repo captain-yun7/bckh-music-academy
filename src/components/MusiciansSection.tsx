@@ -181,13 +181,13 @@ export default function MusiciansSection() {
                 }}
                 className="musician-item"
               >
-                <div style={{ position: 'relative', aspectRatio: '3/4' }}>
+                <div style={{ position: 'relative', aspectRatio: '3/4', backgroundColor: '#222' }}>
                   {musician.image ? (
                     <Image
                       src={imagePresets.musicianCard(musician.image)}
                       alt={musician.name}
                       fill
-                      style={{ objectFit: 'cover', transition: 'transform 0.3s ease' }}
+                      style={{ objectFit: 'contain', transition: 'transform 0.3s ease' }}
                       sizes="300px"
                       placeholder="blur"
                       blurDataURL={getPlaceholderUrl(musician.image)}
