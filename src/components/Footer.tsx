@@ -61,8 +61,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12">
           {/* Left Column - Academy Info */}
           <div>
-            <p className="text-white font-bold text-xl mb-5">
+            <p className="text-white font-bold text-xl mb-2">
               경희실용음악학원
+            </p>
+            <p className="text-yellow-400 text-sm font-semibold mb-5">
+              Since 2007
             </p>
             <div className="space-y-2">
               <p className="footer-text">
@@ -72,7 +75,7 @@ export default function Footer() {
                 경기도 부천시 부천로 43, 3층 (심곡동)
               </p>
               <p className="footer-text mt-4">
-                TEL: <a href="tel:032-667-7088" className="hover:text-white transition-colors">032-667-7088</a>
+                TEL: <a href="tel:032-611-9191" className="hover:text-white transition-colors">032-611-9191/2</a>
               </p>
               <p className="footer-text">
                 Email: <a href="mailto:khmusic80@hanmail.net" className="hover:text-white transition-colors">khmusic80@hanmail.net</a>

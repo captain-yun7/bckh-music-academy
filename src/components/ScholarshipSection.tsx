@@ -6,22 +6,22 @@ const scholarships = [
   {
     id: 'entrance',
     title: '입학장학',
-    discount: '10~50%',
-    description: '반수생 및 예비 10순위 이내 합격자 대상',
+    discount: '15~50%',
+    description: '재수생 및 반수생, 예비 5번 이내 차등지급',
     color: '#ffc50a',
   },
   {
     id: 'grade',
     title: '성적장학',
-    discount: '5~20%',
-    description: '입시 종합반 학생 대상, 연습량 우수자',
+    discount: '20~50%',
+    description: '학기말 시험 1, 2, 3등',
     color: '#fff',
   },
   {
     id: 'merit',
     title: '상점장학',
-    discount: '최대 50%',
-    description: '출석, 수업 태도, 연습 성실도에 따른 월별 순위제',
+    discount: '5~20%',
+    description: '출석, 수업태도, 연습 성실도에 따른 상점 부여',
     color: '#fff',
   },
 ];

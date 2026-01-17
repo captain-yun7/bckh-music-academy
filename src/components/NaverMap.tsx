@@ -62,8 +62,8 @@ export default function NaverMap({
               경기도 부천시 부천로 43, 3층
             </p>
             <p style="font-size: 13px; color: #3b82f6; margin: 4px 0 0 0;">
-              <a href="tel:032-667-7088" style="color: #3b82f6; text-decoration: none;">
-                032-667-7088
+              <a href="tel:032-611-9191" style="color: #3b82f6; text-decoration: none;">
+                032-611-9191/2
               </a>
             </p>
           </div>

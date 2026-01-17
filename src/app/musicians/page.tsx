@@ -146,41 +146,6 @@ export default function MusiciansPage() {
             </>
           )}
 
-          {/* Stats */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '40px',
-            marginTop: '100px',
-            padding: '60px 40px',
-            backgroundColor: '#ffc50a',
-            borderRadius: '20px',
-          }}>
-            <div style={{ textAlign: 'center' }}>
-              <p style={{ fontSize: 'clamp(48px, 8vw, 64px)', fontWeight: 700, color: '#000', lineHeight: 1 }}>
-                18+
-              </p>
-              <p style={{ fontSize: '16px', color: 'rgba(0,0,0,0.7)', marginTop: '12px' }}>
-                Years of History
-              </p>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <p style={{ fontSize: 'clamp(48px, 8vw, 64px)', fontWeight: 700, color: '#000', lineHeight: 1 }}>
-                1000+
-              </p>
-              <p style={{ fontSize: '16px', color: 'rgba(0,0,0,0.7)', marginTop: '12px' }}>
-                합격생 배출
-              </p>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <p style={{ fontSize: 'clamp(48px, 8vw, 64px)', fontWeight: 700, color: '#000', lineHeight: 1 }}>
-                100+
-              </p>
-              <p style={{ fontSize: '16px', color: 'rgba(0,0,0,0.7)', marginTop: '12px' }}>
-                프로 뮤지션 배출
-              </p>
-            </div>
-          </div>
         </div>
       </section>
     </SubPageLayout>

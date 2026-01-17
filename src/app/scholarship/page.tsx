@@ -8,34 +8,41 @@ const scholarships = [
   {
     id: 'entrance',
     name: '입학장학',
-    amount: '10%~50%',
-    description: '반수생 및 예비 합격자 대상 장학금',
+    amount: '15%~50%',
+    description: '재수생 및 반수생, 예비 5번 이내 차등지급',
     color: '#ffc50a',
-    criteria: ['반수생', '전년도/당해년도 예비 10순위 이내인 자', '학교별 차등 지급'],
+    criteria: ['재수생 및 반수생', '예비 5번 이내 합격자', '차등 지급'],
   },
   {
     id: 'merit',
     name: '성적장학',
-    amount: '5%~20%',
-    description: '입시 종합반 연습량 우수자 장학금',
+    amount: '20%~50%',
+    description: '학기말 시험 성적 우수자 장학금',
     color: '#ffc50a',
-    criteria: ['입시 종합반 학생 대상', '연습량이 우수하여 상점을 부여받은 자', '상점 순위에 따른 차등 지급'],
+    criteria: ['학기말 시험 1등', '학기말 시험 2등', '학기말 시험 3등'],
   },
   {
     id: 'point',
     name: '상점장학',
-    amount: '최대 50%',
-    description: '출석 및 태도 우수자 장학금',
+    amount: '5%~20%',
+    description: '출석, 수업태도, 연습 성실도에 따른 상점 부여',
     color: '#ffc50a',
-    criteria: ['1위: 다음달 수강료 50%', '2위: 다음달 수강료 30%', '3위: 다음달 수강료 20%'],
+    criteria: ['출석 우수자', '수업태도 우수자', '연습 성실도 우수자'],
   },
 ];
 
-// 상점장학 데이터
+// 성적장학 데이터
+const gradeRankings = [
+  { rank: '1등', discount: '50%', color: '#ffc50a' },
+  { rank: '2등', discount: '30%', color: '#c0c0c0' },
+  { rank: '3등', discount: '20%', color: '#cd7f32' },
+];
+
+// 상점장학 데이터 (5%~20%)
 const pointRankings = [
-  { rank: '1위', discount: '50%', color: '#ffc50a' },
-  { rank: '2위', discount: '30%', color: '#c0c0c0' },
-  { rank: '3위', discount: '20%', color: '#cd7f32' },
+  { rank: '우수', discount: '20%', color: '#ffc50a' },
+  { rank: '양호', discount: '10%', color: '#c0c0c0' },
+  { rank: '보통', discount: '5%', color: '#cd7f32' },
 ];
 
 const pointRules = [
@@ -205,7 +212,7 @@ export default function ScholarshipPage() {
                 입학장학
               </h2>
               <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.8 }}>
-                반수생 및 예비 합격자를 위한 특별 장학 혜택
+                재수생 및 반수생, 예비 5번 이내 합격자를 위한 특별 장학 혜택
               </p>
               <div style={{
                 fontSize: '64px',
@@ -213,7 +220,7 @@ export default function ScholarshipPage() {
                 color: '#ffc50a',
                 marginTop: '24px',
               }}>
-                10%~50%
+                15%~50%
               </div>
               <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)', marginTop: '8px' }}>
                 수강료 할인혜택
@@ -315,7 +322,7 @@ export default function ScholarshipPage() {
                   textAlign: 'center',
                 }}>
                   <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>최소</p>
-                  <p style={{ fontSize: '40px', fontWeight: 700, color: '#ffc50a' }}>10%</p>
+                  <p style={{ fontSize: '40px', fontWeight: 700, color: '#ffc50a' }}>15%</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', color: '#999', fontSize: '24px' }}>~</div>
                 <div style={{
@@ -354,7 +361,7 @@ export default function ScholarshipPage() {
                 성적장학
               </h2>
               <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.8 }}>
-                입시 종합반 학생 중 연습량이 우수한 학생에게 지급
+                학기말 시험 성적 우수자에게 지급
               </p>
               <div style={{
                 fontSize: '64px',
@@ -362,7 +369,7 @@ export default function ScholarshipPage() {
                 color: '#ffc50a',
                 marginTop: '24px',
               }}>
-                5%~20%
+                20%~50%
               </div>
               <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)', marginTop: '8px' }}>
                 수강료 할인
@@ -374,105 +381,83 @@ export default function ScholarshipPage() {
         <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>
           <div className="container">
             <h3 style={{ fontSize: '24px', fontWeight: 700, textAlign: 'center', marginBottom: '48px' }}>
-              지급 대상 및 기준
+              등수별 할인율
             </h3>
+
+            {/* 순위별 감면율 */}
             <div style={{
-              maxWidth: '800px',
-              margin: '0 auto',
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '24px',
+              flexWrap: 'wrap',
+              marginBottom: '60px',
             }}>
-              {/* 대상 */}
-              <div style={{
-                backgroundColor: '#f8f8f8',
-                borderRadius: '16px',
-                padding: '32px',
-                marginBottom: '24px',
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              {gradeRankings.map((item) => (
+                <div
+                  key={item.rank}
+                  style={{
+                    width: '180px',
+                    padding: '32px 24px',
+                    backgroundColor: '#f8f8f8',
+                    borderRadius: '16px',
+                    textAlign: 'center',
+                    border: `2px solid ${item.color}`,
+                  }}
+                >
                   <div style={{
-                    width: '48px',
-                    height: '48px',
-                    backgroundColor: '#ffc50a',
+                    width: '50px',
+                    height: '50px',
+                    margin: '0 auto 16px',
+                    backgroundColor: item.color,
                     borderRadius: '50%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2">
-                      <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-                      <path d="M6 12v5c3 3 9 3 12 0v-5" />
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#000">
+                      <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="#000" strokeWidth="2" fill="none" />
                     </svg>
                   </div>
-                  <div>
-                    <h4 style={{ fontSize: '18px', fontWeight: 700, color: '#000', marginBottom: '4px' }}>
-                      입시 종합반 학생 대상
-                    </h4>
-                    <p style={{ fontSize: '14px', color: '#666' }}>
-                      연습량이 우수하여 상점을 부여받은 자
-                    </p>
-                  </div>
+                  <p style={{ fontSize: '18px', color: item.color === '#ffc50a' ? '#000' : '#666', fontWeight: 700, marginBottom: '8px' }}>
+                    {item.rank}
+                  </p>
+                  <p style={{ fontSize: '40px', fontWeight: 700, color: '#000' }}>
+                    {item.discount}
+                  </p>
+                  <p style={{ fontSize: '13px', color: '#666', marginTop: '4px' }}>
+                    수강료 할인
+                  </p>
                 </div>
-              </div>
+              ))}
+            </div>
 
-              {/* 할인율 범위 */}
-              <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: '24px',
-                flexWrap: 'wrap',
-                marginTop: '48px',
-              }}>
-                <div style={{
-                  padding: '24px 40px',
-                  backgroundColor: '#000',
-                  borderRadius: '16px',
-                  textAlign: 'center',
-                }}>
-                  <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>최소</p>
-                  <p style={{ fontSize: '40px', fontWeight: 700, color: '#ffc50a' }}>5%</p>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', color: '#999', fontSize: '24px' }}>~</div>
-                <div style={{
-                  padding: '24px 40px',
-                  backgroundColor: '#000',
-                  borderRadius: '16px',
-                  textAlign: 'center',
-                }}>
-                  <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.6)', marginBottom: '8px' }}>최대</p>
-                  <p style={{ fontSize: '40px', fontWeight: 700, color: '#ffc50a' }}>20%</p>
-                </div>
-              </div>
-
-              {/* 상점 기준 안내 */}
-              <div style={{
-                marginTop: '48px',
-                backgroundColor: '#fffbeb',
-                borderRadius: '16px',
-                padding: '32px',
-                border: '1px solid #ffc50a',
-              }}>
-                <h4 style={{ fontSize: '18px', fontWeight: 700, color: '#000', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="2">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="16" x2="12" y2="12" />
-                    <line x1="12" y1="8" x2="12.01" y2="8" />
-                  </svg>
-                  상점 부여 기준
-                </h4>
-                <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
-                  <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px', fontSize: '14px', color: '#444', lineHeight: 1.7 }}>
-                    <span style={{ color: '#ffc50a', fontWeight: 700 }}>•</span>
-                    연습실 이용 시간 및 출석률에 따라 상점이 부여됩니다.
-                  </li>
-                  <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px', fontSize: '14px', color: '#444', lineHeight: 1.7 }}>
-                    <span style={{ color: '#ffc50a', fontWeight: 700 }}>•</span>
-                    레슨 참여도 및 과제 수행 능력을 종합적으로 평가합니다.
-                  </li>
-                  <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', fontSize: '14px', color: '#444', lineHeight: 1.7 }}>
-                    <span style={{ color: '#ffc50a', fontWeight: 700 }}>•</span>
-                    상점 순위에 따라 할인율이 차등 적용됩니다.
-                  </li>
-                </ul>
-              </div>
+            {/* 안내사항 */}
+            <div style={{
+              maxWidth: '800px',
+              margin: '0 auto',
+              backgroundColor: '#fffbeb',
+              borderRadius: '16px',
+              padding: '32px',
+              border: '1px solid #ffc50a',
+            }}>
+              <h4 style={{ fontSize: '18px', fontWeight: 700, color: '#000', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="16" x2="12" y2="12" />
+                  <line x1="12" y1="8" x2="12.01" y2="8" />
+                </svg>
+                안내사항
+              </h4>
+              <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px', fontSize: '14px', color: '#444', lineHeight: 1.7 }}>
+                  <span style={{ color: '#ffc50a', fontWeight: 700 }}>•</span>
+                  학기말 시험 성적을 기준으로 1, 2, 3등에게 장학금이 지급됩니다.
+                </li>
+                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', fontSize: '14px', color: '#444', lineHeight: 1.7 }}>
+                  <span style={{ color: '#ffc50a', fontWeight: 700 }}>•</span>
+                  장학금은 다음 학기 수강료에서 자동 차감됩니다.
+                </li>
+              </ul>
             </div>
           </div>
         </section>
@@ -499,11 +484,22 @@ export default function ScholarshipPage() {
                 상점장학
               </h2>
               <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.8 }}>
-                출석, 수업 태도, 연습 등 학원 생활에 성실한 학생에게 지급
+                출석, 수업태도, 연습 성실도에 따른 상점 부여
+              </p>
+              <div style={{
+                fontSize: '64px',
+                fontWeight: 700,
+                color: '#ffc50a',
+                marginTop: '24px',
+              }}>
+                5%~20%
+              </div>
+              <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)', marginTop: '8px' }}>
+                수강료 할인
               </p>
             </div>
 
-            {/* 순위별 감면율 */}
+            {/* 등급별 감면율 */}
             <div style={{
               display: 'flex',
               justifyContent: 'center',

@@ -47,7 +47,7 @@ export default function ContactSection() {
                 <a href="mailto:khmusic80@hanmail.net">khmusic80@hanmail.net</a>
               </p>
               <p className="contact-info-value">
-                <a href="tel:032-667-7088">032-667-7088</a>
+                <a href="tel:032-611-9191">032-611-9191/2</a>
               </p>
             </div>
             <div>
