@@ -48,6 +48,7 @@ model Instructor {
   videoUrl2         String?  // 영상 URL 2 (YouTube)
   isActive          Boolean  @default(true)
   order             Int      @default(0)
+  mainPageOrder     Int?     // 메인페이지 노출 순서 (null이면 메인에 노출 안함)
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   subjects          InstructorSubject[]

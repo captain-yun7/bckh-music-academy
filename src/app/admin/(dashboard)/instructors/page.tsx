@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import ImageUpload from '@/components/admin/ImageUpload';
 
 interface Subject {
@@ -363,21 +364,38 @@ export default function InstructorsPage() {
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
         <h1 style={{ fontSize: '28px', fontWeight: 700 }}>강사 관리</h1>
-        <button
-          onClick={() => openModal()}
-          style={{
-            padding: '12px 24px',
-            backgroundColor: '#000',
-            color: '#fff',
-            border: 'none',
-            borderRadius: '8px',
-            fontSize: '14px',
-            fontWeight: 600,
-            cursor: 'pointer',
-          }}
-        >
-          + 강사 추가
-        </button>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <Link
+            href="/admin/instructors/main-page"
+            style={{
+              padding: '12px 24px',
+              backgroundColor: '#ffc50a',
+              color: '#000',
+              border: 'none',
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontWeight: 600,
+              textDecoration: 'none',
+            }}
+          >
+            메인페이지 순서 설정
+          </Link>
+          <button
+            onClick={() => openModal()}
+            style={{
+              padding: '12px 24px',
+              backgroundColor: '#000',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '8px',
+              fontSize: '14px',
+              fontWeight: 600,
+              cursor: 'pointer',
+            }}
+          >
+            + 강사 추가
+          </button>
+        </div>
       </div>
 
       {Object.entries(groupedInstructors).map(([subjectName, subjectInstructors]) => (

@@ -17,10 +17,20 @@ export default function InstructorsSection() {
   useEffect(() => {
     const fetchInstructors = async () => {
       try {
-        const res = await fetch('/api/instructors');
+        // 메인페이지용 순서로 정렬된 강사 목록 가져오기
+        const res = await fetch('/api/instructors?mainPage=true');
         if (res.ok) {
           const data = await res.json();
-          setInstructors(data);
+          // 메인페이지에 설정된 강사가 없으면 전체 목록에서 가져오기
+          if (data.length === 0) {
+            const allRes = await fetch('/api/instructors');
+            if (allRes.ok) {
+              const allData = await allRes.json();
+              setInstructors(allData);
+            }
+          } else {
+            setInstructors(data);
+          }
         }
       } catch (error) {
         console.error('Failed to fetch instructors:', error);

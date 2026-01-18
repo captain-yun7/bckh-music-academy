@@ -60,6 +60,7 @@ export async function PATCH(
       videoUrl2: data.videoUrl2,
       isActive: data.isActive,
       order: data.order,
+      mainPageOrder: data.mainPageOrder,
       subjects: {
         create: subjectIds.map((subjectId, index) => ({
           subjectId,
