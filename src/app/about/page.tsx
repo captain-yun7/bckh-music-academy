@@ -1,4 +1,5 @@
 import SubPageLayout from '@/components/SubPageLayout';
+import Image from 'next/image';
 
 const philosophies = [
   { num: '01', title: '솔직한 상담', desc: '솔직한 상담을 하는 학원입니다. 꼭 필요한 수업만 수강하시면 됩니다.' },
@@ -131,6 +132,28 @@ export default function AboutPage() {
                 원장 프로필
               </h2>
 
+              {/* 원장 사진 */}
+              <div style={{
+                width: '200px',
+                height: '250px',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                marginBottom: '32px',
+                border: '3px solid #ffc50a',
+              }}>
+                <Image
+                  src="/원장.JPG"
+                  alt="조중욱 원장"
+                  width={200}
+                  height={250}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                  }}
+                />
+              </div>
+
               <div style={{ marginBottom: '32px' }}>
                 <h3 style={{ fontSize: '24px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>
                   조중욱
@@ -204,7 +227,7 @@ export default function AboutPage() {
             <div>
               <p style={{ color: '#ffc50a', fontSize: '14px', marginBottom: '12px', fontWeight: 600 }}>전화</p>
               <p style={{ color: '#fff', fontSize: '18px', fontWeight: 500 }}>
-                032-321-8668
+                032-611-9191/2
               </p>
             </div>
             <div>
