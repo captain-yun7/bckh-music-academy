@@ -52,8 +52,8 @@ export default function ContactSection() {
             </div>
             <div>
               <p className="contact-info-label">운영 시간</p>
-              <p className="contact-info-value">평일 13:00 - 22:00</p>
-              <p className="contact-info-value">주말/공휴일 11:00 - 19:00</p>
+              <p className="contact-info-value">평일 11:00 - 22:00</p>
+              <p className="contact-info-value">토요일 11:00 - 19:00</p>
             </div>
             <div>
               <p className="contact-info-label">오시는 길</p>

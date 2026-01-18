@@ -233,8 +233,8 @@ export default function AboutPage() {
             <div>
               <p style={{ color: '#ffc50a', fontSize: '14px', marginBottom: '12px', fontWeight: 600 }}>운영시간</p>
               <p style={{ color: '#fff', fontSize: '18px', fontWeight: 500 }}>
-                평일 13:00 - 22:00<br />
-                토요일 10:00 - 18:00
+                평일 11:00 - 22:00<br />
+                토요일 11:00 - 19:00
               </p>
             </div>
           </div>
