@@ -107,7 +107,7 @@ export default function Footer() {
             {/* Copyright */}
             <div className="space-y-1">
               <p className="footer-text">
-                1999 - {currentYear} © 경희실용음악학원
+                2007 - {currentYear} © 경희실용음악학원
               </p>
               <p className="footer-text">
                 All rights reserved.
