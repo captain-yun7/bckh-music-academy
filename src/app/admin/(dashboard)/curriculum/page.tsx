@@ -441,12 +441,16 @@ export default function CurriculumAdminPage() {
               backgroundColor: '#fff',
               border: '1px solid #e5e7eb',
               borderRadius: '12px',
-              overflow: 'hidden',
             }}
           >
             {/* 이미지 업로드 영역 */}
-            <div style={{ padding: '12px', borderBottom: '1px solid #eee' }}>
-              <div style={{ height: '120px' }}>
+            <div style={{
+              padding: '16px',
+              borderBottom: '2px solid #e5e7eb',
+              backgroundColor: '#f9fafb',
+              overflow: 'hidden',
+            }}>
+              <div style={{ height: '180px', overflow: 'hidden' }}>
                 <ImageUpload
                   value={item.image || ''}
                   onChange={(url) => updateCurriculumNode(index, 'image', url)}
@@ -458,49 +462,57 @@ export default function CurriculumAdminPage() {
             </div>
 
             {/* 제목 및 설명 */}
-            <div style={{ padding: '12px' }}>
-              <input
-                type="text"
-                value={item.title}
-                onChange={(e) => updateCurriculumNode(index, 'title', e.target.value)}
-                placeholder="제목"
-                style={{
-                  width: '100%',
-                  padding: '8px 10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '6px',
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  marginBottom: '8px',
-                  boxSizing: 'border-box',
-                }}
-              />
-              <textarea
-                value={item.description || ''}
-                onChange={(e) => updateCurriculumNode(index, 'description', e.target.value)}
-                placeholder="설명을 입력하세요"
-                rows={3}
-                style={{
-                  width: '100%',
-                  padding: '8px 10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '6px',
-                  fontSize: '13px',
-                  resize: 'none',
-                  boxSizing: 'border-box',
-                }}
-              />
+            <div style={{ padding: '20px' }}>
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#333', marginBottom: '8px' }}>
+                  제목
+                </label>
+                <input
+                  type="text"
+                  value={item.title}
+                  onChange={(e) => updateCurriculumNode(index, 'title', e.target.value)}
+                  placeholder="제목을 입력하세요"
+                  style={{
+                    width: '100%',
+                    padding: '10px 12px',
+                    border: '1px solid #ddd',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '13px', fontWeight: 600, color: '#333', marginBottom: '8px' }}>
+                  설명
+                </label>
+                <textarea
+                  value={item.description || ''}
+                  onChange={(e) => updateCurriculumNode(index, 'description', e.target.value)}
+                  placeholder="설명을 입력하세요"
+                  rows={3}
+                  style={{
+                    width: '100%',
+                    padding: '10px 12px',
+                    border: '1px solid #ddd',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    resize: 'vertical',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              </div>
               <button
                 type="button"
                 onClick={() => deleteCurriculumNode(index)}
                 style={{
-                  marginTop: '8px',
-                  padding: '6px 12px',
+                  padding: '8px 16px',
                   backgroundColor: '#fef2f2',
                   color: '#dc2626',
                   border: 'none',
                   borderRadius: '6px',
-                  fontSize: '12px',
+                  fontSize: '13px',
                   cursor: 'pointer',
                 }}
               >
