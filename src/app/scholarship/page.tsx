@@ -293,7 +293,7 @@ export default function ScholarshipPage() {
                   </div>
                   <div>
                     <h4 style={{ fontSize: '18px', fontWeight: 700, color: '#000', marginBottom: '4px' }}>
-                      전년도 또는 당해년도 예비 10순위 이내인 자
+                      전년도 또는 당해년도 예비 5순위 이내인 자
                     </h4>
                     <p style={{ fontSize: '14px', color: '#666' }}>
                       학교별 차등 지급
