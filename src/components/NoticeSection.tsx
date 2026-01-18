@@ -145,136 +145,99 @@ export default function NoticeSection() {
             gap: '12px',
           }}
         >
-          {notices.map((notice, index) => (
+          {notices.map((notice) => (
             <Link
               key={notice.id}
               href={`/notice/${notice.id}`}
+              className="notice-item"
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '24px 28px',
+                display: 'block',
+                padding: '20px 24px',
                 backgroundColor: '#fff',
                 borderRadius: '16px',
                 textDecoration: 'none',
                 transition: 'all 0.3s ease',
                 boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
                 border: '1px solid #f0f0f0',
-                gap: '20px',
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = 'translateX(8px)';
-                e.currentTarget.style.boxShadow = '0 8px 30px rgba(0,0,0,0.08)';
-                e.currentTarget.style.borderColor = '#ffc50a';
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = 'translateX(0)';
-                e.currentTarget.style.boxShadow = '0 2px 12px rgba(0,0,0,0.04)';
-                e.currentTarget.style.borderColor = '#f0f0f0';
               }}
             >
-              {/* 번호 */}
-              <span
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: notice.isPinned ? '#ffc50a' : '#f5f5f5',
-                  color: notice.isPinned ? '#111' : '#999',
-                  borderRadius: '8px',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  flexShrink: 0,
-                }}
-              >
-                {notice.isPinned ? (
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path d="M16 4h2v16l-8-4-8 4V4h2v13.5l6-3 6 3V4z" />
-                  </svg>
-                ) : (
-                  String(index + 1).padStart(2, '0')
-                )}
-              </span>
-
-              {/* 카테고리 */}
-              <span
-                style={{
-                  padding: '6px 14px',
-                  backgroundColor: categoryColors[notice.category] + '12',
-                  color: categoryColors[notice.category],
-                  borderRadius: '20px',
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  whiteSpace: 'nowrap',
-                  flexShrink: 0,
-                }}
-              >
-                {categoryLabels[notice.category]}
-              </span>
+              {/* 상단: 카테고리 + 날짜 */}
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '10px',
+              }}>
+                <span
+                  style={{
+                    padding: '4px 10px',
+                    backgroundColor: categoryColors[notice.category] + '12',
+                    color: categoryColors[notice.category],
+                    borderRadius: '20px',
+                    fontSize: '11px',
+                    fontWeight: 700,
+                  }}
+                >
+                  {categoryLabels[notice.category]}
+                </span>
+                <span style={{ fontSize: '13px', color: '#aaa' }}>
+                  {formatDate(notice.createdAt)}
+                </span>
+              </div>
 
               {/* 제목 */}
-              <span
-                style={{
-                  flex: 1,
-                  fontSize: '16px',
-                  fontWeight: notice.isPinned ? 700 : 500,
-                  color: '#222',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {notice.title}
-              </span>
-
-              {/* 날짜 */}
-              <span
-                style={{
-                  fontSize: '14px',
-                  color: '#aaa',
-                  whiteSpace: 'nowrap',
-                  flexShrink: 0,
-                }}
-              >
-                {formatDate(notice.createdAt)}
-              </span>
-
-              {/* 화살표 */}
-              <span
-                style={{
-                  width: '36px',
-                  height: '36px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: '#f8f8f8',
-                  borderRadius: '50%',
-                  flexShrink: 0,
-                }}
-              >
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+              }}>
+                {notice.isPinned && (
+                  <span style={{
+                    color: '#ffc50a',
+                    fontSize: '14px',
+                  }}>
+                    📌
+                  </span>
+                )}
+                <span
+                  style={{
+                    flex: 1,
+                    fontSize: '15px',
+                    fontWeight: notice.isPinned ? 700 : 500,
+                    color: '#222',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {notice.title}
+                </span>
                 <svg
                   width="16"
                   height="16"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#999"
+                  stroke="#ccc"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  style={{ flexShrink: 0 }}
                 >
                   <path d="M9 18l6-6-6-6" />
                 </svg>
-              </span>
+              </div>
             </Link>
           ))}
         </div>
       </div>
+
+      <style jsx global>{`
+        .notice-item:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 30px rgba(0,0,0,0.08) !important;
+          border-color: #ffc50a !important;
+        }
+      `}</style>
     </section>
   );
 }
