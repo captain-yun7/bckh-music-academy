@@ -147,7 +147,7 @@ export default function RegularAuditionPage() {
             </div>
             <div>
               <p style={{ fontSize: 'clamp(48px, 8vw, 64px)', fontWeight: 700, color: '#ffc50a', lineHeight: 1 }}>
-                연 2~3회
+                월 1~2회
               </p>
               <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.6)', marginTop: '12px' }}>
                 정기 오디션
