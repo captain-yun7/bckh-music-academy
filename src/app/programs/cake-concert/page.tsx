@@ -5,7 +5,6 @@ export default function CakeConcertPage() {
     <SubPageLayout
       title="케이크콘서트"
       subtitle="수강생 정기 발표회"
-      bgImage="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

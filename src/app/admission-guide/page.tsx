@@ -82,7 +82,6 @@ function AdmissionGuideContent() {
     <SubPageLayout
       title="입시요강"
       subtitle="대학별 입시 정보 안내"
-      bgImage="/images/main/main2.jpg"
     >
       {/* Category Tabs */}
       <section style={{ backgroundColor: '#fff', borderBottom: '1px solid #e5e5e5' }}>
@@ -519,7 +518,6 @@ export default function AdmissionGuidePage() {
       <SubPageLayout
         title="입시요강"
         subtitle="대학별 입시 정보 안내"
-        bgImage="/images/main/main2.jpg"
       >
         <div style={{ textAlign: 'center', padding: '80px 0', color: '#999' }}>
           로딩중...

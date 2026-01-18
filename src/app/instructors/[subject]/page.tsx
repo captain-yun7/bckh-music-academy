@@ -105,7 +105,6 @@ export default function InstructorSubjectPage() {
     <SubPageLayout
       title={subjectInfo.title}
       subtitle={subjectInfo.subtitle}
-      bgImage="https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=1920&q=80"
     >
       {/* Breadcrumb */}
       <section style={{ padding: '24px 0', backgroundColor: '#f8f8f8', borderBottom: '1px solid #eee' }}>

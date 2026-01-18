@@ -153,7 +153,6 @@ export default function InstructorsPage() {
     <SubPageLayout
       title="강사진"
       subtitle="최고의 강사진이 여러분의 꿈을 함께합니다"
-      bgImage="https://images.unsplash.com/photo-1598387993441-a364f854c3e1?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '60px 0', backgroundColor: '#000' }}>

@@ -70,7 +70,6 @@ export default function ScholarshipPage() {
     <SubPageLayout
       title="장학제도"
       subtitle="꿈을 향한 여정을 응원합니다"
-      bgImage="https://images.unsplash.com/photo-1507838153414-b4b713384a76?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

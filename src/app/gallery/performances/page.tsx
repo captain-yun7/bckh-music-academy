@@ -58,7 +58,6 @@ export default function PerformancesGalleryPage() {
       <SubPageLayout
         title="공연 사진"
         subtitle="다양한 무대 경험을 통해 실전 감각을 키워갑니다"
-        bgImage="/images/performances/performance01.jpg"
       >
         <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>
           <div className="container">

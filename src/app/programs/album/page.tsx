@@ -14,7 +14,6 @@ export default function AlbumPage() {
     <SubPageLayout
       title="수강생음반"
       subtitle="나만의 음반을 제작하세요"
-      bgImage="/images/programs/album/photo01.jpg"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

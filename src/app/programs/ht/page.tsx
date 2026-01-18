@@ -27,7 +27,6 @@ export default function HTPage() {
     <SubPageLayout
       title="HT 프로그램"
       subtitle="원장님 직강 - 집중 트레이닝 프로그램"
-      bgImage="/images/programs/ht/photo01.jpg"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>

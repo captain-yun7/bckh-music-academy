@@ -87,7 +87,6 @@ export default function AdmissionsPage() {
       <SubPageLayout
         title="연도별 합격자"
         subtitle="경희실용음악학원 음대 합격 현황"
-        bgImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&q=80"
       >
         <section style={{ padding: '100px 0', backgroundColor: '#000', textAlign: 'center' }}>
           <p style={{ color: '#ffc50a', fontSize: '18px' }}>로딩중...</p>
@@ -100,7 +99,6 @@ export default function AdmissionsPage() {
     <SubPageLayout
       title="연도별 합격자"
       subtitle="경희실용음악학원 음대 합격 현황"
-      bgImage="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1920&q=80"
     >
       {/* Year Selector */}
       <section style={{ padding: '40px 0', backgroundColor: '#111', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>

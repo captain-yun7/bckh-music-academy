@@ -22,7 +22,6 @@ export default function GalleryPage() {
     <SubPageLayout
       title="갤러리"
       subtitle="경희실용음악학원의 공연과 시설을 사진으로 만나보세요"
-      bgImage="https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=1920&q=80"
     >
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>
         <div className="container">

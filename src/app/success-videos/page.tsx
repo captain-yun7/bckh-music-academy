@@ -42,7 +42,6 @@ export default function SuccessVideosPage() {
     <SubPageLayout
       title="합격자동영상"
       subtitle="경희실용음악학원 합격생들의 이야기"
-      bgImage="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1920&q=80"
     >
       {/* Video Grid */}
       <section style={{ padding: '60px 0', backgroundColor: '#111' }}>

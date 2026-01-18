@@ -25,7 +25,6 @@ export default function FacilitiesPage() {
     <SubPageLayout
       title="시설 사진"
       subtitle="최신 장비와 쾌적한 환경에서 음악에 집중하세요"
-      bgImage="https://images.unsplash.com/photo-1598653222000-6b7b7a552625?w=1920&q=80"
     >
       <section style={{ padding: '80px 0', backgroundColor: '#f8f8f8' }}>
         <div className="container">

@@ -38,7 +38,6 @@ export default function MusiciansPage() {
     <SubPageLayout
       title="배출 뮤지션"
       subtitle="경희실용음악학원을 거쳐 음악계에서 활동 중인 뮤지션들"
-      bgImage="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1920&q=80"
     >
       {/* Intro */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>
