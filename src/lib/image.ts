@@ -112,11 +112,20 @@ export const imagePresets = {
     quality: 'auto:good',
   }),
 
-  // 뮤지션 카드
+  // 뮤지션 카드 (3:4 비율, 메인 캐러셀)
   musicianCard: (url: string) => optimizeCloudinaryUrl(url, {
-    width: 300,
-    height: 300,
-    quality: 'auto:good',
+    width: 600,
+    height: 800,
+    quality: 'auto:best',
+    crop: 'fill',
+    gravity: 'face',
+  }),
+
+  // 뮤지션 그리드 (4:3 비율, 뮤지션 목록 페이지)
+  musicianGrid: (url: string) => optimizeCloudinaryUrl(url, {
+    width: 640,
+    height: 480,
+    quality: 'auto:best',
     crop: 'fill',
     gravity: 'face',
   }),

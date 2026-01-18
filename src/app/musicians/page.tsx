@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import SubPageLayout from '@/components/SubPageLayout';
 import Image from 'next/image';
+import { imagePresets, getPlaceholderUrl } from '@/lib/image';
 
 interface Musician {
   id: string;
@@ -79,11 +80,14 @@ export default function MusiciansPage() {
                     <div style={{ position: 'relative', aspectRatio: '4/3', backgroundColor: '#222' }}>
                       {musician.image ? (
                         <Image
-                          src={musician.image}
+                          src={imagePresets.musicianGrid(musician.image)}
                           alt={musician.name}
                           fill
                           style={{ objectFit: 'contain' }}
-                          sizes="(max-width: 768px) 100vw, 33vw"
+                          sizes="(max-width: 768px) 100vw, 400px"
+                          quality={90}
+                          placeholder="blur"
+                          blurDataURL={getPlaceholderUrl(musician.image)}
                         />
                       ) : (
                         <div style={{
