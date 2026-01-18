@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Navigation from './Navigation';
 import Footer from './Footer';
@@ -8,10 +10,38 @@ interface SubPageLayoutProps {
   children: React.ReactNode;
   title: string;
   subtitle?: string;
-  bgImage?: string;
+  bgImage?: string; // 직접 지정하면 우선 적용
 }
 
-export default function SubPageLayout({ children, title, subtitle, bgImage }: SubPageLayoutProps) {
+export default function SubPageLayout({ children, title, subtitle, bgImage: propBgImage }: SubPageLayoutProps) {
+  const pathname = usePathname();
+  const [dbBgImage, setDbBgImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    // DB에서 현재 경로에 맞는 배경 이미지 불러오기
+    const fetchBgImage = async () => {
+      try {
+        const res = await fetch('/api/page-backgrounds');
+        if (res.ok) {
+          const backgrounds = await res.json();
+          // 정확히 일치하는 경로 찾기
+          if (backgrounds[pathname]) {
+            setDbBgImage(backgrounds[pathname]);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch background image:', error);
+      }
+    };
+
+    // prop으로 배경이 지정되지 않은 경우에만 DB에서 불러오기
+    if (!propBgImage) {
+      fetchBgImage();
+    }
+  }, [pathname, propBgImage]);
+
+  // prop으로 전달된 배경이 우선, 없으면 DB 배경 사용
+  const bgImage = propBgImage || dbBgImage;
   const isExternalImage = bgImage?.startsWith('http');
 
   return (
