@@ -32,7 +32,6 @@ export default function AboutPage() {
     <SubPageLayout
       title="학원 소개"
       subtitle="2007년 설립, 18년 전통의 경희실용음악학원"
-      bgImage="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=1920&q=80"
     >
       {/* Philosophy Section */}
       <section style={{ padding: '100px 0', backgroundColor: '#000' }}>
