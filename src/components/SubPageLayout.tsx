@@ -24,9 +24,18 @@ export default function SubPageLayout({ children, title, subtitle, bgImage: prop
         const res = await fetch('/api/page-backgrounds');
         if (res.ok) {
           const backgrounds = await res.json();
-          // 정확히 일치하는 경로 찾기
+          // 정확히 일치하는 경로 먼저 찾기
           if (backgrounds[pathname]) {
             setDbBgImage(backgrounds[pathname]);
+          } else {
+            // 없으면 상위 경로 배경 이미지 사용 (예: /instructors/vocal -> /instructors)
+            const segments = pathname.split('/').filter(Boolean);
+            if (segments.length > 1) {
+              const parentPath = '/' + segments[0];
+              if (backgrounds[parentPath]) {
+                setDbBgImage(backgrounds[parentPath]);
+              }
+            }
           }
         }
       } catch (error) {

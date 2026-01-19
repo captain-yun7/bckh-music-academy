@@ -4,30 +4,25 @@ import { useState, useEffect } from 'react';
 import ImageUpload from '@/components/admin/ImageUpload';
 
 // 페이지 목록 (SubPageLayout을 사용하는 모든 페이지)
+// 하위 페이지들은 상위 페이지의 배경 이미지를 자동으로 사용합니다.
+// (예: /instructors/vocal → /instructors 배경 이미지 사용)
 const PAGE_LIST = [
   { path: '/about', name: '학원소개' },
-  { path: '/instructors', name: '강사진' },
+  { path: '/instructors', name: '강사진 (하위 페이지 포함)' },
   { path: '/admissions', name: '연도별 합격자' },
-  { path: '/notice', name: '공지사항' },
-  { path: '/curriculum', name: '커리큘럼' },
+  { path: '/notice', name: '공지사항 (하위 페이지 포함)' },
+  { path: '/curriculum', name: '커리큘럼 (하위 페이지 포함)' },
   { path: '/courses', name: '과정안내' },
   { path: '/admission-guide', name: '입시요강' },
   { path: '/scholarship', name: '장학제도' },
   { path: '/musicians', name: '배출 뮤지션' },
-  { path: '/gallery', name: '갤러리' },
-  { path: '/gallery/facilities', name: '갤러리 - 시설' },
-  { path: '/gallery/performances', name: '갤러리 - 공연' },
+  { path: '/gallery', name: '갤러리 (하위 페이지 포함)' },
   { path: '/facilities', name: '시설안내' },
   { path: '/contact', name: '오시는길' },
   { path: '/videos', name: '영상' },
   { path: '/performances', name: '공연' },
   { path: '/success-videos', name: '합격영상' },
-  { path: '/programs', name: '프로그램' },
-  { path: '/programs/audition', name: '프로그램 - 오디션' },
-  { path: '/programs/open-stage', name: '프로그램 - 오픈스테이지' },
-  { path: '/programs/cake-concert', name: '프로그램 - 케이크콘서트' },
-  { path: '/programs/ht', name: '프로그램 - HT' },
-  { path: '/programs/album', name: '프로그램 - 앨범' },
+  { path: '/programs', name: '프로그램 (하위 페이지 포함)' },
 ];
 
 interface BackgroundItem {
@@ -110,6 +105,10 @@ export default function PageBackgroundsPage() {
         </h1>
         <p style={{ fontSize: '14px', color: '#666' }}>
           각 페이지의 상단 히어로 영역에 표시될 배경 이미지를 설정합니다. 이미지가 없으면 검정 배경이 표시됩니다.
+          <br />
+          <span style={{ color: '#999' }}>
+            * 하위 페이지는 상위 페이지의 배경 이미지를 자동으로 사용합니다. (예: /instructors/vocal → /instructors)
+          </span>
         </p>
       </div>
 
