@@ -11,6 +11,8 @@ interface HeroSlide {
   imageUrl: string;
   buttonText: string | null;
   buttonLink: string | null;
+  textPosition: string;
+  textAlign: string;
   order: number;
   isPublished: boolean;
   createdAt: string;
@@ -27,6 +29,8 @@ export default function HeroSlidesPage() {
     imageUrl: '',
     buttonText: '',
     buttonLink: '',
+    textPosition: 'left',
+    textAlign: 'left',
     order: 0,
     isPublished: true,
   });
@@ -56,6 +60,8 @@ export default function HeroSlidesPage() {
         imageUrl: slide.imageUrl,
         buttonText: slide.buttonText || '',
         buttonLink: slide.buttonLink || '',
+        textPosition: slide.textPosition || 'left',
+        textAlign: slide.textAlign || 'left',
         order: slide.order,
         isPublished: slide.isPublished,
       });
@@ -67,6 +73,8 @@ export default function HeroSlidesPage() {
         imageUrl: '',
         buttonText: '',
         buttonLink: '',
+        textPosition: 'left',
+        textAlign: 'left',
         order: slides.length,
         isPublished: true,
       });
@@ -359,12 +367,12 @@ export default function HeroSlidesPage() {
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
                   제목 *
                 </label>
-                <input
-                  type="text"
+                <textarea
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   required
-                  placeholder="음악의 꿈을 현실로"
+                  placeholder="음악의 꿈을&#10;현실로"
+                  rows={2}
                   style={{
                     width: '100%',
                     padding: '12px',
@@ -372,19 +380,23 @@ export default function HeroSlidesPage() {
                     borderRadius: '8px',
                     fontSize: '14px',
                     boxSizing: 'border-box',
+                    resize: 'vertical',
                   }}
                 />
+                <p style={{ fontSize: '12px', color: '#999', marginTop: '4px' }}>
+                  엔터로 줄바꿈 가능
+                </p>
               </div>
 
               <div style={{ marginBottom: '16px' }}>
                 <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
                   부제목
                 </label>
-                <input
-                  type="text"
+                <textarea
                   value={formData.subtitle}
                   onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
                   placeholder="25년 전통의 경희실용음악학원"
+                  rows={2}
                   style={{
                     width: '100%',
                     padding: '12px',
@@ -392,8 +404,12 @@ export default function HeroSlidesPage() {
                     borderRadius: '8px',
                     fontSize: '14px',
                     boxSizing: 'border-box',
+                    resize: 'vertical',
                   }}
                 />
+                <p style={{ fontSize: '12px', color: '#999', marginTop: '4px' }}>
+                  엔터로 줄바꿈 가능
+                </p>
               </div>
 
               <div style={{ marginBottom: '16px' }}>
@@ -447,6 +463,68 @@ export default function HeroSlidesPage() {
                       boxSizing: 'border-box',
                     }}
                   />
+                </div>
+              </div>
+
+              {/* 텍스트 위치 설정 */}
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                  텍스트 위치
+                </label>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  {[
+                    { value: 'left', label: '왼쪽' },
+                    { value: 'center', label: '가운데' },
+                    { value: 'right', label: '오른쪽' },
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, textPosition: option.value })}
+                      style={{
+                        flex: 1,
+                        padding: '12px',
+                        border: formData.textPosition === option.value ? '2px solid #000' : '1px solid #ddd',
+                        borderRadius: '8px',
+                        backgroundColor: formData.textPosition === option.value ? '#f5f5f5' : '#fff',
+                        fontSize: '14px',
+                        fontWeight: formData.textPosition === option.value ? 600 : 400,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ marginBottom: '16px' }}>
+                <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, marginBottom: '8px' }}>
+                  텍스트 정렬
+                </label>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  {[
+                    { value: 'left', label: '좌측 정렬' },
+                    { value: 'center', label: '중앙 정렬' },
+                  ].map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => setFormData({ ...formData, textAlign: option.value })}
+                      style={{
+                        flex: 1,
+                        padding: '12px',
+                        border: formData.textAlign === option.value ? '2px solid #000' : '1px solid #ddd',
+                        borderRadius: '8px',
+                        backgroundColor: formData.textAlign === option.value ? '#f5f5f5' : '#fff',
+                        fontSize: '14px',
+                        fontWeight: formData.textAlign === option.value ? 600 : 400,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
                 </div>
               </div>
 

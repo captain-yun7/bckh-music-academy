@@ -22,6 +22,8 @@ export async function PATCH(
       imageUrl: data.imageUrl,
       buttonText: data.buttonText || null,
       buttonLink: data.buttonLink || null,
+      textPosition: data.textPosition || 'left',
+      textAlign: data.textAlign || 'left',
       order: data.order,
       isPublished: data.isPublished,
     },

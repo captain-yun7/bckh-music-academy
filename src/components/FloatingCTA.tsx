@@ -1,9 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function FloatingCTA() {
   const [isVisible, setIsVisible] = useState(false);
+  const pathname = usePathname();
+
+  // 관리자 페이지에서는 숨김
+  const isAdminPage = pathname?.startsWith('/admin');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,6 +19,11 @@ export default function FloatingCTA() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // 관리자 페이지면 렌더링하지 않음
+  if (isAdminPage) {
+    return null;
+  }
 
   return (
     <a

@@ -25,6 +25,8 @@ export async function POST(request: NextRequest) {
       imageUrl: data.imageUrl,
       buttonText: data.buttonText || null,
       buttonLink: data.buttonLink || null,
+      textPosition: data.textPosition || 'left',
+      textAlign: data.textAlign || 'left',
       order: data.order || 0,
       isPublished: data.isPublished ?? true,
     },

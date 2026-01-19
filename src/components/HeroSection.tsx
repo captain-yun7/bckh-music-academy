@@ -11,6 +11,8 @@ interface Slide {
   imageUrl: string;
   buttonText?: string | null;
   buttonLink?: string | null;
+  textPosition?: string;
+  textAlign?: string;
 }
 
 // 기본 슬라이드 (DB가 비어있을 때 사용)
@@ -122,8 +124,116 @@ export default function HeroSection() {
             placeholder={slide.imageUrl.includes('cloudinary.com') ? 'blur' : 'empty'}
             blurDataURL={slide.imageUrl.includes('cloudinary.com') ? getPlaceholderUrl(slide.imageUrl) : undefined}
           />
-          {/* Light Overlay for better visibility */}
-          <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.2)' }} />
+          {/* Gradient Overlay */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: slide.title
+              ? slide.textPosition === 'center'
+                ? 'rgba(0,0,0,0.5)'
+                : slide.textPosition === 'right'
+                  ? 'linear-gradient(to left, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%)'
+                  : 'linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%)'
+              : 'rgba(0,0,0,0.2)'
+          }} />
+
+          {/* Text Content */}
+          {(slide.title || slide.subtitle) && (
+            <div
+              style={{
+                position: 'absolute',
+                top: '0',
+                bottom: '0',
+                left: slide.textPosition === 'right' ? 'auto' : slide.textPosition === 'center' ? '50%' : '0',
+                right: slide.textPosition === 'right' ? '0' : 'auto',
+                transform: slide.textPosition === 'center' ? 'translateX(-50%)' : 'none',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: slide.textPosition === 'center' ? 'center' : slide.textPosition === 'right' ? 'flex-end' : 'flex-start',
+                padding: '0 8%',
+                maxWidth: slide.textPosition === 'center' ? '80%' : '60%',
+                textAlign: (slide.textAlign || 'left') as 'left' | 'center' | 'right',
+                zIndex: 20,
+              }}
+            >
+              {slide.title && (
+                <h2
+                  style={{
+                    fontSize: 'clamp(32px, 5vw, 56px)',
+                    fontWeight: 700,
+                    color: '#fff',
+                    marginBottom: '16px',
+                    lineHeight: 1.2,
+                    textShadow: '0 2px 20px rgba(0,0,0,0.3)',
+                    opacity: index === currentSlide ? 1 : 0,
+                    transform: index === currentSlide ? 'translateY(0)' : 'translateY(20px)',
+                    transition: 'opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s',
+                    whiteSpace: 'pre-line',
+                  }}
+                >
+                  {slide.title}
+                </h2>
+              )}
+              {slide.subtitle && (
+                <p
+                  style={{
+                    fontSize: 'clamp(16px, 2vw, 20px)',
+                    color: 'rgba(255,255,255,0.9)',
+                    marginBottom: '32px',
+                    lineHeight: 1.6,
+                    textShadow: '0 1px 10px rgba(0,0,0,0.3)',
+                    opacity: index === currentSlide ? 1 : 0,
+                    transform: index === currentSlide ? 'translateY(0)' : 'translateY(20px)',
+                    transition: 'opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s',
+                    whiteSpace: 'pre-line',
+                  }}
+                >
+                  {slide.subtitle}
+                </p>
+              )}
+              {slide.buttonText && slide.buttonLink && (
+                <div
+                  style={{
+                    opacity: index === currentSlide ? 1 : 0,
+                    transform: index === currentSlide ? 'translateY(0)' : 'translateY(20px)',
+                    transition: 'opacity 0.8s ease 0.7s, transform 0.8s ease 0.7s',
+                  }}
+                >
+                  <a
+                    href={slide.buttonLink}
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '16px 32px',
+                      backgroundColor: '#ffc50a',
+                      color: '#000',
+                      fontWeight: 600,
+                      fontSize: '16px',
+                      borderRadius: '50px',
+                      textDecoration: 'none',
+                      boxShadow: '0 4px 20px rgba(255,197,10,0.4)',
+                      transition: 'transform 0.2s, box-shadow 0.2s',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = '0 6px 30px rgba(255,197,10,0.5)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '0 4px 20px rgba(255,197,10,0.4)';
+                    }}
+                  >
+                    {slide.buttonText}
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                  </a>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       ))}
 
