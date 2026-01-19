@@ -448,17 +448,14 @@ export default function CurriculumAdminPage() {
               padding: '16px',
               borderBottom: '2px solid #e5e7eb',
               backgroundColor: '#f9fafb',
-              overflow: 'hidden',
             }}>
-              <div style={{ height: '180px', overflow: 'hidden' }}>
-                <ImageUpload
-                  value={item.image || ''}
-                  onChange={(url) => updateCurriculumNode(index, 'image', url)}
-                  folder="curriculum"
-                  aspectRatio="16/10"
-                  placeholder="카드 이미지"
-                />
-              </div>
+              <ImageUpload
+                value={item.image || ''}
+                onChange={(url) => updateCurriculumNode(index, 'image', url)}
+                folder="curriculum"
+                aspectRatio="16/10"
+                placeholder="카드 이미지"
+              />
             </div>
 
             {/* 제목 및 설명 */}
