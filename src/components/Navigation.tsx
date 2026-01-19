@@ -161,6 +161,7 @@ export default function Navigation() {
               color: '#111',
               textDecoration: 'none',
               whiteSpace: 'nowrap',
+              marginRight: '32px',
             }}
           >
             <img

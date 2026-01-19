@@ -101,30 +101,55 @@ export default function AdmissionsPage() {
       subtitle="경희실용음악학원 음대 합격 현황"
     >
       {/* Year Selector */}
-      <section style={{ padding: '40px 0', backgroundColor: '#111', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+      <section style={{ padding: '40px 16px', backgroundColor: '#111', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <div className="container">
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '12px',
-            flexWrap: 'wrap',
-          }}>
+          <style>{`
+            .year-selector {
+              display: flex;
+              justify-content: center;
+              gap: 12px;
+              flex-wrap: wrap;
+            }
+            .year-btn {
+              padding: 14px 28px;
+              border-radius: 100px;
+              font-size: 15px;
+              font-weight: 600;
+              cursor: pointer;
+              transition: all 0.3s;
+              white-space: nowrap;
+            }
+            @media (max-width: 1024px) {
+              .year-selector {
+                gap: 8px;
+              }
+              .year-btn {
+                padding: 10px 18px;
+                font-size: 13px;
+              }
+            }
+            @media (max-width: 640px) {
+              .year-selector {
+                gap: 6px;
+              }
+              .year-btn {
+                padding: 8px 14px;
+                font-size: 12px;
+              }
+            }
+          `}</style>
+          <div className="year-selector">
             {years.map((year) => {
               const count = admissionsByYear[year].students.length;
               return (
                 <button
                   key={year}
                   onClick={() => setSelectedYear(year)}
+                  className="year-btn"
                   style={{
-                    padding: '14px 28px',
                     backgroundColor: selectedYear === year ? '#ffc50a' : 'transparent',
                     border: selectedYear === year ? 'none' : '1px solid rgba(255,255,255,0.2)',
-                    borderRadius: '100px',
                     color: selectedYear === year ? '#000' : '#fff',
-                    fontSize: '15px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    transition: 'all 0.3s',
                   }}
                 >
                   {year}년 ({count})
