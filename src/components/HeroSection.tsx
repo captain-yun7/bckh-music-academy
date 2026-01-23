@@ -52,6 +52,18 @@ const defaultSlides: Slide[] = [
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [slides, setSlides] = useState<Slide[]>(defaultSlides);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 모바일 체크
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // 슬라이드 데이터 로드
   useEffect(() => {
@@ -151,8 +163,12 @@ export default function HeroSection() {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: slide.textPosition === 'center' ? 'center' : slide.textPosition === 'right' ? 'flex-end' : 'flex-start',
-                padding: '0 8%',
-                maxWidth: slide.textPosition === 'center' ? '80%' : '60%',
+                padding: isMobile
+                  ? slide.textPosition === 'center' ? '0 80px' : '0 70px'
+                  : '0 8%',
+                maxWidth: isMobile
+                  ? '100%'
+                  : slide.textPosition === 'center' ? '80%' : '60%',
                 textAlign: (slide.textAlign || 'left') as 'left' | 'center' | 'right',
                 zIndex: 20,
               }}
@@ -160,16 +176,18 @@ export default function HeroSection() {
               {slide.title && (
                 <h2
                   style={{
-                    fontSize: 'clamp(32px, 5vw, 56px)',
+                    fontSize: isMobile ? 'clamp(24px, 6vw, 36px)' : 'clamp(32px, 5vw, 56px)',
                     fontWeight: 700,
                     color: '#fff',
-                    marginBottom: '16px',
-                    lineHeight: 1.2,
+                    marginBottom: isMobile ? '12px' : '16px',
+                    lineHeight: 1.4,
                     textShadow: '0 2px 20px rgba(0,0,0,0.3)',
                     opacity: index === currentSlide ? 1 : 0,
                     transform: index === currentSlide ? 'translateY(0)' : 'translateY(20px)',
                     transition: 'opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s',
-                    whiteSpace: 'pre-line',
+                    whiteSpace: isMobile ? 'normal' : 'pre-line',
+                    wordBreak: 'keep-all',
+                    overflowWrap: 'break-word',
                   }}
                 >
                   {slide.title}
@@ -178,15 +196,17 @@ export default function HeroSection() {
               {slide.subtitle && (
                 <p
                   style={{
-                    fontSize: 'clamp(16px, 2vw, 20px)',
+                    fontSize: isMobile ? 'clamp(14px, 3.5vw, 16px)' : 'clamp(16px, 2vw, 20px)',
                     color: 'rgba(255,255,255,0.9)',
-                    marginBottom: '32px',
+                    marginBottom: isMobile ? '24px' : '32px',
                     lineHeight: 1.6,
                     textShadow: '0 1px 10px rgba(0,0,0,0.3)',
                     opacity: index === currentSlide ? 1 : 0,
                     transform: index === currentSlide ? 'translateY(0)' : 'translateY(20px)',
                     transition: 'opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s',
-                    whiteSpace: 'pre-line',
+                    whiteSpace: isMobile ? 'normal' : 'pre-line',
+                    wordBreak: 'keep-all',
+                    overflowWrap: 'break-word',
                   }}
                 >
                   {slide.subtitle}
@@ -205,12 +225,12 @@ export default function HeroSection() {
                     style={{
                       display: 'inline-flex',
                       alignItems: 'center',
-                      gap: '8px',
-                      padding: '16px 32px',
+                      gap: isMobile ? '6px' : '8px',
+                      padding: isMobile ? '12px 24px' : '16px 32px',
                       backgroundColor: '#ffc50a',
                       color: '#000',
                       fontWeight: 600,
-                      fontSize: '16px',
+                      fontSize: isMobile ? '14px' : '16px',
                       borderRadius: '50px',
                       textDecoration: 'none',
                       boxShadow: '0 4px 20px rgba(255,197,10,0.4)',
@@ -226,7 +246,7 @@ export default function HeroSection() {
                     }}
                   >
                     {slide.buttonText}
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg width={isMobile ? '16' : '20'} height={isMobile ? '16' : '20'} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
                   </a>
@@ -242,11 +262,11 @@ export default function HeroSection() {
         onClick={prevSlide}
         style={{
           position: 'absolute',
-          left: '32px',
+          left: isMobile ? '12px' : '32px',
           top: '50%',
           transform: 'translateY(-50%)',
           zIndex: 30,
-          padding: '12px',
+          padding: isMobile ? '8px' : '12px',
           backgroundColor: 'rgba(255,255,255,0.1)',
           backdropFilter: 'blur(4px)',
           borderRadius: '50%',
@@ -256,7 +276,7 @@ export default function HeroSection() {
         }}
         aria-label="이전 슬라이드"
       >
-        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg width={isMobile ? '20' : '24'} height={isMobile ? '20' : '24'} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
       </button>
@@ -264,11 +284,11 @@ export default function HeroSection() {
         onClick={nextSlide}
         style={{
           position: 'absolute',
-          right: '32px',
+          right: isMobile ? '12px' : '32px',
           top: '50%',
           transform: 'translateY(-50%)',
           zIndex: 30,
-          padding: '12px',
+          padding: isMobile ? '8px' : '12px',
           backgroundColor: 'rgba(255,255,255,0.1)',
           backdropFilter: 'blur(4px)',
           borderRadius: '50%',
@@ -278,7 +298,7 @@ export default function HeroSection() {
         }}
         aria-label="다음 슬라이드"
       >
-        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg width={isMobile ? '20' : '24'} height={isMobile ? '20' : '24'} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </button>
@@ -287,13 +307,13 @@ export default function HeroSection() {
       <div
         style={{
           position: 'absolute',
-          bottom: '32px',
+          bottom: isMobile ? '24px' : '32px',
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 30,
           display: 'flex',
           alignItems: 'center',
-          gap: '12px',
+          gap: isMobile ? '8px' : '12px',
         }}
       >
         {slides.map((_, index) => (
@@ -301,8 +321,8 @@ export default function HeroSection() {
             key={index}
             onClick={() => goToSlide(index)}
             style={{
-              width: index === currentSlide ? '32px' : '12px',
-              height: '12px',
+              width: index === currentSlide ? (isMobile ? '24px' : '32px') : (isMobile ? '8px' : '12px'),
+              height: isMobile ? '8px' : '12px',
               backgroundColor: index === currentSlide ? 'white' : 'rgba(255,255,255,0.5)',
               borderRadius: '9999px',
               border: 'none',
