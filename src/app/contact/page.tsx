@@ -46,8 +46,8 @@ export default function ContactPage() {
                 주소
               </h3>
               <p style={{ fontSize: '17px', color: '#555', lineHeight: 1.8 }}>
-                경기도 부천시 원미구 중동 1141-2<br />
-                (중동역 도보 5분 거리)
+                경기도 부천시 부천로43 3층<br />
+                (부천역 도보5분)
               </p>
             </div>
 
@@ -60,8 +60,8 @@ export default function ContactPage() {
                 전화번호
               </h3>
               <p style={{ fontSize: '17px', color: '#555', lineHeight: 1.8 }}>
-                대표전화: 032-321-8668<br />
-                팩스: 032-321-8669
+                대표전화: 032-611-9191/2<br />
+                팩스: 032-611-9193
               </p>
             </div>
 
@@ -71,7 +71,7 @@ export default function ContactPage() {
                 HOURS
               </p>
               <h3 style={{ fontSize: '24px', fontWeight: 700, color: '#000', marginBottom: '16px' }}>
-                운영시간
+                상담시간
               </h3>
               <p style={{ fontSize: '17px', color: '#555', lineHeight: 1.8 }}>
                 평일: 11:00 - 22:00<br />
@@ -117,8 +117,12 @@ export default function ContactPage() {
                 버스
               </h4>
               <p style={{ fontSize: '15px', color: '#666', lineHeight: 1.8 }}>
-                중동역 정류장 하차<br />
-                12, 23, 37, 83번 외 다수
+                노마즈하우스, 삼성생명앞 하차<br />
+                (구,중앙극장)<br />
+                <span style={{ fontSize: '13px' }}>
+                  일반: 5-5, 12, 5-4, 5-3, 8, 70-2, 71, 75, 11, 50, 5-6<br />
+                  간선: 661, 606
+                </span>
               </p>
             </div>
 
@@ -131,8 +135,12 @@ export default function ContactPage() {
                 자가용
               </h4>
               <p style={{ fontSize: '15px', color: '#666', lineHeight: 1.8 }}>
-                건물 내 주차 가능<br />
-                주차 문의: 032-321-8668
+                심곡흥천공원 지하공영주차장<br />
+                1시간 무료주차<br />
+                <span style={{ fontSize: '13px' }}>
+                  경기도 부천시 부천로54번길 23<br />
+                  (소요시간 5분, 283M)
+                </span>
               </p>
             </div>
           </div>

@@ -184,6 +184,7 @@ export default function AboutPage() {
                 <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.8)', lineHeight: 1.8 }}>
                   서울예대 전용준, 경희대 허재훈(수석), 동아방송예대 이소연(차석) 등<br />
                   <strong style={{ color: '#ffc50a' }}>100여명의 주요대학 합격생 배출</strong>
+                  <span style={{ color: 'rgba(255,255,255,0.6)', marginLeft: '8px' }}>(실용음악입시레슨 경력 25년차)</span>
                 </p>
               </div>
             </div>
@@ -220,7 +221,8 @@ export default function AboutPage() {
             <div>
               <p style={{ color: '#ffc50a', fontSize: '14px', marginBottom: '12px', fontWeight: 600 }}>주소</p>
               <p style={{ color: '#fff', fontSize: '18px', fontWeight: 500 }}>
-                경기도 부천시 원미구 중동 1141-2
+                경기도 부천시 부천로43 3층<br />
+                <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)' }}>(부천역 도보5분)</span>
               </p>
             </div>
             <div>
@@ -230,7 +232,7 @@ export default function AboutPage() {
               </p>
             </div>
             <div>
-              <p style={{ color: '#ffc50a', fontSize: '14px', marginBottom: '12px', fontWeight: 600 }}>운영시간</p>
+              <p style={{ color: '#ffc50a', fontSize: '14px', marginBottom: '12px', fontWeight: 600 }}>상담시간</p>
               <p style={{ color: '#fff', fontSize: '18px', fontWeight: 500 }}>
                 평일 11:00 - 22:00<br />
                 토요일 11:00 - 19:00

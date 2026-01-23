@@ -24,7 +24,7 @@ const scholarships = [
   {
     id: 'point',
     name: '상점장학',
-    amount: '5%~20%',
+    amount: '5%~15%',
     description: '출석, 수업태도, 연습 성실도에 따른 상점 부여',
     color: '#ffc50a',
     criteria: ['출석 우수자', '수업태도 우수자', '연습 성실도 우수자'],
@@ -38,7 +38,7 @@ const gradeRankings = [
   { rank: '3등', discount: '20%', color: '#cd7f32' },
 ];
 
-// 상점장학 데이터 (5%~20%)
+// 상점장학 데이터 (5%~15%)
 const pointRankings = [
   { rank: '우수', discount: '20%', color: '#ffc50a' },
   { rank: '양호', discount: '10%', color: '#c0c0c0' },
@@ -48,7 +48,7 @@ const pointRankings = [
 const pointRules = [
   { title: '출석 점수', desc: '수업 출석 시 상점 부여 (지각/결석 시 감점)' },
   { title: '레슨 태도', desc: '적극적인 수업 참여 및 과제 수행' },
-  { title: '연습실 이용', desc: '자율 연습 시간에 따른 가산점' },
+  { title: '연습실 이용', desc: '매일 3시간 이상 연습시 상점부여' },
   { title: '공연 참여', desc: '학원 행사 및 공연 참여 시 추가 상점' },
 ];
 
@@ -491,7 +491,7 @@ export default function ScholarshipPage() {
                 color: '#ffc50a',
                 marginTop: '24px',
               }}>
-                5%~20%
+                5%~15%
               </div>
               <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.5)', marginTop: '8px' }}>
                 수강료 할인
@@ -609,14 +609,6 @@ export default function ScholarshipPage() {
                 <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px', fontSize: '14px', color: '#444', lineHeight: 1.7 }}>
                   <span style={{ color: '#ffc50a', fontWeight: 700 }}>•</span>
                   상점은 매월 1일에 초기화되며, 월말에 순위를 집계합니다.
-                </li>
-                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px', fontSize: '14px', color: '#444', lineHeight: 1.7 }}>
-                  <span style={{ color: '#ffc50a', fontWeight: 700 }}>•</span>
-                  지각 3회 시 결석 1회로 처리되며, 결석 시 상점이 차감됩니다.
-                </li>
-                <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px', fontSize: '14px', color: '#444', lineHeight: 1.7 }}>
-                  <span style={{ color: '#ffc50a', fontWeight: 700 }}>•</span>
-                  학원 공연 및 행사 참여 시 추가 상점이 부여됩니다.
                 </li>
                 <li style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', fontSize: '14px', color: '#444', lineHeight: 1.7 }}>
                   <span style={{ color: '#ffc50a', fontWeight: 700 }}>•</span>
