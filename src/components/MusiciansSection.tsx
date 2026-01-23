@@ -189,7 +189,8 @@ export default function MusiciansSection() {
                       fill
                       style={{ objectFit: 'contain', transition: 'transform 0.3s ease' }}
                       sizes="(max-width: 640px) 280px, 300px"
-                      quality={90}
+                      loading={index < 4 ? 'eager' : 'lazy'}
+                      priority={index < 2}
                       placeholder="blur"
                       blurDataURL={getPlaceholderUrl(musician.image)}
                     />
