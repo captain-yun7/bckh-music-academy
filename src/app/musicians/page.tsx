@@ -84,9 +84,10 @@ export default function MusiciansPage() {
                           fill
                           style={{ objectFit: 'contain' }}
                           sizes="(max-width: 768px) 100vw, 400px"
-                          quality={90}
                           placeholder="blur"
                           blurDataURL={getPlaceholderUrl(musician.image)}
+                          loading={musicians.indexOf(musician) < 6 ? 'eager' : 'lazy'}
+                          priority={musicians.indexOf(musician) < 3}
                         />
                       ) : (
                         <div style={{

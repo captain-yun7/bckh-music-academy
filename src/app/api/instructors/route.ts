@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
+export const revalidate = 60; // 60초마다 재검증
+
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const subjectSlug = searchParams.get('subject');
@@ -27,5 +29,9 @@ export async function GET(request: NextRequest) {
       : [{ order: 'asc' }, { createdAt: 'desc' }],
   });
 
-  return NextResponse.json(instructors);
+  return NextResponse.json(instructors, {
+    headers: {
+      'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
+    },
+  });
 }
