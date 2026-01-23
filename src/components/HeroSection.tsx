@@ -15,44 +15,11 @@ interface Slide {
   textAlign?: string;
 }
 
-// 기본 슬라이드 (DB가 비어있을 때 사용)
-const defaultSlides: Slide[] = [
-  {
-    id: '1',
-    imageUrl: '/images/main/main1.jpg',
-    title: '',
-    subtitle: null,
-  },
-  {
-    id: '2',
-    imageUrl: '/images/main/main2.jpg',
-    title: '',
-    subtitle: null,
-  },
-  {
-    id: '3',
-    imageUrl: '/images/main/main3.jpg',
-    title: '',
-    subtitle: null,
-  },
-  {
-    id: '4',
-    imageUrl: '/images/main/main4.jpg',
-    title: '',
-    subtitle: null,
-  },
-  {
-    id: '5',
-    imageUrl: '/images/main/main5.jpg',
-    title: '',
-    subtitle: null,
-  },
-];
-
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [slides, setSlides] = useState<Slide[]>(defaultSlides);
+  const [slides, setSlides] = useState<Slide[]>([]);
   const [isMobile, setIsMobile] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // 모바일 체크
   useEffect(() => {
@@ -74,8 +41,10 @@ export default function HeroSection() {
         if (data && data.length > 0) {
           setSlides(data);
         }
-      } catch {
-        // API 실패 시 기본 슬라이드 유지
+      } catch (error) {
+        console.error('Failed to fetch slides:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -103,7 +72,23 @@ export default function HeroSection() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [slides.length]);
+  }, [slides.length, currentSlide]);
+
+  // 로딩 중이거나 슬라이드가 없으면 빈 섹션
+  if (isLoading || slides.length === 0) {
+    return (
+      <section
+        style={{
+          position: 'relative',
+          height: '100vh',
+          minHeight: '600px',
+          maxHeight: '900px',
+          overflow: 'hidden',
+          backgroundColor: '#000',
+        }}
+      />
+    );
+  }
 
   return (
     <section
@@ -185,7 +170,7 @@ export default function HeroSection() {
                     opacity: index === currentSlide ? 1 : 0,
                     transform: index === currentSlide ? 'translateY(0)' : 'translateY(20px)',
                     transition: 'opacity 0.8s ease 0.3s, transform 0.8s ease 0.3s',
-                    whiteSpace: isMobile ? 'normal' : 'pre-line',
+                    whiteSpace: 'pre-line',
                     wordBreak: 'keep-all',
                     overflowWrap: 'break-word',
                   }}
@@ -204,7 +189,7 @@ export default function HeroSection() {
                     opacity: index === currentSlide ? 1 : 0,
                     transform: index === currentSlide ? 'translateY(0)' : 'translateY(20px)',
                     transition: 'opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s',
-                    whiteSpace: isMobile ? 'normal' : 'pre-line',
+                    whiteSpace: 'pre-line',
                     wordBreak: 'keep-all',
                     overflowWrap: 'break-word',
                   }}
