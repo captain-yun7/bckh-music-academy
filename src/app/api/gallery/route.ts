@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+export const revalidate = 60; // 60초마다 재검증
+
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
@@ -27,7 +29,11 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    return NextResponse.json(images);
+    return NextResponse.json(images, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
+      },
+    });
   } catch (error) {
     console.error('Failed to fetch gallery images:', error);
     return NextResponse.json({ error: 'Failed to fetch gallery images' }, { status: 500 });
