@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import InstructorModal from '@/components/InstructorModal';
-import { imagePresets } from '@/lib/image';
+import { imagePresets, getPlaceholderUrl } from '@/lib/image';
 
 interface Subject {
   id: string;
@@ -179,7 +179,7 @@ export default function InstructorSubjectPage() {
               gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
               gap: '32px',
             }}>
-              {instructors.map((instructor) => (
+              {instructors.map((instructor, index) => (
                 <div
                   key={instructor.id}
                   onClick={() => setSelectedInstructor(instructor)}
@@ -208,6 +208,10 @@ export default function InstructorSubjectPage() {
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 280px"
                         style={{ objectFit: 'cover' }}
+                        loading={index < 4 ? 'eager' : 'lazy'}
+                        priority={index < 2}
+                        placeholder="blur"
+                        blurDataURL={getPlaceholderUrl(instructor.image)}
                       />
                     ) : (
                       <div style={{

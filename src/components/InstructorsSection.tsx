@@ -199,7 +199,7 @@ export default function InstructorsSection() {
                 paddingRight: '20px',
               }}
             >
-              {instructors.map((instructor) => (
+              {instructors.map((instructor, index) => (
                 <div
                   key={instructor.id}
                   onClick={() => openModal(instructor)}
@@ -223,8 +223,8 @@ export default function InstructorsSection() {
                         fill
                         style={{ objectFit: 'cover', transition: 'transform 0.3s ease' }}
                         sizes="(max-width: 640px) 160px, 180px"
-                        loading="eager"
-                        quality={85}
+                        loading={index < 4 ? 'eager' : 'lazy'}
+                        priority={index < 2}
                         placeholder="blur"
                         blurDataURL={getPlaceholderUrl(instructor.image)}
                       />
