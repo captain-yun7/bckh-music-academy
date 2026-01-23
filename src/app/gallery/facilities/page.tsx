@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import SubPageLayout from '@/components/SubPageLayout';
 import ImageLightbox from '@/components/ImageLightbox';
+import { imagePresets, getPlaceholderUrl } from '@/lib/image';
 
 interface GalleryImage {
   id: string;
@@ -112,11 +113,13 @@ export default function FacilitiesGalleryPage() {
                       className="gallery-item"
                     >
                       <Image
-                        src={item.imageUrl}
+                        src={item.imageUrl.includes('cloudinary.com') ? imagePresets.galleryThumb(item.imageUrl) : item.imageUrl}
                         alt={item.title || `시설 ${startIndex + index + 1}`}
                         fill
                         style={{ objectFit: 'cover', transition: 'transform 0.3s ease' }}
                         sizes="(max-width: 480px) 50vw, (max-width: 768px) 33vw, 25vw"
+                        placeholder={item.imageUrl.includes('cloudinary.com') ? 'blur' : 'empty'}
+                        blurDataURL={item.imageUrl.includes('cloudinary.com') ? getPlaceholderUrl(item.imageUrl) : undefined}
                       />
                       {/* Hover Overlay */}
                       <div
