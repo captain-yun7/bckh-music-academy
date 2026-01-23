@@ -1,77 +1,144 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-const programs = [
+interface Program {
+  id: string;
+  slug: string;
+  name: string;
+  subtitle: string | null;
+  description: string | null;
+  icon: string | null;
+  image: string | null;
+}
+
+// 기본 아이콘 (DB 데이터가 없을 때 사용)
+const defaultIcons: Record<string, React.ReactNode> = {
+  'ht': (
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <circle cx="12" cy="5" r="3" />
+      <circle cx="4" cy="18" r="3" />
+      <circle cx="20" cy="18" r="3" />
+      <path d="M12 8v4" />
+      <path d="M7 15l5-3 5 3" />
+    </svg>
+  ),
+  'cake-concert': (
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <path d="M12 3v18M5 8l7-5 7 5M5 8v8l7 5 7-5V8" />
+    </svg>
+  ),
+  'open-stage': (
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <rect x="2" y="7" width="20" height="14" rx="2" />
+      <path d="M12 7V3M8 3h8" />
+      <circle cx="12" cy="14" r="3" />
+    </svg>
+  ),
+  'album': (
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="3" />
+      <circle cx="12" cy="12" r="1" fill="#ffc50a" />
+    </svg>
+  ),
+  'audition': (
+    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
+      <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+      <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+      <path d="M12 19v4M8 23h8" />
+      <path d="M17 4l2-2M7 4L5 2" />
+    </svg>
+  ),
+};
+
+// 기본 프로그램 데이터 (DB 데이터가 없을 때 폴백)
+const fallbackPrograms = [
   {
     id: 'ht',
+    slug: 'ht',
     name: 'HT 프로그램',
     subtitle: 'Harmony Training',
     description: '그룹 합주를 통한 실전 앙상블 훈련. 밴드 세션과 함께 실제 무대처럼 연습합니다.',
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
-        <circle cx="12" cy="5" r="3" />
-        <circle cx="4" cy="18" r="3" />
-        <circle cx="20" cy="18" r="3" />
-        <path d="M12 8v4" />
-        <path d="M7 15l5-3 5 3" />
-      </svg>
-    ),
+    icon: null,
+    image: null,
   },
   {
     id: 'cake-concert',
+    slug: 'cake-concert',
     name: '케이크콘서트',
     subtitle: 'Cake Concert',
     description: '정기적으로 열리는 수강생 발표회. 실전 무대 경험을 쌓을 수 있습니다.',
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
-        <path d="M12 3v18M5 8l7-5 7 5M5 8v8l7 5 7-5V8" />
-      </svg>
-    ),
+    icon: null,
+    image: null,
   },
   {
     id: 'open-stage',
+    slug: 'open-stage',
     name: '오픈스테이지',
     subtitle: 'Open Stage',
     description: '자유롭게 무대 경험을 쌓는 공개 공연. 관객 앞에서 실력을 발휘합니다.',
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
-        <rect x="2" y="7" width="20" height="14" rx="2" />
-        <path d="M12 7V3M8 3h8" />
-        <circle cx="12" cy="14" r="3" />
-      </svg>
-    ),
+    icon: null,
+    image: null,
   },
   {
     id: 'album',
+    slug: 'album',
     name: '수강생음반',
     subtitle: 'Student Album',
     description: '전문 스튜디오에서 나만의 음반 제작. 포트폴리오로 활용 가능합니다.',
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
-        <circle cx="12" cy="12" r="10" />
-        <circle cx="12" cy="12" r="3" />
-        <circle cx="12" cy="12" r="1" fill="#ffc50a" />
-      </svg>
-    ),
+    icon: null,
+    image: null,
   },
   {
     id: 'audition',
+    slug: 'audition',
     name: '정기오디션',
     subtitle: 'Regular Audition',
     description: '기획사 관계자 초청 오디션 진행. 데뷔의 기회를 잡으세요.',
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffc50a" strokeWidth="1.5">
-        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
-        <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-        <path d="M12 19v4M8 23h8" />
-        <path d="M17 4l2-2M7 4L5 2" />
-      </svg>
-    ),
+    icon: null,
+    image: null,
   },
 ];
 
 export default function ProgramsSection() {
+  const [programs, setPrograms] = useState<Program[]>(fallbackPrograms);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPrograms = async () => {
+      try {
+        const res = await fetch('/api/programs');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.length > 0) {
+            setPrograms(data);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch programs:', error);
+      }
+      setIsLoading(false);
+    };
+
+    fetchPrograms();
+  }, []);
+
+  const getIcon = (program: Program) => {
+    // DB에 아이콘 URL이 있으면 이미지로 표시
+    if (program.icon && (program.icon.startsWith('http') || program.icon.startsWith('/'))) {
+      return (
+        <img
+          src={program.icon}
+          alt=""
+          style={{ width: '40px', height: '40px', objectFit: 'contain' }}
+        />
+      );
+    }
+    // 기본 아이콘 사용
+    return defaultIcons[program.slug] || defaultIcons['ht'];
+  };
   return (
     <section style={{ padding: '100px 0', backgroundColor: '#111' }}>
       <div className="container">
@@ -115,7 +182,7 @@ export default function ProgramsSection() {
           {programs.map((program) => (
             <Link
               key={program.id}
-              href={`/programs/${program.id}`}
+              href={`/programs/${program.slug}`}
               style={{
                 padding: '32px',
                 backgroundColor: 'rgba(255,255,255,0.03)',
@@ -134,7 +201,7 @@ export default function ProgramsSection() {
               }}
             >
               <span style={{ display: 'block', marginBottom: '20px' }}>
-                {program.icon}
+                {getIcon(program)}
               </span>
               <p style={{
                 fontSize: '12px',

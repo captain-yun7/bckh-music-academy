@@ -27,7 +27,10 @@ model Subject {
   id          String       @id @default(cuid())
   name        String       @unique  // Vocal, Piano, Guitar 등
   nameKo      String       // 보컬, 피아노, 기타 등
+  description String?      // 대중음악 보컬 전문 교육 등
+  features    String?      @db.Text // 특징 (JSON array: ["발성법", "호흡법", ...])
   order       Int          @default(0)
+  isPublished Boolean      @default(true)
   instructors InstructorSubject[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
@@ -260,6 +263,23 @@ model SiteSetting {
   key         String   @unique
   value       String   @db.Text
   description String?
+  updatedAt   DateTime @updatedAt
+}
+
+// ==================== 특별 프로그램 관리 ====================
+
+model Program {
+  id          String   @id @default(cuid())
+  slug        String   @unique // ht, cake-concert, open-stage, album, audition
+  name        String   // HT 프로그램, 케이크콘서트 등
+  subtitle    String?  // Harmony Training, Cake Concert 등
+  description String?  @db.Text // 프로그램 설명
+  icon        String?  // 아이콘 (SVG 또는 이미지 URL)
+  image       String?  // 대표 이미지 URL
+  content     String?  @db.Text // 상세 페이지 내용 (JSON)
+  order       Int      @default(0)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 

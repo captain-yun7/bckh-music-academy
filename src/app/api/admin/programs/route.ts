@@ -3,16 +3,11 @@ import prisma from '@/lib/prisma';
 import { getSession } from '@/lib/auth';
 
 export async function GET() {
-  const subjects = await prisma.subject.findMany({
+  const programs = await prisma.program.findMany({
     orderBy: { order: 'asc' },
-    include: {
-      _count: {
-        select: { instructors: true },
-      },
-    },
   });
 
-  return NextResponse.json(subjects);
+  return NextResponse.json(programs);
 }
 
 export async function POST(request: NextRequest) {
@@ -23,16 +18,19 @@ export async function POST(request: NextRequest) {
 
   const data = await request.json();
 
-  const subject = await prisma.subject.create({
+  const program = await prisma.program.create({
     data: {
+      slug: data.slug,
       name: data.name,
-      nameKo: data.nameKo,
+      subtitle: data.subtitle,
       description: data.description,
-      features: data.features ? JSON.stringify(data.features) : null,
+      icon: data.icon,
+      image: data.image,
+      content: data.content ? JSON.stringify(data.content) : null,
       order: data.order || 0,
       isPublished: data.isPublished ?? true,
     },
   });
 
-  return NextResponse.json(subject);
+  return NextResponse.json(program);
 }
