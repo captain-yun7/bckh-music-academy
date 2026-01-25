@@ -1,12 +1,24 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import SubPageLayout from '@/components/SubPageLayout';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const programs = [
+interface Program {
+  id: string;
+  slug: string;
+  name: string;
+  subtitle: string | null;
+  description: string | null;
+  image: string | null;
+}
+
+// 기본 프로그램 데이터 (DB 데이터가 없을 때 폴백)
+const fallbackPrograms: Program[] = [
   {
     id: 'ht',
+    slug: 'ht',
     name: 'HT 프로그램',
     subtitle: 'Harmony Training',
     description: '그룹 합주를 통한 실전 앙상블 훈련',
@@ -14,6 +26,7 @@ const programs = [
   },
   {
     id: 'cake-concert',
+    slug: 'cake-concert',
     name: '케이크콘서트',
     subtitle: 'Cake Concert',
     description: '정기적으로 열리는 수강생 발표회',
@@ -21,6 +34,7 @@ const programs = [
   },
   {
     id: 'open-stage',
+    slug: 'open-stage',
     name: '오픈스테이지',
     subtitle: 'Open Stage',
     description: '자유롭게 무대 경험을 쌓는 공개 공연',
@@ -28,6 +42,7 @@ const programs = [
   },
   {
     id: 'album',
+    slug: 'album',
     name: '수강생음반',
     subtitle: 'Student Album',
     description: '전문 스튜디오에서 나만의 음반 제작',
@@ -35,6 +50,7 @@ const programs = [
   },
   {
     id: 'audition',
+    slug: 'audition',
     name: '정기오디션',
     subtitle: 'Regular Audition',
     description: '기획사 관계자 초청 오디션 진행',
@@ -42,7 +58,41 @@ const programs = [
   },
 ];
 
+// 기본 이미지 (DB에 이미지가 없을 때)
+const defaultImages: Record<string, string> = {
+  'ht': 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800',
+  'cake-concert': 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800',
+  'open-stage': 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800',
+  'album': 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800',
+  'audition': 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800',
+};
+
 export default function ProgramsPage() {
+  const [programs, setPrograms] = useState<Program[]>(fallbackPrograms);
+
+  useEffect(() => {
+    const fetchPrograms = async () => {
+      try {
+        const res = await fetch('/api/programs');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.length > 0) {
+            setPrograms(data);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch programs:', error);
+      }
+    };
+
+    fetchPrograms();
+  }, []);
+
+  const getImage = (program: Program) => {
+    if (program.image) return program.image;
+    return defaultImages[program.slug] || defaultImages['ht'];
+  };
+
   return (
     <SubPageLayout
       title="특별프로그램"
@@ -75,7 +125,7 @@ export default function ProgramsPage() {
             {programs.map((program) => (
               <Link
                 key={program.id}
-                href={`/programs/${program.id}`}
+                href={`/programs/${program.slug}`}
                 style={{
                   flex: '0 0 min(320px, 85vw)',
                   scrollSnapAlign: 'start',
@@ -91,7 +141,7 @@ export default function ProgramsPage() {
                 }}>
                   <div style={{ position: 'relative', aspectRatio: '16/10' }}>
                     <Image
-                      src={program.image}
+                      src={getImage(program)}
                       alt={program.name}
                       fill
                       style={{ objectFit: 'cover' }}
