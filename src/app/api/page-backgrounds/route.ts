@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-export const revalidate = 60; // 60초마다 재검증
+export const revalidate = false; // 무한 캐시, 관리자 수정 시 revalidatePath로 무효화
 
 // 페이지별 배경 이미지 목록 조회 (공개)
 export async function GET() {
@@ -21,11 +21,7 @@ export async function GET() {
       backgrounds[pagePath] = setting.value;
     });
 
-    return NextResponse.json(backgrounds, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
-      },
-    });
+    return NextResponse.json(backgrounds);
   } catch (error) {
     console.error('Failed to fetch page backgrounds:', error);
     return NextResponse.json({ error: 'Failed to fetch page backgrounds' }, { status: 500 });

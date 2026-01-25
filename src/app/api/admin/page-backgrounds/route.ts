@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/lib/auth';
@@ -73,6 +74,9 @@ export async function POST(request: NextRequest) {
         where: { key },
       });
     }
+
+    revalidatePath('/');
+    revalidatePath('/api/page-backgrounds');
 
     return NextResponse.json({ success: true });
   } catch (error) {

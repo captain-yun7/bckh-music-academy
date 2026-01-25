@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
-export const revalidate = 60; // 60초마다 재검증
+export const revalidate = false; // 무한 캐시, 관리자 수정 시 revalidatePath로 무효화
 
 export async function GET() {
   try {
@@ -20,11 +20,7 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json(slides, {
-      headers: {
-        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
-      },
-    });
+    return NextResponse.json(slides);
   } catch {
     // If database is not available, return empty array
     return NextResponse.json([]);

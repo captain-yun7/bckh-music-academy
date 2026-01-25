@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import prisma from '@/lib/prisma';
 import { getSession } from '@/lib/auth';
 
@@ -31,6 +32,9 @@ export async function POST(request: NextRequest) {
       isPublished: data.isPublished ?? true,
     },
   });
+
+  revalidatePath('/');
+  revalidatePath('/api/hero-slides');
 
   return NextResponse.json(slide);
 }

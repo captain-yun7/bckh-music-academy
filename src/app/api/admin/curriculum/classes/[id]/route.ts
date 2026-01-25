@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import prisma from '@/lib/prisma';
 import { getSession } from '@/lib/auth';
 
@@ -55,6 +56,10 @@ export async function PATCH(
     },
   });
 
+  // 캐시 무효화
+  revalidatePath('/');
+  revalidatePath('/api/curriculum/classes');
+
   return NextResponse.json(curriculumClass);
 }
 
@@ -72,6 +77,10 @@ export async function DELETE(
   await prisma.curriculumClass.delete({
     where: { id },
   });
+
+  // 캐시 무효화
+  revalidatePath('/');
+  revalidatePath('/api/curriculum/classes');
 
   return NextResponse.json({ success: true });
 }

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import prisma from '@/lib/prisma';
 import { getSession } from '@/lib/auth';
 
@@ -29,6 +30,9 @@ export async function PATCH(
     },
   });
 
+  revalidatePath('/');
+  revalidatePath('/api/hero-slides');
+
   return NextResponse.json(slide);
 }
 
@@ -46,6 +50,9 @@ export async function DELETE(
   await prisma.heroSlide.delete({
     where: { id },
   });
+
+  revalidatePath('/');
+  revalidatePath('/api/hero-slides');
 
   return NextResponse.json({ success: true });
 }

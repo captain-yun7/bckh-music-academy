@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import prisma from '@/lib/prisma';
 import { getSession } from '@/lib/auth';
 
@@ -77,6 +78,9 @@ export async function PATCH(
     },
   });
 
+  revalidatePath('/');
+  revalidatePath('/api/instructors');
+
   return NextResponse.json(instructor);
 }
 
@@ -94,6 +98,9 @@ export async function DELETE(
   await prisma.instructor.delete({
     where: { id },
   });
+
+  revalidatePath('/');
+  revalidatePath('/api/instructors');
 
   return NextResponse.json({ success: true });
 }
