@@ -141,7 +141,7 @@ export default function AboutPage() {
                 border: '3px solid #ffc50a',
               }}>
                 <Image
-                  src="/원장.JPG"
+                  src="/원장프로필.JPG"
                   alt="조중욱 원장"
                   width={200}
                   height={250}

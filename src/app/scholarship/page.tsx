@@ -40,7 +40,7 @@ const gradeRankings = [
 
 // 상점장학 데이터 (5%~15%)
 const pointRankings = [
-  { rank: '우수', discount: '20%', color: '#ffc50a' },
+  { rank: '우수', discount: '15%', color: '#ffc50a' },
   { rank: '양호', discount: '10%', color: '#c0c0c0' },
   { rank: '보통', discount: '5%', color: '#cd7f32' },
 ];
