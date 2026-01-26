@@ -114,7 +114,7 @@ export default function ReviewsSection() {
               합격 실적
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '17px' }}>
-              18년간 쌓아온 신뢰와 결과로 증명합니다
+              19년간 쌓아온 신뢰와 결과로 증명합니다
             </p>
           </div>
         </div>

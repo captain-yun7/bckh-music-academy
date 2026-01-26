@@ -6,7 +6,7 @@ const process = [
   { step: '02', title: '프리프로덕션', desc: '녹음 전 리허설 및 레슨 진행' },
   { step: '03', title: '레코딩', desc: '전문 스튜디오에서 녹음 진행' },
   { step: '04', title: '믹싱/마스터링', desc: '전문 엔지니어의 후반 작업' },
-  { step: '05', title: '음원 발매', desc: '멜론, 지니 등 주요 음원 플랫폼 발매' },
+  { step: '05', title: '음원 발매', desc: '멜론, 지니, 유튜브뮤직, 스포티파이, 애플뮤직 등 주요 음원 플랫폼 발매' },
 ];
 
 export default function AlbumPage() {

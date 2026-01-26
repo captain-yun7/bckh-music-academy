@@ -77,7 +77,7 @@ export default function CakeConcertPage() {
             개최 일정
           </h2>
           <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.7)', marginBottom: '8px' }}>
-            연 4회 (3월, 6월, 9월, 12월)
+            연1회 (매년 8월)
           </p>
           <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.5)' }}>
             정확한 일정은 공지사항을 확인해주세요
