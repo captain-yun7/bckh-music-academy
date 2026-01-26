@@ -388,63 +388,68 @@ export default function InstructorModal({ instructor, onClose }: InstructorModal
               {instructor.messageToStudents || '등록된 메시지가 없습니다.'}
             </p>
           </div>
-        </div>
 
-        {/* 영상 섹션 - 하단 고정 */}
-        {hasAnyVideo && (
-          <div style={{
-            flexShrink: 0,
-            padding: '20px 32px',
-            backgroundColor: '#111',
-            borderTop: '1px solid #333',
-          }}>
+          {/* 영상 섹션 */}
+          {hasAnyVideo && (
             <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '16px',
-              flexWrap: 'wrap',
+              marginTop: '28px',
+              padding: '24px',
+              backgroundColor: '#111',
+              borderRadius: '16px',
             }}>
-              {hasVideo1 && (
-                <div style={{
-                  width: '280px',
-                  height: '158px',
-                  borderRadius: '12px',
-                  overflow: 'hidden',
-                  flexShrink: 0,
-                }}>
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    src={`https://www.youtube.com/embed/${getYouTubeVideoId(instructor.videoUrl1!)}`}
-                    title="영상 1"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-              )}
-              {hasVideo2 && (
-                <div style={{
-                  width: '280px',
-                  height: '158px',
-                  borderRadius: '12px',
-                  overflow: 'hidden',
-                  flexShrink: 0,
-                }}>
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    src={`https://www.youtube.com/embed/${getYouTubeVideoId(instructor.videoUrl2!)}`}
-                    title="영상 2"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-              )}
+              <p style={{
+                fontSize: '14px',
+                fontWeight: 600,
+                color: '#ffc50a',
+                marginBottom: '16px',
+              }}>
+                · 영상
+              </p>
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px',
+              }}>
+                {hasVideo1 && (
+                  <div style={{
+                    width: '100%',
+                    aspectRatio: '16/9',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                  }}>
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={`https://www.youtube.com/embed/${getYouTubeVideoId(instructor.videoUrl1!)}`}
+                      title="영상 1"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                )}
+                {hasVideo2 && (
+                  <div style={{
+                    width: '100%',
+                    aspectRatio: '16/9',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                  }}>
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={`https://www.youtube.com/embed/${getYouTubeVideoId(instructor.videoUrl2!)}`}
+                      title="영상 2"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

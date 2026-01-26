@@ -2,14 +2,15 @@ import SubPageLayout from '@/components/SubPageLayout';
 import Image from 'next/image';
 
 const philosophies = [
-  { num: '01', title: '솔직한 상담', desc: '솔직한 상담을 하는 학원입니다. 꼭 필요한 수업만 수강하시면 됩니다.' },
-  { num: '02', title: '최고의 강사진', desc: '좋은 강사님을 모시기 위해 끊임없이 노력합니다.' },
-  { num: '03', title: '원장 책임제', desc: '입시반은 처음부터 끝까지 원장님의 책임하에 관리, 교육됩니다.' },
-  { num: '04', title: '기본기 중시', desc: '기본기를 가장 중요시 합니다.' },
-  { num: '05', title: '실전 교육', desc: '실전 중심의 교육을 합니다.' },
-  { num: '06', title: '트렌드 선도', desc: '트렌드와 흐름을 선도하는 교육을 합니다.' },
-  { num: '07', title: '인성 교육', desc: '인성을 중요시 합니다.' },
-  { num: '08', title: '신뢰와 약속', desc: '처음 품은 신념과 교육 철학을 잃지 않고 끝까지 함께 하겠습니다.' },
+  { num: '01', title: '솔직한 상담', desc: '솔직하고 정확한 상담을 하는 학원입니다. 등록을 위해 과장하거나 좋은 말만 하지 않습니다.' },
+  { num: '02', title: '거품없는 프로그램', desc: '꼭 필요한 수업만 수강하시면 됩니다. 필요없거나 중복되는 수업을 권유하지 않습니다.' },
+  { num: '03', title: '강남/홍대수준 강사진', desc: '최고의 강사진을 모시기 위해 끊임없이 회의하고 교육합니다.' },
+  { num: '04', title: '원장책임제', desc: '입시반은 처음부터 끝까지 25년 경력 원장님의 책임하에 관리/교육됩니다.' },
+  { num: '05', title: '기본기중시', desc: '입시를 넘어 뮤지션으로 기본기를 가르칩니다.' },
+  { num: '06', title: '실전 중심 교육', desc: '많은 공연/음반 프로데뷔 기회를 제공합니다.' },
+  { num: '07', title: '인성교육', desc: '사교육이지만 공교육 이상의 책임감으로 지도합니다.' },
+  { num: '08', title: '트렌드 선도', desc: '실용음악 교육의 흐름과 입시의 방향을 주도합니다.' },
+  { num: '09', title: '최고의 시설', desc: '좋은 교육 환경, 악기들로 교육합니다.' },
 ];
 
 const ceoCareer = [
@@ -41,7 +42,7 @@ export default function AboutPage() {
               EDUCATION PHILOSOPHY
             </p>
             <h2 style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 700, color: '#fff', marginBottom: '20px' }}>
-              경희실용음악학원 교육철학 8가지
+              경희실용음악학원 교육철학 9가지
             </h2>
           </div>
 
