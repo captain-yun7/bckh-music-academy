@@ -97,14 +97,14 @@ export default function ContactPage() {
             {/* Subway */}
             <div style={{ padding: '32px', backgroundColor: '#fff', borderRadius: '16px' }}>
               <div style={{ width: '48px', height: '48px', backgroundColor: '#3b82f6', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
-                <span style={{ color: '#fff', fontSize: '20px', fontWeight: 700 }}>7</span>
+                <span style={{ color: '#fff', fontSize: '20px', fontWeight: 700 }}>1</span>
               </div>
               <h4 style={{ fontSize: '20px', fontWeight: 700, color: '#000', marginBottom: '12px' }}>
                 지하철
               </h4>
               <p style={{ fontSize: '15px', color: '#666', lineHeight: 1.8 }}>
-                7호선 중동역 1번 출구<br />
-                도보 5분 거리
+                1호선 부천역 4번출구 500m<br />
+                (도보5분)
               </p>
             </div>
 
