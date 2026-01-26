@@ -1,47 +1,94 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import SubPageLayout from '@/components/SubPageLayout';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const courses = [
+interface CurriculumClass {
+  id: string;
+  slug: string;
+  title: string;
+  subtitle: string | null;
+  intro: string | null;
+  bgImage: string | null;
+  benefits: string[];
+}
+
+// 기본 데이터 (DB 데이터가 없을 때 폴백)
+const fallbackCourses: CurriculumClass[] = [
   {
     id: 'admission',
-    name: '입시반',
+    slug: 'admission',
+    title: '입시반',
     subtitle: 'Admission Course',
-    description: '실용음악 대학 진학을 목표로 하는 체계적인 입시 준비 과정',
-    features: ['1:1 맞춤 레슨', '실기/이론 병행', '모의고사 진행', '입시 컨설팅'],
-    image: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800',
-    color: '#f59e0b',
+    intro: '실용음악 대학 진학을 목표로 하는 체계적인 입시 준비 과정',
+    bgImage: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800',
+    benefits: ['1:1 맞춤 레슨', '실기/이론 병행', '모의고사 진행', '입시 컨설팅'],
   },
   {
     id: 'audition',
-    name: '오디션반',
+    slug: 'audition',
+    title: '오디션반',
     subtitle: 'Audition Course',
-    description: '기획사 오디션, 방송 오디션 등 프로 데뷔를 위한 집중 과정',
-    features: ['오디션 곡 선정', '무대 퍼포먼스', '카메라 테스트', '멘탈 관리'],
-    image: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800',
-    color: '#f59e0b',
+    intro: '기획사 오디션, 방송 오디션 등 프로 데뷔를 위한 집중 과정',
+    bgImage: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800',
+    benefits: ['오디션 곡 선정', '무대 퍼포먼스', '카메라 테스트', '멘탈 관리'],
   },
   {
     id: 'professional',
-    name: '전문반',
+    slug: 'professional',
+    title: '전문반',
     subtitle: 'Professional Course',
-    description: '프로 뮤지션, 세션맨을 목표로 하는 고급 전문 과정',
-    features: ['고급 테크닉', '레코딩 실습', '세션 활동', '네트워킹'],
-    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800',
-    color: '#f59e0b',
+    intro: '프로 뮤지션, 세션맨을 목표로 하는 고급 전문 과정',
+    bgImage: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800',
+    benefits: ['고급 테크닉', '레코딩 실습', '세션 활동', '네트워킹'],
   },
   {
     id: 'hobby',
-    name: '취미반',
+    slug: 'hobby',
+    title: '취미반',
     subtitle: 'Hobby Course',
-    description: '음악을 취미로 즐기고 싶은 분들을 위한 편안한 레슨',
-    features: ['자유로운 시간', '원하는 곡 레슨', '스트레스 해소', '소규모 발표회'],
-    image: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800',
-    color: '#f59e0b',
+    intro: '음악을 취미로 즐기고 싶은 분들을 위한 편안한 레슨',
+    bgImage: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800',
+    benefits: ['자유로운 시간', '원하는 곡 레슨', '스트레스 해소', '소규모 발표회'],
   },
 ];
 
+// 기본 이미지 (DB에 이미지가 없을 때)
+const defaultImages: Record<string, string> = {
+  'admission': 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800',
+  'audition': 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800',
+  'professional': 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800',
+  'hobby': 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=800',
+};
+
 export default function CurriculumPage() {
+  const [courses, setCourses] = useState<CurriculumClass[]>(fallbackCourses);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const res = await fetch('/api/curriculum/classes');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.length > 0) {
+            setCourses(data);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch curriculum classes:', error);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
+  const getImage = (course: CurriculumClass) => {
+    if (course.bgImage) return course.bgImage;
+    return defaultImages[course.slug] || defaultImages['admission'];
+  };
+
   return (
     <SubPageLayout
       title="커리큘럼"
@@ -68,7 +115,7 @@ export default function CurriculumPage() {
             {courses.map((course) => (
               <Link
                 key={course.id}
-                href={`/curriculum/${course.id}`}
+                href={`/curriculum/${course.slug}`}
                 style={{ textDecoration: 'none' }}
               >
                 <div style={{
@@ -80,8 +127,8 @@ export default function CurriculumPage() {
                 }}>
                   <div style={{ position: 'relative', aspectRatio: '16/10' }}>
                     <Image
-                      src={course.image}
-                      alt={course.name}
+                      src={getImage(course)}
+                      alt={course.title}
                       fill
                       style={{ objectFit: 'cover' }}
                     />
@@ -90,7 +137,7 @@ export default function CurriculumPage() {
                       top: '16px',
                       left: '16px',
                       padding: '8px 16px',
-                      backgroundColor: course.color,
+                      backgroundColor: '#f59e0b',
                       color: '#fff',
                       borderRadius: '20px',
                       fontSize: '13px',
@@ -106,7 +153,7 @@ export default function CurriculumPage() {
                       color: '#000',
                       marginBottom: '12px',
                     }}>
-                      {course.name}
+                      {course.title}
                     </h3>
                     <p style={{
                       fontSize: '15px',
@@ -114,34 +161,36 @@ export default function CurriculumPage() {
                       lineHeight: 1.7,
                       marginBottom: '20px',
                     }}>
-                      {course.description}
+                      {course.intro}
                     </p>
-                    <div style={{
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      gap: '8px',
-                      marginBottom: '20px',
-                    }}>
-                      {course.features.map((feature, i) => (
-                        <span
-                          key={i}
-                          style={{
-                            padding: '6px 12px',
-                            backgroundColor: '#f5f5f5',
-                            borderRadius: '6px',
-                            fontSize: '13px',
-                            color: '#555',
-                          }}
-                        >
-                          {feature}
-                        </span>
-                      ))}
-                    </div>
+                    {course.benefits && course.benefits.length > 0 && (
+                      <div style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: '8px',
+                        marginBottom: '20px',
+                      }}>
+                        {course.benefits.map((benefit, i) => (
+                          <span
+                            key={i}
+                            style={{
+                              padding: '6px 12px',
+                              backgroundColor: '#f5f5f5',
+                              borderRadius: '6px',
+                              fontSize: '13px',
+                              color: '#555',
+                            }}
+                          >
+                            {benefit}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                     <div style={{
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
-                      color: course.color,
+                      color: '#f59e0b',
                       fontSize: '14px',
                       fontWeight: 600,
                     }}>

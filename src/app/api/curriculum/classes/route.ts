@@ -13,6 +13,7 @@ export async function GET() {
       title: true,
       subtitle: true,
       intro: true,
+      bgImage: true,
       benefits: true,
     },
   });
