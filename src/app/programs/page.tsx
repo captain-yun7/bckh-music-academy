@@ -119,27 +119,17 @@ export default function ProgramsPage() {
 
       {/* Programs */}
       <section style={{ padding: '80px 0', backgroundColor: '#fff' }}>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'flex-start',
-          overflowX: 'auto',
-          scrollSnapType: 'x mandatory',
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-          gap: '20px',
-          paddingBottom: '20px',
-          paddingLeft: 'max(20px, calc((100vw - 1700px) / 2))',
-          paddingRight: 'max(20px, calc((100vw - 1700px) / 2))',
-        }}>
+        <div className="container">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '24px',
+          }}>
             {programs.map((program) => (
               <Link
                 key={program.id}
                 href={`/programs/${program.slug}`}
-                style={{
-                  flex: '0 0 min(320px, 85vw)',
-                  scrollSnapAlign: 'start',
-                  textDecoration: 'none',
-                }}
+                style={{ textDecoration: 'none' }}
               >
                 <div style={{
                   borderRadius: '20px',
@@ -147,6 +137,8 @@ export default function ProgramsPage() {
                   backgroundColor: '#f8f8f8',
                   transition: 'transform 0.3s ease',
                   height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
                 }}>
                   <div style={{ position: 'relative', aspectRatio: '16/10' }}>
                     <Image
@@ -182,12 +174,13 @@ export default function ProgramsPage() {
                       </p>
                     </div>
                   </div>
-                  <div style={{ padding: '24px' }}>
+                  <div style={{ padding: '24px', flex: 1, display: 'flex', flexDirection: 'column' }}>
                     <p style={{
                       fontSize: '15px',
                       color: '#666',
                       marginBottom: '16px',
                       lineHeight: 1.6,
+                      flex: 1,
                     }}>
                       {program.description}
                     </p>
@@ -203,12 +196,7 @@ export default function ProgramsPage() {
               </Link>
             ))}
           </div>
-
-        <style jsx>{`
-          div::-webkit-scrollbar {
-            display: none;
-          }
-        `}</style>
+        </div>
       </section>
     </SubPageLayout>
   );
