@@ -56,6 +56,14 @@ const fallbackPrograms: Program[] = [
     description: '기획사 관계자 초청 오디션 진행',
     image: 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800',
   },
+  {
+    id: 'busking',
+    slug: 'busking',
+    name: '버스킹',
+    subtitle: 'Busking',
+    description: '야외에서 진행되는 편안한 분위기의 어쿠스틱 공연',
+    image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800',
+  },
 ];
 
 // 기본 이미지 (DB에 이미지가 없을 때)
@@ -65,6 +73,7 @@ const defaultImages: Record<string, string> = {
   'open-stage': 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800',
   'album': 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800',
   'audition': 'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=800',
+  'busking': 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800',
 };
 
 export default function ProgramsPage() {
