@@ -105,6 +105,7 @@ model Admission {
   isEarlyAdmission Boolean @default(false) // 수시/정시 구분
   photoUrl     String?  // 합격 인증 사진
   testimonial  String?  @db.Text // 합격 후기
+  order        Int      @default(0)
   isPublished  Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt

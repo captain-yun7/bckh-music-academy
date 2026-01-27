@@ -35,6 +35,11 @@ export async function POST(request: NextRequest) {
             where: { id: item.id },
             data: { order: item.order },
           });
+        case 'admission':
+          return prisma.admission.update({
+            where: { id: item.id },
+            data: { order: item.order },
+          });
         default:
           throw new Error('지원하지 않는 타입입니다.');
       }

@@ -12,6 +12,7 @@ interface Admission {
   isEarlyAdmission: boolean;
   photoUrl: string | null;
   testimonial: string | null;
+  order: number;
   isPublished: boolean;
   createdAt: string;
 }
@@ -35,6 +36,10 @@ export default function AdmissionsPage() {
 
   const currentYear = new Date().getFullYear();
 
+  // Drag and drop state
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+
   useEffect(() => {
     fetchAdmissions();
     fetchAvailableYears();
@@ -56,8 +61,8 @@ export default function AdmissionsPage() {
   const fetchAdmissions = async () => {
     setIsLoading(true);
     const url = selectedYear
-      ? `/api/admin/admissions?year=${selectedYear}`
-      : '/api/admin/admissions';
+      ? `/api/admin/admissions?year=${selectedYear}&limit=1000`
+      : '/api/admin/admissions?limit=1000';
     const res = await fetch(url);
     const data = await res.json();
     setAdmissions(data.admissions || []);
@@ -122,14 +127,67 @@ export default function AdmissionsPage() {
     fetchAvailableYears();
   };
 
+  // Drag and drop handlers
+  const handleReorder = async (reorderedItems: Admission[]) => {
+    setAdmissions(reorderedItems);
+
+    await fetch('/api/admin/reorder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'admission',
+        items: reorderedItems.map((item) => ({ id: item.id, order: item.order })),
+      }),
+    });
+  };
+
+  const handleDragStart = (index: number) => {
+    setDraggedIndex(index);
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === index) return;
+    setDragOverIndex(index);
+  };
+
+  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === dropIndex) return;
+
+    const sortedAdmissions = [...admissions].sort((a, b) => a.order - b.order);
+    const newItems = [...sortedAdmissions];
+    const [draggedItem] = newItems.splice(draggedIndex, 1);
+    newItems.splice(dropIndex, 0, draggedItem);
+
+    const reorderedItems = newItems.map((item, idx) => ({
+      ...item,
+      order: idx,
+    }));
+
+    handleReorder(reorderedItems);
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
   if (isLoading) {
     return <div style={{ textAlign: 'center', padding: '60px', color: '#666' }}>로딩중...</div>;
   }
 
+  const sortedAdmissions = [...admissions].sort((a, b) => a.order - b.order);
+
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#111' }}>합격자 명단</h1>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#111' }}>합격자 명단</h1>
+          <span style={{ fontSize: '12px', color: '#999' }}>(드래그하여 순서 변경)</span>
+        </div>
         <div style={{ display: 'flex', gap: '12px' }}>
           <select
             value={selectedYear}
@@ -170,6 +228,7 @@ export default function AdmissionsPage() {
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ backgroundColor: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+              <th style={{ textAlign: 'center', padding: '14px 8px', fontSize: '13px', fontWeight: 600, color: '#374151', width: '48px' }}></th>
               <th style={{ textAlign: 'left', padding: '14px 16px', fontSize: '13px', fontWeight: 600, color: '#374151' }}>이름</th>
               <th style={{ textAlign: 'left', padding: '14px 16px', fontSize: '13px', fontWeight: 600, color: '#374151' }}>대학</th>
               <th style={{ textAlign: 'left', padding: '14px 16px', fontSize: '13px', fontWeight: 600, color: '#374151' }}>학과</th>
@@ -180,8 +239,32 @@ export default function AdmissionsPage() {
             </tr>
           </thead>
           <tbody>
-            {admissions.map((admission) => (
-              <tr key={admission.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
+            {sortedAdmissions.map((admission, index) => (
+              <tr
+                key={admission.id}
+                draggable
+                onDragStart={() => handleDragStart(index)}
+                onDragOver={(e) => handleDragOver(e, index)}
+                onDrop={(e) => handleDrop(e, index)}
+                onDragEnd={handleDragEnd}
+                style={{
+                  borderBottom: '1px solid #f3f4f6',
+                  cursor: 'grab',
+                  backgroundColor: dragOverIndex === index ? '#f0f7ff' : draggedIndex === index ? '#f9fafb' : 'transparent',
+                  opacity: draggedIndex === index ? 0.5 : 1,
+                  transition: 'background-color 0.15s',
+                }}
+              >
+                <td style={{ padding: '14px 8px', textAlign: 'center', color: '#9ca3af' }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="9" cy="6" r="1.5" />
+                    <circle cx="15" cy="6" r="1.5" />
+                    <circle cx="9" cy="12" r="1.5" />
+                    <circle cx="15" cy="12" r="1.5" />
+                    <circle cx="9" cy="18" r="1.5" />
+                    <circle cx="15" cy="18" r="1.5" />
+                  </svg>
+                </td>
                 <td style={{ padding: '14px 16px', fontSize: '14px', color: '#111' }}>{admission.studentName}</td>
                 <td style={{ padding: '14px 16px', fontSize: '14px', color: '#374151' }}>{admission.university}</td>
                 <td style={{ padding: '14px 16px', fontSize: '14px', color: '#374151' }}>{admission.department}</td>

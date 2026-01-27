@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   const [admissions, total] = await Promise.all([
     prisma.admission.findMany({
       where,
-      orderBy: [{ year: 'desc' }, { createdAt: 'desc' }],
+      orderBy: [{ year: 'desc' }, { order: 'asc' }, { createdAt: 'desc' }],
       skip: (page - 1) * limit,
       take: limit,
     }),

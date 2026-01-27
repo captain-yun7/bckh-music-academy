@@ -14,6 +14,7 @@ export async function GET(request: NextRequest) {
     where,
     orderBy: [
       { year: 'desc' },
+      { order: 'asc' },
       { createdAt: 'desc' },
     ],
   });
