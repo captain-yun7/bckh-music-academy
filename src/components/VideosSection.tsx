@@ -1,45 +1,44 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 
-const videos = [
-  {
-    title: '2024 서울예대 합격생 인터뷰',
-    youtubeId: 'dQw4w9WgXcQ',
-    year: '2024',
-  },
-  {
-    title: '2024 경희대 실용음악과 합격',
-    youtubeId: 'dQw4w9WgXcQ',
-    year: '2024',
-  },
-  {
-    title: '2023 동아방송예대 합격 후기',
-    youtubeId: 'dQw4w9WgXcQ',
-    year: '2023',
-  },
-  {
-    title: '2023 호원대 실용음악 합격',
-    youtubeId: 'dQw4w9WgXcQ',
-    year: '2023',
-  },
-  {
-    title: '2023 백제예대 합격 인터뷰',
-    youtubeId: 'dQw4w9WgXcQ',
-    year: '2023',
-  },
-  {
-    title: '2022 한양대 실용음악 합격',
-    youtubeId: 'dQw4w9WgXcQ',
-    year: '2022',
-  },
-];
+interface Video {
+  id: string;
+  title: string;
+  youtubeUrl: string;
+  thumbnailUrl: string | null;
+  category: string;
+  order: number;
+}
+
+function getYoutubeId(url: string): string {
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+  return match ? match[1] : '';
+}
 
 export default function VideosSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [videos, setVideos] = useState<Video[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const res = await fetch('/api/success-videos');
+        if (res.ok) {
+          const data = await res.json();
+          setVideos(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch videos:', error);
+      }
+      setIsLoading(false);
+    };
+    fetchVideos();
+  }, []);
 
   const checkScroll = () => {
     if (scrollRef.current) {
@@ -59,6 +58,10 @@ export default function VideosSection() {
       setTimeout(checkScroll, 300);
     }
   };
+
+  if (isLoading || videos.length === 0) {
+    return null;
+  }
 
   return (
     <section id="videos" style={{ padding: '100px 0', backgroundColor: '#f8f8f8' }}>
@@ -138,49 +141,40 @@ export default function VideosSection() {
             paddingBottom: '20px',
           }}
         >
-          {videos.map((video, index) => (
-            <div
-              key={index}
-              style={{
-                flex: '0 0 380px',
-                scrollSnapAlign: 'start',
-                borderRadius: '16px',
-                overflow: 'hidden',
-                backgroundColor: '#fff',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-              }}
-            >
-              <div style={{ position: 'relative', aspectRatio: '16/9' }}>
-                <iframe
-                  width="100%"
-                  height="100%"
-                  src={`https://www.youtube.com/embed/${video.youtubeId}`}
-                  title={video.title}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                />
+          {videos.map((video) => {
+            const youtubeId = getYoutubeId(video.youtubeUrl);
+            return (
+              <div
+                key={video.id}
+                style={{
+                  flex: '0 0 380px',
+                  scrollSnapAlign: 'start',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  backgroundColor: '#fff',
+                  boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+                }}
+              >
+                <div style={{ position: 'relative', aspectRatio: '16/9' }}>
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src={`https://www.youtube.com/embed/${youtubeId}`}
+                    title={video.title}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+                  />
+                </div>
+                <div style={{ padding: '20px' }}>
+                  <p style={{ fontSize: '16px', fontWeight: 600, color: '#000' }}>
+                    {video.title}
+                  </p>
+                </div>
               </div>
-              <div style={{ padding: '20px' }}>
-                <span style={{
-                  display: 'inline-block',
-                  backgroundColor: '#ffc50a',
-                  color: '#000',
-                  fontSize: '12px',
-                  fontWeight: 600,
-                  padding: '4px 10px',
-                  borderRadius: '100px',
-                  marginBottom: '10px',
-                }}>
-                  {video.year}
-                </span>
-                <p style={{ fontSize: '16px', fontWeight: 600, color: '#000' }}>
-                  {video.title}
-                </p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* View All Link */}

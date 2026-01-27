@@ -1,40 +1,41 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import SubPageLayout from '@/components/SubPageLayout';
 import Image from 'next/image';
+import ImageLightbox from '@/components/ImageLightbox';
+import { imagePresets, getPlaceholderUrl } from '@/lib/image';
 
-const performances = [
-  {
-    title: '케이크 콘서트',
-    desc: '정기 발표회',
-    image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=600&h=400&fit=crop',
-  },
-  {
-    title: '버스킹 공연',
-    desc: '야외 무대 경험',
-    image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600&h=400&fit=crop',
-  },
-  {
-    title: '졸업 공연',
-    desc: '수료 기념 무대',
-    image: 'https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=600&h=400&fit=crop',
-  },
-  {
-    title: '합동 공연',
-    desc: '학원 연합 무대',
-    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&h=400&fit=crop',
-  },
-  {
-    title: '라이브 공연',
-    desc: '클럽 라이브 무대',
-    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&h=400&fit=crop',
-  },
-  {
-    title: '특별 공연',
-    desc: '초청 이벤트',
-    image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600&h=400&fit=crop',
-  },
-];
+interface GalleryImage {
+  id: string;
+  title: string | null;
+  imageUrl: string;
+  category: string;
+  order: number;
+}
 
 export default function PerformancesPage() {
+  const [images, setImages] = useState<GalleryImage[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch('/api/gallery?category=PERFORMANCE');
+        if (res.ok) {
+          const data = await res.json();
+          setImages(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch performance images:', error);
+      }
+      setIsLoading(false);
+    };
+    fetchImages();
+  }, []);
+
   return (
     <SubPageLayout
       title="공연 사진"
@@ -42,37 +43,64 @@ export default function PerformancesPage() {
     >
       <section style={{ padding: '80px 0', backgroundColor: '#111' }}>
         <div className="container">
-          {/* Gallery Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '24px' }}>
-            {performances.map((item, index) => (
-              <div
-                key={index}
-                style={{
-                  borderRadius: '16px',
-                  overflow: 'hidden',
-                  backgroundColor: '#1a1a1a',
-                }}
-              >
-                <div style={{ position: 'relative', aspectRatio: '16/10' }}>
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                  />
+          {isLoading ? (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '24px' }}>
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} style={{ borderRadius: '16px', overflow: 'hidden', backgroundColor: '#1a1a1a' }}>
+                  <div style={{ aspectRatio: '16/10', backgroundColor: '#333', animation: 'pulse 1.5s ease-in-out infinite' }} />
                 </div>
-                <div style={{ padding: '24px' }}>
-                  <p style={{ fontSize: '20px', fontWeight: 700, color: '#fff', marginBottom: '8px' }}>
-                    {item.title}
-                  </p>
-                  <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.6)' }}>
-                    {item.desc}
-                  </p>
+              ))}
+              <style jsx global>{`
+                @keyframes pulse {
+                  0%, 100% { opacity: 1; }
+                  50% { opacity: 0.5; }
+                }
+              `}</style>
+            </div>
+          ) : images.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '60px', color: 'rgba(255,255,255,0.5)' }}>
+              등록된 공연 사진이 없습니다.
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '24px' }}>
+              {images.map((item, index) => (
+                <div
+                  key={item.id}
+                  onClick={() => {
+                    setCurrentIndex(index);
+                    setLightboxOpen(true);
+                  }}
+                  style={{
+                    borderRadius: '16px',
+                    overflow: 'hidden',
+                    backgroundColor: '#1a1a1a',
+                    cursor: 'pointer',
+                    transition: 'transform 0.3s ease',
+                  }}
+                >
+                  <div style={{ position: 'relative', aspectRatio: '16/10' }}>
+                    <Image
+                      src={item.imageUrl.includes('cloudinary.com') ? imagePresets.galleryThumb(item.imageUrl) : item.imageUrl}
+                      alt={item.title || `공연 ${index + 1}`}
+                      fill
+                      style={{ objectFit: 'cover' }}
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      loading={index < 4 ? 'eager' : 'lazy'}
+                      placeholder={item.imageUrl.includes('cloudinary.com') ? 'blur' : 'empty'}
+                      blurDataURL={item.imageUrl.includes('cloudinary.com') ? getPlaceholderUrl(item.imageUrl) : undefined}
+                    />
+                  </div>
+                  {item.title && (
+                    <div style={{ padding: '24px' }}>
+                      <p style={{ fontSize: '20px', fontWeight: 700, color: '#fff' }}>
+                        {item.title}
+                      </p>
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {/* Info */}
           <div style={{ marginTop: '80px', textAlign: 'center' }}>
@@ -92,6 +120,16 @@ export default function PerformancesPage() {
           </div>
         </div>
       </section>
+
+      <ImageLightbox
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        imageSrc={images[currentIndex]?.imageUrl || ''}
+        imageAlt={images[currentIndex]?.title || `공연 ${currentIndex + 1}`}
+        onPrev={() => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)}
+        onNext={() => setCurrentIndex((prev) => (prev + 1) % images.length)}
+        showNavigation={true}
+      />
     </SubPageLayout>
   );
 }
