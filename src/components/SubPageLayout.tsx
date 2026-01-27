@@ -18,6 +18,9 @@ export default function SubPageLayout({ children, title, subtitle, bgImage: prop
   const [dbBgImage, setDbBgImage] = useState<string | null>(null);
 
   useEffect(() => {
+    // 경로 변경 시 이전 배경 즉시 제거 (깜빡임 방지)
+    setDbBgImage(null);
+
     // DB에서 현재 경로에 맞는 배경 이미지 불러오기
     const fetchBgImage = async () => {
       try {
