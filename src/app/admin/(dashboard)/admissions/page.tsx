@@ -295,9 +295,10 @@ export default function AdmissionsPage() {
                     {admission.isPublished ? '공개' : '비공개'}
                   </span>
                 </td>
-                <td style={{ padding: '14px 16px', textAlign: 'center' }}>
+                <td draggable={false} onDragStart={(e) => e.stopPropagation()} style={{ padding: '14px 16px', textAlign: 'center' }}>
                   <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', whiteSpace: 'nowrap' }}>
                     <button
+                      draggable={false}
                       onClick={() => openModal(admission)}
                       style={{
                         padding: '6px 12px',
@@ -313,6 +314,7 @@ export default function AdmissionsPage() {
                       수정
                     </button>
                     <button
+                      draggable={false}
                       onClick={() => handleDelete(admission.id)}
                       style={{
                         padding: '6px 12px',
