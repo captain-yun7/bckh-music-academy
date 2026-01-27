@@ -122,7 +122,7 @@ export default function ProgramsPage() {
         <div className="container">
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
             gap: '24px',
           }}>
             {programs.map((program) => (
