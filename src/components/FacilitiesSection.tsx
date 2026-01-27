@@ -1,22 +1,40 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ImageLightbox from './ImageLightbox';
+import { imagePresets, getPlaceholderUrl } from '@/lib/image';
 
-const facilities = [
-  { title: '레코딩 스튜디오', image: '/images/facilities/facility01.jpg' },
-  { title: '보컬 연습실', image: '/images/facilities/facility02.jpg' },
-  { title: '피아노실', image: '/images/facilities/facility03.jpg' },
-  { title: '기타 연습실', image: '/images/facilities/facility04.jpg' },
-  { title: '드럼 연습실', image: '/images/facilities/facility05.jpg' },
-  { title: '합주실', image: '/images/facilities/facility06.jpg' },
-];
+interface GalleryImage {
+  id: string;
+  title: string | null;
+  imageUrl: string;
+  category: string;
+  order: number;
+}
 
 export default function FacilitiesSection() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [images, setImages] = useState<GalleryImage[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch('/api/gallery?category=FACILITY');
+        if (res.ok) {
+          const data = await res.json();
+          setImages(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch facility images:', error);
+      }
+      setIsLoading(false);
+    };
+    fetchImages();
+  }, []);
 
   const openLightbox = (index: number) => {
     setCurrentIndex(index);
@@ -24,12 +42,16 @@ export default function FacilitiesSection() {
   };
 
   const goToPrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + facilities.length) % facilities.length);
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
   const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % facilities.length);
+    setCurrentIndex((prev) => (prev + 1) % images.length);
   };
+
+  if (isLoading || images.length === 0) {
+    return null;
+  }
 
   return (
     <>
@@ -45,7 +67,7 @@ export default function FacilitiesSection() {
             </h2>
           </div>
 
-          {/* 2x3 Grid */}
+          {/* Grid */}
           <div
             style={{
               display: 'grid',
@@ -54,9 +76,9 @@ export default function FacilitiesSection() {
             }}
             className="facilities-grid"
           >
-            {facilities.map((item, index) => (
+            {images.map((item, index) => (
               <div
-                key={index}
+                key={item.id}
                 onClick={() => openLightbox(index)}
                 style={{
                   position: 'relative',
@@ -69,11 +91,14 @@ export default function FacilitiesSection() {
                 className="facility-item"
               >
                 <Image
-                  src={item.image}
-                  alt={item.title}
+                  src={item.imageUrl.includes('cloudinary.com') ? imagePresets.galleryThumb(item.imageUrl) : item.imageUrl}
+                  alt={item.title || `시설 ${index + 1}`}
                   fill
                   style={{ objectFit: 'cover', transition: 'transform 0.3s ease' }}
                   sizes="(max-width: 768px) 100vw, 33vw"
+                  loading={index < 3 ? 'eager' : 'lazy'}
+                  placeholder={item.imageUrl.includes('cloudinary.com') ? 'blur' : 'empty'}
+                  blurDataURL={item.imageUrl.includes('cloudinary.com') ? getPlaceholderUrl(item.imageUrl) : undefined}
                 />
                 {/* Hover Overlay */}
                 <div
@@ -176,9 +201,9 @@ export default function FacilitiesSection() {
       <ImageLightbox
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}
-        imageSrc={facilities[currentIndex]?.image || ''}
-        imageAlt={facilities[currentIndex]?.title || ''}
-        title={facilities[currentIndex]?.title}
+        imageSrc={images[currentIndex]?.imageUrl || ''}
+        imageAlt={images[currentIndex]?.title || ''}
+        title={images[currentIndex]?.title || undefined}
         onPrev={goToPrev}
         onNext={goToNext}
         showNavigation={true}

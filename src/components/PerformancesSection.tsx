@@ -1,27 +1,18 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ImageLightbox from './ImageLightbox';
+import { imagePresets, getPlaceholderUrl } from '@/lib/image';
 
-const performances = [
-  { image: '/images/performances/performance01.jpg' },
-  { image: '/images/performances/performance02.jpg' },
-  { image: '/images/performances/performance03.jpg' },
-  { image: '/images/performances/performance04.jpg' },
-  { image: '/images/performances/performance05.jpg' },
-  { image: '/images/performances/performance06.jpg' },
-  { image: '/images/performances/performance07.jpg' },
-  { image: '/images/performances/performance08.jpg' },
-  { image: '/images/performances/performance09.jpg' },
-  { image: '/images/performances/performance10.jpg' },
-  { image: '/images/performances/performance11.jpg' },
-  { image: '/images/performances/performance12.jpg' },
-  { image: '/images/performances/performance13.jpg' },
-  { image: '/images/performances/performance14.jpg' },
-  { image: '/images/performances/performance15.jpg' },
-];
+interface GalleryImage {
+  id: string;
+  title: string | null;
+  imageUrl: string;
+  category: string;
+  order: number;
+}
 
 export default function PerformancesSection() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -29,6 +20,24 @@ export default function PerformancesSection() {
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [images, setImages] = useState<GalleryImage[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const res = await fetch('/api/gallery?category=PERFORMANCE');
+        if (res.ok) {
+          const data = await res.json();
+          setImages(data);
+        }
+      } catch (error) {
+        console.error('Failed to fetch performance images:', error);
+      }
+      setIsLoading(false);
+    };
+    fetchImages();
+  }, []);
 
   const checkScroll = () => {
     if (scrollRef.current) {
@@ -55,12 +64,16 @@ export default function PerformancesSection() {
   };
 
   const goToPrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + performances.length) % performances.length);
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
   const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % performances.length);
+    setCurrentIndex((prev) => (prev + 1) % images.length);
   };
+
+  if (isLoading || images.length === 0) {
+    return null;
+  }
 
   return (
     <>
@@ -138,9 +151,9 @@ export default function PerformancesSection() {
               paddingBottom: '20px',
             }}
           >
-            {performances.map((item, index) => (
+            {images.map((item, index) => (
               <div
-                key={index}
+                key={item.id}
                 onClick={() => openLightbox(index)}
                 style={{
                   flex: '0 0 320px',
@@ -155,11 +168,14 @@ export default function PerformancesSection() {
               >
                 <div style={{ position: 'relative', aspectRatio: '3/2' }}>
                   <Image
-                    src={item.image}
-                    alt={`공연 ${index + 1}`}
+                    src={item.imageUrl.includes('cloudinary.com') ? imagePresets.galleryThumb(item.imageUrl) : item.imageUrl}
+                    alt={item.title || `공연 ${index + 1}`}
                     fill
                     style={{ objectFit: 'cover', transition: 'transform 0.3s ease' }}
                     sizes="320px"
+                    loading={index < 4 ? 'eager' : 'lazy'}
+                    placeholder={item.imageUrl.includes('cloudinary.com') ? 'blur' : 'empty'}
+                    blurDataURL={item.imageUrl.includes('cloudinary.com') ? getPlaceholderUrl(item.imageUrl) : undefined}
                   />
                   {/* Hover Overlay */}
                   <div
@@ -251,8 +267,8 @@ export default function PerformancesSection() {
       <ImageLightbox
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}
-        imageSrc={performances[currentIndex]?.image || ''}
-        imageAlt={`공연 ${currentIndex + 1}`}
+        imageSrc={images[currentIndex]?.imageUrl || ''}
+        imageAlt={images[currentIndex]?.title || `공연 ${currentIndex + 1}`}
         onPrev={goToPrev}
         onNext={goToNext}
         showNavigation={true}
