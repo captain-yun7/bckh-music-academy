@@ -3,8 +3,8 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
-// 메인 페이지에서는 연도별 최대 8명까지만 표시
-const PREVIEW_LIMIT = 8;
+// 메인 페이지에서는 연도별 최대 9명까지만 표시 (3x3 그리드)
+const PREVIEW_LIMIT = 9;
 
 interface Student {
   studentName: string;
