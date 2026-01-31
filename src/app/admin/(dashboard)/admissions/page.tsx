@@ -129,16 +129,27 @@ export default function AdmissionsPage() {
 
   // Drag and drop handlers
   const handleReorder = async (reorderedItems: Admission[]) => {
+    const previousAdmissions = [...admissions];
     setAdmissions(reorderedItems);
 
-    await fetch('/api/admin/reorder', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        type: 'admission',
-        items: reorderedItems.map((item) => ({ id: item.id, order: item.order })),
-      }),
-    });
+    try {
+      const res = await fetch('/api/admin/reorder', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'admission',
+          items: reorderedItems.map((item) => ({ id: item.id, order: item.order })),
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error('순서 변경 실패');
+      }
+    } catch (error) {
+      console.error('Reorder failed:', error);
+      setAdmissions(previousAdmissions);
+      alert('순서 변경에 실패했습니다.');
+    }
   };
 
   const handleDragStart = (index: number) => {

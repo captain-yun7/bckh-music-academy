@@ -31,6 +31,13 @@ export async function POST(request: NextRequest) {
 
   const data = await request.json();
 
+  // 해당 연도의 최대 order 값 조회
+  const maxOrder = await prisma.admission.aggregate({
+    where: { year: data.year },
+    _max: { order: true },
+  });
+  const newOrder = (maxOrder._max.order ?? -1) + 1;
+
   const admission = await prisma.admission.create({
     data: {
       studentName: data.studentName,
@@ -42,6 +49,7 @@ export async function POST(request: NextRequest) {
       photoUrl: data.photoUrl,
       testimonial: data.testimonial,
       isPublished: data.isPublished ?? true,
+      order: newOrder,
     },
   });
 
