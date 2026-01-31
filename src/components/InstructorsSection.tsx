@@ -65,10 +65,10 @@ export default function InstructorsSection() {
     setSelectedInstructor(instructor);
   };
 
-  // 강사의 첫 번째 과목명을 가져오기
-  const getFirstSubjectName = (instructor: InstructorData) => {
+  // 강사의 모든 과목명을 가져오기
+  const getSubjectNames = (instructor: InstructorData) => {
     if (instructor.subjects && instructor.subjects.length > 0) {
-      return instructor.subjects[0].subject.nameKo;
+      return instructor.subjects.map(s => s.subject.nameKo).join(' · ');
     }
     return '';
   };
@@ -252,7 +252,7 @@ export default function InstructorsSection() {
                       color: '#000',
                       fontWeight: 600,
                     }}>
-                      {getFirstSubjectName(instructor)}
+                      {getSubjectNames(instructor)}
                     </div>
                     {/* Hover Overlay */}
                     <div
