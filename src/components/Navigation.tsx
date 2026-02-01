@@ -71,11 +71,12 @@ const navLinks: NavLink[] = [
     ],
   },
   {
-    name: '갤러리',
+    name: '컨텐츠',
     href: '/gallery',
     children: [
       { name: '공연사진', href: '/gallery/performances' },
       { name: '시설사진', href: '/gallery/facilities' },
+      { name: '수강생 영상', href: '/trainee-videos' },
     ],
   },
   {
