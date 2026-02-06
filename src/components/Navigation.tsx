@@ -77,6 +77,8 @@ const navLinks: NavLink[] = [
       { name: '공연사진', href: '/gallery/performances' },
       { name: '시설사진', href: '/gallery/facilities' },
       { name: '수강생 영상', href: '/trainee-videos' },
+      { name: '뮤지션 특강', href: '/musician-lectures' },
+      { name: '공연 영상', href: '/performance-videos' },
     ],
   },
   {

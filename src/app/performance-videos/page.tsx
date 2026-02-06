@@ -18,7 +18,7 @@ function extractYoutubeId(url: string): string {
   return match ? match[1] : '';
 }
 
-export default function SuccessVideosPage() {
+export default function PerformanceVideosPage() {
   const [playingVideo, setPlayingVideo] = useState<string | null>(null);
   const [videos, setVideos] = useState<Video[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,7 +26,7 @@ export default function SuccessVideosPage() {
   useEffect(() => {
     const fetchVideos = async () => {
       try {
-        const res = await fetch('/api/videos?category=ADMISSION_SUCCESS');
+        const res = await fetch('/api/videos?category=PERFORMANCE');
         const data = await res.json();
         setVideos(data);
       } catch (error) {
@@ -40,8 +40,8 @@ export default function SuccessVideosPage() {
 
   return (
     <SubPageLayout
-      title="합격자동영상"
-      subtitle="경희실용음악학원 합격생들의 이야기"
+      title="공연 영상"
+      subtitle="경희 수강생들의 공연 무대"
     >
       {/* Video Grid */}
       <section style={{ padding: '60px 0', backgroundColor: '#111' }}>
@@ -160,10 +160,10 @@ export default function SuccessVideosPage() {
       <section style={{ padding: '80px 0', backgroundColor: '#000' }}>
         <div className="container" style={{ textAlign: 'center' }}>
           <h3 style={{ fontSize: '28px', fontWeight: 700, color: '#fff', marginBottom: '16px' }}>
-            더 많은 합격 영상
+            더 많은 영상
           </h3>
           <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.6)', marginBottom: '32px' }}>
-            경희실용음악학원 공식 유튜브 채널에서 더 많은 합격 영상을 확인하세요
+            경희실용음악학원 공식 유튜브 채널에서 더 많은 영상을 확인하세요
           </p>
           <a
             href="https://www.youtube.com/channel/UC064T0e2BoevLYHkXkp8Yog"
