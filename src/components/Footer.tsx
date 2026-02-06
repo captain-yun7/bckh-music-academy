@@ -69,7 +69,7 @@ export default function Footer() {
             </p>
             <div className="space-y-2">
               <p className="footer-text">
-                대표: 조중욱 | 사업자등록번호: 130-92-09724
+                대표: 조중욱 | 교육청 허가번호: 4702호 | 사업자등록번호: 130-92-09724
               </p>
               <p className="footer-text">
                 경기도 부천시 부천로 43, 3층 (심곡동)
