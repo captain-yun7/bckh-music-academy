@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-export const revalidate = false; // 무한 캐시, 관리자 수정 시 revalidatePath로 무효화
+export const dynamic = 'force-dynamic';
 
 // 페이지별 배경 이미지 목록 조회 (공개)
 export async function GET() {
