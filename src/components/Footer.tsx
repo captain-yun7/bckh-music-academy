@@ -43,7 +43,7 @@ export default function Footer() {
     },
     {
       name: 'Instagram',
-      href: 'https://www.instagram.com/khmusic_official/',
+      href: 'https://www.instagram.com/kyunghee_music',
       icon: InstagramIcon,
       hoverColor: 'hover:text-pink-500',
     },
