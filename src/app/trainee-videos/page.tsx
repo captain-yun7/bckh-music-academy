@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import SubPageLayout from '@/components/SubPageLayout';
 
 interface Video {
@@ -33,7 +32,9 @@ export default function TraineeVideosPage() {
         const res = await fetch('/api/videos?category=TRAINEE');
         if (res.ok) {
           const data = await res.json();
-          setVideos(data);
+          if (Array.isArray(data)) {
+            setVideos(data);
+          }
         }
       } catch (error) {
         console.error('Failed to fetch videos:', error);
@@ -88,11 +89,10 @@ export default function TraineeVideosPage() {
                   className="video-card"
                 >
                   <div style={{ position: 'relative', aspectRatio: '16/9' }}>
-                    <Image
-                      src={video.thumbnailUrl || getYoutubeThumbnail(video.youtubeUrl)}
+                    <img
+                      src={video.thumbnailUrl || getYoutubeThumbnail(video.youtubeUrl) || `https://img.youtube.com/vi/default/mqdefault.jpg`}
                       alt={video.title}
-                      fill
-                      style={{ objectFit: 'cover', transition: 'transform 0.3s ease' }}
+                      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s ease' }}
                     />
                     {/* Play Button */}
                     <div style={{

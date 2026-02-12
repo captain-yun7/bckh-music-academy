@@ -27,12 +27,17 @@ export default function SuccessVideosPage() {
     const fetchVideos = async () => {
       try {
         const res = await fetch('/api/videos?category=ADMISSION_SUCCESS');
-        const data = await res.json();
-        setVideos(data);
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            setVideos(data);
+          }
+        }
       } catch (error) {
         console.error('Failed to fetch videos:', error);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
     fetchVideos();

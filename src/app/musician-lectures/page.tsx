@@ -27,12 +27,17 @@ export default function MusicianLecturesPage() {
     const fetchVideos = async () => {
       try {
         const res = await fetch('/api/videos?category=MUSICIAN_LECTURE');
-        const data = await res.json();
-        setVideos(data);
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data)) {
+            setVideos(data);
+          }
+        }
       } catch (error) {
         console.error('Failed to fetch videos:', error);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
     fetchVideos();
