@@ -119,41 +119,25 @@ export default function TraineeVideosPage() {
                         </svg>
                       </div>
                     </div>
-                    {/* Hover Overlay with Description */}
-                    <div style={{
-                      position: 'absolute',
-                      inset: 0,
-                      backgroundColor: 'rgba(0,0,0,0)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'flex-end',
-                      padding: '20px',
-                      transition: 'background-color 0.3s ease',
-                    }} className="info-overlay">
-                      <h3 style={{
-                        fontSize: '16px',
-                        fontWeight: 600,
-                        color: '#fff',
-                        marginBottom: '8px',
-                        opacity: 0,
-                        transform: 'translateY(10px)',
-                        transition: 'all 0.3s ease',
-                      }} className="video-title">
-                        {video.title}
-                      </h3>
-                      {video.description && (
-                        <p style={{
-                          fontSize: '14px',
-                          color: 'rgba(255,255,255,0.8)',
-                          lineHeight: 1.5,
-                          opacity: 0,
-                          transform: 'translateY(10px)',
-                          transition: 'all 0.3s ease 0.1s',
-                        }} className="video-desc">
-                          {video.description}
-                        </p>
-                      )}
-                    </div>
+                  </div>
+                  <div style={{ padding: '16px' }}>
+                    <p style={{
+                      fontSize: '15px',
+                      fontWeight: 600,
+                      color: '#fff',
+                      marginBottom: video.description ? '6px' : 0,
+                    }}>
+                      {video.title}
+                    </p>
+                    {video.description && (
+                      <p style={{
+                        fontSize: '13px',
+                        color: 'rgba(255,255,255,0.6)',
+                        lineHeight: 1.5,
+                      }}>
+                        {video.description}
+                      </p>
+                    )}
                   </div>
                 </div>
               ))}
@@ -246,14 +230,6 @@ export default function TraineeVideosPage() {
         }
         .video-card:hover .play-button {
           transform: scale(1.1);
-        }
-        .video-card:hover .info-overlay {
-          background-color: rgba(0,0,0,0.7);
-        }
-        .video-card:hover .video-title,
-        .video-card:hover .video-desc {
-          opacity: 1;
-          transform: translateY(0);
         }
       `}</style>
     </SubPageLayout>
