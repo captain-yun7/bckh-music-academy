@@ -4,10 +4,10 @@ import Script from 'next/script';
 import SubPageLayout from '@/components/SubPageLayout';
 import NaverMap from '@/components/NaverMap';
 
-// 경희실용음악학원 좌표 (경기도 부천시 부천로 43)
+// 경희실용음악학원 좌표 (경기도 부천시 원미구 부천로 43)
 const ACADEMY_LOCATION = {
-  latitude: 37.4847,
-  longitude: 126.7830,
+  latitude: 37.4869,
+  longitude: 126.7833,
 };
 
 export default function ContactPage() {
