@@ -3,11 +3,12 @@
 import { useEffect, useRef } from 'react';
 
 interface NaverMapProps {
-  latitude: number;
-  longitude: number;
+  address: string;
   zoom?: number;
   height?: string;
   markerTitle?: string;
+  fallbackLatitude?: number;
+  fallbackLongitude?: number;
 }
 
 declare global {
@@ -17,20 +18,19 @@ declare global {
 }
 
 export default function NaverMap({
-  latitude,
-  longitude,
+  address,
   zoom = 17,
   height = '450px',
   markerTitle = '경희실용음악학원',
+  fallbackLatitude = 37.4869,
+  fallbackLongitude = 126.7828,
 }: NaverMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<naver.maps.Map | null>(null);
 
   useEffect(() => {
-    const initMap = () => {
-      if (!mapRef.current || !window.naver) return;
-
-      const location = new window.naver.maps.LatLng(latitude, longitude);
+    const createMap = (location: naver.maps.LatLng) => {
+      if (!mapRef.current) return;
 
       const mapOptions: naver.maps.MapOptions = {
         center: location,
@@ -44,14 +44,12 @@ export default function NaverMap({
       const map = new window.naver.maps.Map(mapRef.current, mapOptions);
       mapInstanceRef.current = map;
 
-      // 마커 추가
       const marker = new window.naver.maps.Marker({
         position: location,
         map: map,
         title: markerTitle,
       });
 
-      // 정보창 추가
       const infoWindow = new window.naver.maps.InfoWindow({
         content: `
           <div style="padding: 12px 16px; min-width: 200px;">
@@ -74,7 +72,6 @@ export default function NaverMap({
         anchorColor: '#fff',
       });
 
-      // 마커 클릭 시 정보창 토글
       window.naver.maps.Event.addListener(marker, 'click', () => {
         if (infoWindow.getMap()) {
           infoWindow.close();
@@ -83,15 +80,41 @@ export default function NaverMap({
         }
       });
 
-      // 초기에 정보창 열기
       infoWindow.open(map, marker);
     };
 
-    // 네이버 지도 API가 로드되었는지 확인
+    const initMap = () => {
+      if (!mapRef.current || !window.naver) return;
+
+      // 주소로 지오코딩 시도
+      if (window.naver.maps.Service) {
+        window.naver.maps.Service.geocode(
+          { query: address },
+          (status: naver.maps.Service.Status, response: naver.maps.Service.GeocodeResponse) => {
+            if (status === window.naver.maps.Service.Status.OK && response.v2.addresses.length > 0) {
+              const result = response.v2.addresses[0];
+              const location = new window.naver.maps.LatLng(
+                parseFloat(result.y),
+                parseFloat(result.x)
+              );
+              createMap(location);
+            } else {
+              // 지오코딩 실패 시 fallback 좌표 사용
+              const location = new window.naver.maps.LatLng(fallbackLatitude, fallbackLongitude);
+              createMap(location);
+            }
+          }
+        );
+      } else {
+        // Service 모듈 없으면 fallback 좌표 사용
+        const location = new window.naver.maps.LatLng(fallbackLatitude, fallbackLongitude);
+        createMap(location);
+      }
+    };
+
     if (window.naver && window.naver.maps) {
       initMap();
     } else {
-      // API 로드 대기
       const checkNaverMaps = setInterval(() => {
         if (window.naver && window.naver.maps) {
           clearInterval(checkNaverMaps);
@@ -99,7 +122,6 @@ export default function NaverMap({
         }
       }, 100);
 
-      // 10초 후 타임아웃
       setTimeout(() => clearInterval(checkNaverMaps), 10000);
     }
 
@@ -108,7 +130,7 @@ export default function NaverMap({
         mapInstanceRef.current.destroy();
       }
     };
-  }, [latitude, longitude, zoom, markerTitle]);
+  }, [address, zoom, markerTitle, fallbackLatitude, fallbackLongitude]);
 
   return (
     <div
