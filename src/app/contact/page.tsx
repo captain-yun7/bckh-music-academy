@@ -7,7 +7,7 @@ import NaverMap from '@/components/NaverMap';
 // 경희실용음악학원 좌표 (경기도 부천시 원미구 부천로 43)
 const ACADEMY_LOCATION = {
   latitude: 37.4869,
-  longitude: 126.7833,
+  longitude: 126.7828,
 };
 
 export default function ContactPage() {
