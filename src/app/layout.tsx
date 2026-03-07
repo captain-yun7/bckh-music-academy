@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import FloatingCTA from "@/components/FloatingCTA";
+
+const GA_ID = "G-NZ3TPJKMQG";
 
 export const metadata: Metadata = {
   title: {
@@ -54,6 +57,18 @@ export default function RootLayout({
         />
       </head>
       <body className="font-pretendard antialiased">
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_ID}');
+          `}
+        </Script>
         {children}
         <FloatingCTA />
       </body>
